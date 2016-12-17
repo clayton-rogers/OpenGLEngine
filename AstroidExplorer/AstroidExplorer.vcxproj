@@ -124,12 +124,21 @@
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header\Camera.h" />
     <ClInclude Include="Header\Drawable.h" />
+    <ClInclude Include="Header\glCheckError.h" />
+    <ClInclude Include="Header\ObjectLoader.h" />
+    <ClInclude Include="Header\Planet.h" />
     <ClInclude Include="Header\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag" />
     <None Include="Shaders\vertexNormalColour.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Planet.obj">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

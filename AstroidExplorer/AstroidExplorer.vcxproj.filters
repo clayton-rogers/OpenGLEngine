@@ -29,6 +29,18 @@
     <ClInclude Include="Header\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Planet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ObjectLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\glCheckError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag">
@@ -36,6 +48,9 @@
     </None>
     <None Include="Shaders\vertexNormalColour.vert">
       <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Resources\Planet.obj">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

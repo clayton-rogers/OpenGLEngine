@@ -18,6 +18,63 @@
 // Local includes
 #include "Drawable.h"
 #include "Shader.h"
+#include "Planet.h"
+#include "Camera.h"
+#include "glCheckError.h"
+
+bool keys[1024];
+bool firstMouse = true;
+double lastX, lastY;
+double deltaT;
+
+Camera camera = Camera(glm::vec3(0.0f, 0.0f, 10.0f));
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+{
+	// When user presses the escape key, we set WindowShouldClose property
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
+		glfwSetWindowShouldClose(window, GL_TRUE);
+	}
+
+	if (action == GLFW_PRESS)
+		keys[key] = true;
+	else if (action == GLFW_RELEASE)
+		keys[key] = false;
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	if (firstMouse) {
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	GLfloat xoffset = (GLfloat)(xpos - lastX);
+	GLfloat yoffset = (GLfloat)(lastY - ypos);
+	lastX = xpos;
+	lastY = ypos;
+
+	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+	camera.ProcessMouseScroll((GLfloat)yoffset);
+}
+
+void do_movement()
+{
+	// Camera controls
+	if (keys[GLFW_KEY_W])
+		camera.ProcessKeyboard(Camera_Movement::FORWARD, deltaT);
+	if (keys[GLFW_KEY_S])
+		camera.ProcessKeyboard(Camera_Movement::BACKWARD, deltaT);
+	if (keys[GLFW_KEY_A])
+		camera.ProcessKeyboard(Camera_Movement::LEFT, deltaT);
+	if (keys[GLFW_KEY_D])
+		camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaT);
+}
 
 
 const bool FULLSCREEN = false;
@@ -29,6 +86,7 @@ int main() {
 
 	// *** SETUP GLFW *** //
 	GLFWwindow* window = nullptr;
+	float aspectRatio = 0;
 	{
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -48,8 +106,10 @@ int main() {
 			// Create the window and check for errors
 			window = glfwCreateWindow(mode->width, mode->height, "Astroid Explorer", nullptr, nullptr);
 			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+			aspectRatio = float(mode->width) / float(mode->height);
 		} else {
 			window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Astroid Explorer", nullptr, nullptr);
+			aspectRatio = float(WINDOW_WIDTH) / float(WINDOW_HEIGHT);
 		}
 		if (window == nullptr) {
 			std::cout << "Failed to create GLFW window" << std::endl;
@@ -58,6 +118,13 @@ int main() {
 		}
 		glfwMakeContextCurrent(window);
 
+		// Set the required callback functions
+		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetScrollCallback(window, scroll_callback);
+
+		// Options
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		// TODO: add input handlers
 	}
 
@@ -93,11 +160,14 @@ int main() {
 	Shader vertexNormalColourShader = Shader("./Shaders/vertexNormalColour.vert", "./Shaders/vertexNormalColour.frag");
 	double lastFrameTime = glfwGetTime();
 	std::vector<Drawable*> drawList;
+
+	Planet p = Planet();
+	drawList.push_back(&p);
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
+		do_movement();
 
 		// Calculate the time for this frame
-		double deltaT;
 		{
 			double currentTime = glfwGetTime();
 			deltaT = currentTime - lastFrameTime;
@@ -108,18 +178,25 @@ int main() {
 		// TODO: do physics
 
 		// Clear last frame
-		glm::vec3 backgroundColor = glm::vec3(10.0); // just slightly lighter than black
+		glm::vec3 backgroundColor = glm::vec3(50.0); // just slightly lighter than black
 		backgroundColor /= glm::vec3(255.0);
 		glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Draw the frame
 		vertexNormalColourShader.Use();
+		glm::mat4 view = camera.GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
+
+		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+
 		for (Drawable* object : drawList) {
-			object->Draw();
+			object->Draw(vertexNormalColourShader.Program);
 		}
 
-
+		glCheckError();
 		glfwSwapBuffers(window);
 	}
 
