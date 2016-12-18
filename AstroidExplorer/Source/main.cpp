@@ -158,6 +158,9 @@ int main() {
 
 	// *** Main Game Loop *** //
 	Shader vertexNormalColourShader = Shader("./Shaders/vertexNormalColour.vert", "./Shaders/vertexNormalColour.frag");
+	vertexNormalColourShader.Use();
+	glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "lightDirection"), -1.0f, -3.0f, -1.0f);
+
 	double lastFrameTime = glfwGetTime();
 	std::vector<Drawable*> drawList;
 
@@ -190,13 +193,14 @@ int main() {
 
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
 
 		for (Drawable* object : drawList) {
 			object->Draw(vertexNormalColourShader.Program);
 		}
 
-		glCheckError();
+		//glCheckError();
 		glfwSwapBuffers(window);
 	}
 
