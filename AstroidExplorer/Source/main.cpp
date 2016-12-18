@@ -164,8 +164,13 @@ int main() {
 	double lastFrameTime = glfwGetTime();
 	std::vector<Drawable*> drawList;
 
-	Planet p = Planet();
-	drawList.push_back(&p);
+	std::vector<Planet> planets;
+	for (int i = 0; i < 20; i++) {
+		planets.emplace_back();
+	}
+	for (Planet& p : planets) {
+		drawList.push_back(&p);
+	}
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		do_movement();

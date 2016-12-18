@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <random>
 
 
 class Planet : public Drawable {
@@ -26,11 +27,13 @@ private:
 	
 	static const std::string planetObjectPath;
 
+	glm::vec3 mPosition;
+	glm::vec3 mColour;
+	GLfloat mShininess;
+	GLfloat mSize;
 public:
 
-	glm::vec3 mColour;
-
-	Planet(glm::vec3 colour = glm::vec3(1.0f, 0.0f, 100.0f / 255.0f)) : mColour(colour) {
+	Planet() {
 		// Load the mesh the first time a planet is created
 		if (VAO == 0) {
 			std::vector<GLfloat> planetVertices;
@@ -52,15 +55,32 @@ public:
 				std::cout << "Error loading planet model!" << std::endl;
 			}
 		}
+
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<GLfloat> posGen(-40.0f, 40.0f);
+		mPosition.x = posGen(gen);
+		mPosition.y = posGen(gen);
+		mPosition.z = posGen(gen);
+		std::uniform_real_distribution<GLfloat> colourGen(0.0f, 1.0f);
+		mColour.r = colourGen(gen);
+		mColour.g = colourGen(gen);
+		mColour.b = colourGen(gen);
+		std::uniform_real_distribution<GLfloat> sizeGen(0.5f, 5.0f);
+		mSize = sizeGen(gen);
+		std::uniform_real_distribution<GLfloat> shininessGen(20.0f, 100.0f);
+		mShininess = shininessGen(gen);
 	}
 
 	
 	void Draw(GLuint program) const override {
 		
 		glUniform3f(glGetUniformLocation(program, "material.colour"), mColour.r, mColour.g, mColour.b);
-		glUniform1f(glGetUniformLocation(program, "material.shininess"), 60.0f);
+		glUniform1f(glGetUniformLocation(program, "material.shininess"), mShininess);
 
 		glm::mat4 model;
+		model = glm::translate(model, mPosition);
+		model = glm::scale(model, glm::vec3(mSize));
 		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 		glBindVertexArray(VAO);
