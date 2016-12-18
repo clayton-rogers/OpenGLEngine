@@ -2,6 +2,7 @@
 
 #include "Drawable.h"
 #include "ObjectLoader.h"
+#include "InertialCore3DOF.h"
 
 // GLEW
 #define GLEW_STATIC
@@ -16,6 +17,7 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <cmath>
 
 
 class Planet : public Drawable {
@@ -27,11 +29,13 @@ private:
 	
 	static const std::string planetObjectPath;
 
-	glm::vec3 mPosition;
 	glm::vec3 mColour;
 	GLfloat mShininess;
-	GLfloat mSize;
+	
+	float mRadius;
 public:
+
+	InertialCore3DOF mInertialCore;
 
 	Planet() {
 		// Load the mesh the first time a planet is created
@@ -58,16 +62,20 @@ public:
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_real_distribution<GLfloat> posGen(-40.0f, 40.0f);
-		mPosition.x = posGen(gen);
-		mPosition.y = posGen(gen);
-		mPosition.z = posGen(gen);
+		std::uniform_real_distribution<GLfloat> posGen(-20.0f, 20.0f);
+		mInertialCore.mPosition.x = posGen(gen);
+		mInertialCore.mPosition.y = posGen(gen);
+		mInertialCore.mPosition.z = posGen(gen);
 		std::uniform_real_distribution<GLfloat> colourGen(0.0f, 1.0f);
 		mColour.r = colourGen(gen);
 		mColour.g = colourGen(gen);
 		mColour.b = colourGen(gen);
-		std::uniform_real_distribution<GLfloat> sizeGen(0.5f, 5.0f);
-		mSize = sizeGen(gen);
+		std::uniform_real_distribution<GLfloat> massGen(500.0f, 50000.0f);
+		{
+			mInertialCore.mMass = massGen(gen);
+			float volume = mInertialCore.mMass / 5540; // density of earth
+			mRadius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
+		}
 		std::uniform_real_distribution<GLfloat> shininessGen(20.0f, 100.0f);
 		mShininess = shininessGen(gen);
 	}
@@ -79,8 +87,8 @@ public:
 		glUniform1f(glGetUniformLocation(program, "material.shininess"), mShininess);
 
 		glm::mat4 model;
-		model = glm::translate(model, mPosition);
-		model = glm::scale(model, glm::vec3(mSize));
+		model = glm::translate(model, mInertialCore.mPosition);
+		model = glm::scale(model, glm::vec3(mRadius));
 		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 		glBindVertexArray(VAO);

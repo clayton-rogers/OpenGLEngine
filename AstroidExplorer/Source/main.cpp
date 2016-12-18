@@ -185,6 +185,11 @@ int main() {
 		// Perform physics for this step
 		// TODO: do physics
 
+		for (Planet& p : planets) {
+			p.mInertialCore.step(deltaT);
+		}
+
+
 		// Clear last frame
 		glm::vec3 backgroundColor = glm::vec3(50.0); // just slightly lighter than black
 		backgroundColor /= glm::vec3(255.0);
