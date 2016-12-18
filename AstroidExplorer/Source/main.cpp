@@ -18,10 +18,10 @@
 // Local includes
 #include "Drawable.h"
 #include "Shader.h"
-#include "Planet.h"
+#include "PlanetManager.h"
 #include "Camera.h"
 #include "glCheckError.h"
-#include "Gravity.h"
+#include "Drawlist.h"
 
 bool keys[1024];
 bool firstMouse = true;
@@ -163,15 +163,8 @@ int main() {
 	glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "lightDirection"), -1.0f, -3.0f, -1.0f);
 
 	double lastFrameTime = glfwGetTime();
-	std::vector<Drawable*> drawList;
 
-	std::vector<Planet> planets;
-	for (int i = 0; i < 30; i++) {
-		planets.emplace_back();
-	}
-	for (Planet& p : planets) {
-		drawList.push_back(&p);
-	}
+	PlanetManager planetManager;
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		do_movement();
@@ -184,35 +177,7 @@ int main() {
 		}
 
 		// Perform physics for this step
-		// TODO: do physics
-		for (int i = 0; i < planets.size(); i++) {
-			Planet& p1 = planets[i];
-			for (int j = i+1; j < planets.size(); j++) {
-				Planet& p2 = planets[j];
-				
-				// gravity of p2 on p1
-				p1.mInertialCore.addForce(
-					Gravity::calculateGravity(
-						p1.mInertialCore.mMass,
-						p2.mInertialCore.mMass,
-						p1.mInertialCore.mPosition,
-						p2.mInertialCore.mPosition)
-				);
-
-				// gravity of p1 on p2
-				p2.mInertialCore.addForce(
-					Gravity::calculateGravity(
-						p2.mInertialCore.mMass,
-						p1.mInertialCore.mMass,
-						p2.mInertialCore.mPosition,
-						p1.mInertialCore.mPosition)
-				);
-			}
-		}
-
-		for (Planet& p : planets) {
-			p.mInertialCore.step(deltaT);
-		}
+		planetManager.step(deltaT);
 
 
 		// Clear last frame
@@ -230,10 +195,8 @@ int main() {
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
+		Drawlist::draw(vertexNormalColourShader.Program);
 
-		for (Drawable* object : drawList) {
-			object->Draw(vertexNormalColourShader.Program);
-		}
 
 		//glCheckError();
 		glfwSwapBuffers(window);

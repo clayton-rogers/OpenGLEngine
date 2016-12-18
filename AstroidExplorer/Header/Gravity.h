@@ -8,7 +8,7 @@
 
 namespace Gravity {
 
-	const float bigG = 6.6740831e-11;
+	const float bigG = 6.6740831e-11f;
 	float gravityScaling = 5000000;
 
 	// Calculates the force of mass2 on mass1

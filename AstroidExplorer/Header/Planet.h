@@ -29,12 +29,11 @@ private:
 	
 	static const std::string planetObjectPath;
 
+	int mDrawListIndex;
+public:
 	glm::vec3 mColour;
 	GLfloat mShininess;
-	
 	float mRadius;
-public:
-
 	InertialCore3DOF mInertialCore;
 
 	Planet() {
@@ -84,6 +83,17 @@ public:
 		mShininess = shininessGen(gen);
 	}
 
+	// Merge two planets
+	Planet(const Planet& p1, const Planet& p2) {
+
+		mInertialCore = InertialCore3DOF::merge(p1.mInertialCore, p2.mInertialCore);
+
+		mShininess = (p1.mShininess + p2.mShininess) / 2;
+		mColour = (p1.mColour + p2.mColour) / 2.0f;
+
+		float volume = mInertialCore.mMass / 5540; // density of earth
+		mRadius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
+	}
 	
 	void Draw(GLuint program) const override {
 		

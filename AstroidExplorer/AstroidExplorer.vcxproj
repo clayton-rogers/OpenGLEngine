@@ -126,11 +126,13 @@
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
     <ClInclude Include="Header\Drawable.h" />
+    <ClInclude Include="Header\Drawlist.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
     <ClInclude Include="Header\InertialCore3DOF.h" />
     <ClInclude Include="Header\ObjectLoader.h" />
     <ClInclude Include="Header\Planet.h" />
+    <ClInclude Include="Header\PlanetManager.h" />
     <ClInclude Include="Header\Shader.h" />
   </ItemGroup>
   <ItemGroup>

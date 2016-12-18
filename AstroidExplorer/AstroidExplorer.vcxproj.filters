@@ -47,6 +47,12 @@
     <ClInclude Include="Header\Gravity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Drawlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlanetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag">

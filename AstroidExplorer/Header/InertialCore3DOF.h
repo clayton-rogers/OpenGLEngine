@@ -38,4 +38,18 @@ public:
 		// reset the force to zero
 		mFrameForce = glm::vec3();
 	}
+
+	static InertialCore3DOF merge(const InertialCore3DOF& a, const InertialCore3DOF& b) {
+		InertialCore3DOF output;
+
+		output.mMass = a.mMass + b.mMass;
+
+		// average the positions
+		output.mPosition = (a.mPosition + b.mPosition) / 2.0f;
+
+		// perfectly inelastic collision
+		output.mVelocity = (a.mMass * a.mVelocity + b.mMass * b.mVelocity) / (a.mMass + b.mMass);
+
+		return output;
+	}
 };
