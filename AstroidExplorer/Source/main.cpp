@@ -21,13 +21,14 @@
 #include "Planet.h"
 #include "Camera.h"
 #include "glCheckError.h"
+#include "Gravity.h"
 
 bool keys[1024];
 bool firstMouse = true;
 double lastX, lastY;
 double deltaT;
 
-Camera camera = Camera(glm::vec3(0.0f, 0.0f, 10.0f));
+Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -165,7 +166,7 @@ int main() {
 	std::vector<Drawable*> drawList;
 
 	std::vector<Planet> planets;
-	for (int i = 0; i < 20; i++) {
+	for (int i = 0; i < 30; i++) {
 		planets.emplace_back();
 	}
 	for (Planet& p : planets) {
@@ -184,6 +185,30 @@ int main() {
 
 		// Perform physics for this step
 		// TODO: do physics
+		for (int i = 0; i < planets.size(); i++) {
+			Planet& p1 = planets[i];
+			for (int j = i+1; j < planets.size(); j++) {
+				Planet& p2 = planets[j];
+				
+				// gravity of p2 on p1
+				p1.mInertialCore.addForce(
+					Gravity::calculateGravity(
+						p1.mInertialCore.mMass,
+						p2.mInertialCore.mMass,
+						p1.mInertialCore.mPosition,
+						p2.mInertialCore.mPosition)
+				);
+
+				// gravity of p1 on p2
+				p2.mInertialCore.addForce(
+					Gravity::calculateGravity(
+						p2.mInertialCore.mMass,
+						p1.mInertialCore.mMass,
+						p2.mInertialCore.mPosition,
+						p1.mInertialCore.mPosition)
+				);
+			}
+		}
 
 		for (Planet& p : planets) {
 			p.mInertialCore.step(deltaT);

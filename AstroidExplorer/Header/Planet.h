@@ -66,6 +66,10 @@ public:
 		mInertialCore.mPosition.x = posGen(gen);
 		mInertialCore.mPosition.y = posGen(gen);
 		mInertialCore.mPosition.z = posGen(gen);
+		std::uniform_real_distribution<GLfloat> velGen(-1.0f, 1.0f);
+		mInertialCore.mVelocity.x = velGen(gen);
+		mInertialCore.mVelocity.y = velGen(gen);
+		mInertialCore.mVelocity.z = velGen(gen);
 		std::uniform_real_distribution<GLfloat> colourGen(0.0f, 1.0f);
 		mColour.r = colourGen(gen);
 		mColour.g = colourGen(gen);
