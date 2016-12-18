@@ -36,7 +36,7 @@ vec3 calculateDiffuse(vec3 normal, vec3 lightDirection) {
 
 // Blinn-Phong specular lighting
 vec3 calculateSpecular(vec3 normal, vec3 eyeDirection, vec3 lightDirection) {
-	const float specularBrightness = 0.3;
+	const float specularBrightness = 0.6;
 
 	vec3 halfwayDirection = normalize((-lightDirection) + (-eyeDirection));
 	float specular = pow(max(dot(normal, halfwayDirection), 0.0), material.shininess);
