@@ -29,8 +29,7 @@ public:
 	}
 
 	void step(double deltaT) {
-		static double totalSimTime = 0;
-		totalSimTime += deltaT;
+
 		glm::vec3 acceleration = mFrameForce / mMass;
 		mVelocity += acceleration * float(deltaT);
 		mPosition += mVelocity * float(deltaT);
