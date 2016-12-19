@@ -44,8 +44,8 @@ public:
 
 		output.mMass = a.mMass + b.mMass;
 
-		// average the positions
-		output.mPosition = (a.mPosition + b.mPosition) / 2.0f;
+		// weighted average of the positions
+		output.mPosition = (a.mMass * a.mPosition + b.mMass * b.mPosition) / (a.mMass + b.mMass);
 
 		// perfectly inelastic collision
 		output.mVelocity = (a.mMass * a.mVelocity + b.mMass * b.mVelocity) / (a.mMass + b.mMass);
