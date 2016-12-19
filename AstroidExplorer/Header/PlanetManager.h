@@ -6,6 +6,7 @@
 #include "Drawlist.h"
 
 #include <vector>
+#include <algorithm>
 
 class PlanetManager : public Drawable {
 
@@ -28,26 +29,28 @@ public:
 	void step(double deltaT) {
 		int planetsSize = planets.size();
 		//std::cout << "num planets: " << planetsSize << std::endl;
-		std::vector<int> planetsToRemove;
-		for (int i = 0; i < planetsSize; i++) {
-			Planet& p1 = planets[i];
-			for (int j = i + 1; j < planetsSize; j++) {
-				Planet& p2 = planets[j];
 
-				if (glm::distance(p1.mInertialCore.mPosition, p2.mInertialCore.mPosition) < (p1.mRadius + p2.mRadius)) {
-					planets.push_back(Planet(p1, p2));
-					planetsToRemove.push_back(i);
-					planetsToRemove.push_back(j);
+		bool foundCollision = false;
+		do {
+			foundCollision = false;
+
+			for (int i = 0; i < planets.size(); i++) {
+				Planet& p1 = planets[i];
+				for (int j = i + 1; j < planets.size(); j++) {
+					Planet& p2 = planets[j];
+					if (glm::distance(p1.mInertialCore.mPosition, p2.mInertialCore.mPosition) < (p1.mRadius + p2.mRadius)) {
+						foundCollision = true;
+						planets.push_back(Planet(p1, p2));
+						// must remove the greater one first because it will shift they indexes
+						planets.erase(planets.begin() + std::max(i, j)); 
+						planets.erase(planets.begin() + std::min(i, j));
+						goto finishLoop;
+					}
 				}
-
 			}
-		}
-		while (!planetsToRemove.empty()) {
-			int i = planetsToRemove.back();
-			planets.erase(planets.begin() + i);
-
-			planetsToRemove.pop_back();
-		}
+		finishLoop:
+			;
+		} while (foundCollision);
 
 
 		for (int i = 0; i < planets.size(); i++) {
