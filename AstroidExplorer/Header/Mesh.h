@@ -16,9 +16,11 @@
 #include <fstream>
 #include <sstream>
 
-namespace ObjectLoader {
 
-	const std::vector<GLfloat> EMPTY_VECTOR = std::vector<GLfloat>();
+class Mesh {
+	GLuint VAO = -1;
+	GLuint VBO = -1;
+	GLsizei numVertex;
 
 	std::string replaceStrChar(std::string str, const std::string& replace, char ch) {
 
@@ -32,10 +34,36 @@ namespace ObjectLoader {
 
 		return str; // return our new string.
 	}
-	
+
+	const static std::vector<GLfloat> EMPTY_VECTOR;
+
+public:
+
+	bool isLoaded() {
+		return VAO != -1;
+	}
+
+	void load(std::string path) {
+		std::vector<GLfloat> mesh = loadObject(path);
+
+		if (mesh != EMPTY_VECTOR) {
+			numVertex = mesh.size() / 6; // 6 float attributes per vertex
+
+			glGenVertexArrays(1, &VAO);
+			glGenBuffers(1, &VBO);
+
+			glBindVertexArray(VAO);
+			glBindBuffer(GL_ARRAY_BUFFER, VBO);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) *mesh.size(), &mesh[0], GL_STATIC_DRAW);
+			glEnableVertexAttribArray(0); // vertices
+			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+			glEnableVertexAttribArray(1); // normals
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+			glBindVertexArray(0);
+		}
+	}
+
 	const std::vector<GLfloat> loadObject(std::string path) {
-
-
 
 		std::ifstream objectFile;
 		std::vector<glm::vec3> vertices;
@@ -54,7 +82,7 @@ namespace ObjectLoader {
 				std::getline(objectFile, line);
 				line = replaceStrChar(line, "/", ' ');  // replace any '/' in the faces lines with spaces
 
-				// ignore blank lines
+														// ignore blank lines
 				if (line.length() == 0) {
 					continue;
 				}
@@ -92,7 +120,7 @@ namespace ObjectLoader {
 			}
 
 		} catch (std::ifstream::failure e) {
-			std::cout << "ObjectLoader file failure: " << e.what() << std::endl;
+			std::cout << "Mesh file failure: " << e.what() << std::endl;
 			return EMPTY_VECTOR;
 		}
 
@@ -101,16 +129,31 @@ namespace ObjectLoader {
 
 		for (glm::ivec2 index : indicies) {
 			// vertex indicies in the file start from one, but our vector starts from 0
-			output.push_back(vertices.at(index.x-1).x);
-			output.push_back(vertices.at(index.x-1).y);
-			output.push_back(vertices.at(index.x-1).z);
-			
-			output.push_back(normals.at(index.y-1).x);
-			output.push_back(normals.at(index.y-1).y);
-			output.push_back(normals.at(index.y-1).z);
+			output.push_back(vertices.at(index.x - 1).x);
+			output.push_back(vertices.at(index.x - 1).y);
+			output.push_back(vertices.at(index.x - 1).z);
+
+			output.push_back(normals.at(index.y - 1).x);
+			output.push_back(normals.at(index.y - 1).y);
+			output.push_back(normals.at(index.y - 1).z);
 
 		}
-		
+
 		return output;
 	}
-}
+
+	void Draw(GLuint program, glm::mat4 model, glm::vec3 colour, GLfloat shininess) const {
+
+		glUniform3f(glGetUniformLocation(program, "material.colour"), colour.r, colour.g, colour.b);
+		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
+		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, numVertex);
+		glBindVertexArray(0);
+	}
+
+};
+
+
+const std::vector<GLfloat> Mesh::EMPTY_VECTOR = std::vector<GLfloat>();

@@ -32,9 +32,6 @@
     <ClInclude Include="Header\Planet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\ObjectLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,6 +48,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\PlanetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
