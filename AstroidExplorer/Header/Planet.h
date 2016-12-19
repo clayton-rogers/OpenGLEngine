@@ -32,7 +32,7 @@ private:
 	int mDrawListIndex;
 public:
 	glm::vec3 mColour;
-	GLfloat mShininess;
+	GLfloat mShininess = 64;
 	float mRadius;
 	InertialCore3DOF mInertialCore;
 
@@ -61,11 +61,11 @@ public:
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_real_distribution<GLfloat> posGen(-20.0f, 20.0f);
+		std::uniform_real_distribution<GLfloat> posGen(-30.0f, 30.0f);
 		mInertialCore.mPosition.x = posGen(gen);
 		mInertialCore.mPosition.y = posGen(gen);
 		mInertialCore.mPosition.z = posGen(gen);
-		std::uniform_real_distribution<GLfloat> velGen(-1.0f, 1.0f);
+		std::uniform_real_distribution<GLfloat> velGen(-5.0f, 5.0f);
 		mInertialCore.mVelocity.x = velGen(gen);
 		mInertialCore.mVelocity.y = velGen(gen);
 		mInertialCore.mVelocity.z = velGen(gen);
@@ -79,8 +79,6 @@ public:
 			float volume = mInertialCore.mMass / 5540; // density of earth
 			mRadius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
 		}
-		std::uniform_real_distribution<GLfloat> shininessGen(20.0f, 100.0f);
-		mShininess = shininessGen(gen);
 	}
 
 	// Merge two planets
@@ -89,7 +87,7 @@ public:
 		mInertialCore = InertialCore3DOF::merge(p1.mInertialCore, p2.mInertialCore);
 
 		mShininess = (p1.mShininess + p2.mShininess) / 2;
-		mColour = (p1.mColour + p2.mColour) / 2.0f;
+		mColour = (p1.mInertialCore.mMass * p1.mColour + p2.mInertialCore.mMass * p2.mColour) / (p1.mInertialCore.mMass + p2.mInertialCore.mMass);
 
 		float volume = mInertialCore.mMass / 5540; // density of earth
 		mRadius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
