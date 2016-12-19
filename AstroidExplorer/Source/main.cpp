@@ -19,6 +19,7 @@
 #include "Drawable.h"
 #include "Shader.h"
 #include "PlanetManager.h"
+#include "LazerManager.h"
 #include "Camera.h"
 #include "glCheckError.h"
 #include "Drawlist.h"
@@ -29,6 +30,7 @@ double lastX, lastY;
 double deltaT;
 
 Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
+LazerManager laserManager;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
@@ -57,6 +59,15 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastY = ypos;
 
 	camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		glm::vec3 startPosition = camera.Position;
+		startPosition -= camera.Up * 0.5f;
+		laserManager.add(startPosition, camera.Front);
+	}
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -123,6 +134,7 @@ int main() {
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetCursorPosCallback(window, mouse_callback);
 		glfwSetScrollCallback(window, scroll_callback);
+		glfwSetMouseButtonCallback(window, mouse_button_callback);
 
 		// Options
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -178,6 +190,7 @@ int main() {
 
 		// Perform physics for this step
 		planetManager.step(deltaT);
+		laserManager.step(deltaT);
 
 
 		// Clear last frame
