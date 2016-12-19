@@ -9,7 +9,7 @@
 namespace Gravity {
 
 	const float bigG = 6.6740831e-11f;
-	float gravityScaling = 5000000;
+	float gravityScaling = 1000000;
 
 	// Calculates the force of mass2 on mass1
 	glm::vec3 calculateGravity(float mass1, float mass2, glm::vec3 position1, glm::vec3 position2) {
