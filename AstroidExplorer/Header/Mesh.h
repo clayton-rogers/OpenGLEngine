@@ -39,7 +39,7 @@ class Mesh {
 
 public:
 
-	bool isLoaded() {
+	bool isLoaded() const {
 		return VAO != -1;
 	}
 
@@ -144,13 +144,20 @@ public:
 
 	void Draw(GLuint program, glm::mat4 model, glm::vec3 colour, GLfloat shininess) const {
 
-		glUniform3f(glGetUniformLocation(program, "material.colour"), colour.r, colour.g, colour.b);
-		glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
-		glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+		if (isLoaded()) {
 
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, numVertex);
-		glBindVertexArray(0);
+			glUniform3f(glGetUniformLocation(program, "material.colour"), colour.r, colour.g, colour.b);
+			glUniform1f(glGetUniformLocation(program, "material.shininess"), shininess);
+			glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+			glBindVertexArray(VAO);
+			glDrawArrays(GL_TRIANGLES, 0, numVertex);
+			glBindVertexArray(0);
+
+		} else {
+			std::cout << "Tried to draw a mesh that's not loaded!" << std::endl;
+		}
+
 	}
 
 };
