@@ -31,7 +31,7 @@ public:
 				Planet& p1 = planets[i];
 				for (unsigned int j = i + 1; j < planets.size(); j++) {
 					Planet& p2 = planets[j];
-					if (glm::distance(p1.mInertialCore.mPosition, p2.mInertialCore.mPosition) < (p1.mRadius + p2.mRadius)) {
+					if (glm::distance(p1.mInertialCore.mPosition, p2.mInertialCore.mPosition) < std::max(p1.mRadius, p2.mRadius)) {
 						foundCollision = true;
 						planets.push_back(Planet(p1, p2));
 						// must remove the greater one first because it will shift they indexes
