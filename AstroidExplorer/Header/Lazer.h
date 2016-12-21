@@ -1,7 +1,6 @@
 #pragma once
 
 
-#include "Drawable.h"
 #include "Mesh.h"
 #include "InertialCore3DOF.h"
 
@@ -11,7 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-class Lazer : public Drawable {
+class Lazer {
 	static Mesh mMesh;
 	static const std::string lazerObjectPath;
 	static const float LAZER_VELOCITY;
@@ -35,7 +34,7 @@ public:
 		mInertialCore.step(deltaT);
 	}
 
-	virtual void Draw(GLuint program) const override {
+	void draw(GLuint program) const {
 		glm::mat4 model;
 		model = glm::translate(model, mInertialCore.mPosition);
 		

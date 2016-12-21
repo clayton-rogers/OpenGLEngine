@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Drawable.h"
 #include "Mesh.h"
 #include "InertialCore3DOF.h"
 
@@ -16,7 +15,7 @@
 #include <cmath>
 
 
-class Planet : public Drawable {
+class Planet {
 private:
 	static Mesh mMesh;
 	static const std::string planetObjectPath;
@@ -68,7 +67,7 @@ public:
 		mRadius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
 	}
 	
-	void Draw(GLuint program) const override {
+	void draw(GLuint program) const {
 
 		glm::mat4 model;
 		model = glm::translate(model, mInertialCore.mPosition);

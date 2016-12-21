@@ -1,34 +1,27 @@
 #pragma once
 
 #include "Planet.h"
-#include "Drawable.h"
 #include "Gravity.h"
-#include "Drawlist.h"
+#include "GenericActionList.h"
 
 #include <vector>
 #include <algorithm>
 
-class PlanetManager : public Drawable {
+class PlanetManager : public Action<GLuint>, public Action<double> {
 
 	std::vector<Planet> planets;
-	int drawListIndex;
-
+	
 public:
+	int drawListIndex;
+	int physicsListIndex;
+
 	PlanetManager(int numPlanets = 20) {
 		for (int i = 0; i < numPlanets; i++) {
 			planets.emplace_back();
 		}
-
-		drawListIndex = Drawlist::add(this);
 	}
 
-	~PlanetManager() {
-		Drawlist::remove(drawListIndex);
-	}
-
-	void step(double deltaT) {
-		int planetsSize = planets.size();
-		//std::cout << "num planets: " << planetsSize << std::endl;
+	virtual void doAction(double deltaT) override {
 
 		bool foundCollision = false;
 		do {
@@ -84,12 +77,9 @@ public:
 	}
 
 
-
-
-	// Inherited via Drawable
-	virtual void Draw(GLuint program) const override {
+	virtual void doAction(GLuint program) override {
 		for (const Planet& p : planets) {
-			p.Draw(program);
+			p.draw(program);
 		}
 	}
 

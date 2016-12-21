@@ -125,8 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
-    <ClInclude Include="Header\Drawable.h" />
-    <ClInclude Include="Header\Drawlist.h" />
+    <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
     <ClInclude Include="Header\InertialCore3DOF.h" />

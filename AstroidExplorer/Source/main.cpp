@@ -16,13 +16,12 @@
 #include <vector>
 
 // Local includes
-#include "Drawable.h"
 #include "Shader.h"
 #include "PlanetManager.h"
 #include "LazerManager.h"
 #include "Camera.h"
 #include "glCheckError.h"
-#include "Drawlist.h"
+#include "GenericActionList.h"
 
 bool keys[1024];
 bool firstMouse = true;
@@ -177,6 +176,17 @@ int main() {
 	double lastFrameTime = glfwGetTime();
 
 	PlanetManager planetManager;
+
+	GenericActionList<GLuint> drawList;
+	planetManager.drawListIndex = drawList.add(&planetManager);
+	laserManager.drawListIndex = drawList.add(&laserManager);
+
+	GenericActionList<double> physicsList;
+	planetManager.physicsListIndex = physicsList.add(&planetManager);
+	laserManager.physicsListIndex = physicsList.add(&laserManager);
+
+
+
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		do_movement();
@@ -189,8 +199,7 @@ int main() {
 		}
 
 		// Perform physics for this step
-		planetManager.step(deltaT);
-		laserManager.step(deltaT);
+		physicsList.doActions(deltaT);
 
 
 		// Clear last frame
@@ -208,12 +217,18 @@ int main() {
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
-		Drawlist::draw(vertexNormalColourShader.Program);
+		drawList.doActions(vertexNormalColourShader.Program);
 
 
 		//glCheckError();
 		glfwSwapBuffers(window);
 	}
+
+	drawList.remove(planetManager.drawListIndex);
+	drawList.remove(laserManager.drawListIndex);
+
+	physicsList.remove(planetManager.physicsListIndex);
+	physicsList.remove(laserManager.physicsListIndex);
 
 	glfwTerminate();
 	return 0;

@@ -1,32 +1,22 @@
 #pragma once
 
+#include "GenericActionList.h"
 #include "Lazer.h"
-#include "Drawlist.h"
-#include "Drawable.h"
 
 #include <vector>
 
-class LazerManager : public Drawable {
+class LazerManager : public Action<GLuint>, public Action<double> {
 
 	std::vector<Lazer> mLasers;
 	std::vector<double> mExpiryTimes;
-	int mDrawListIndex = -1;
 
 
 	static const double LAZER_DURATION;
 	static double currentTime;
 
 public:
-
-	LazerManager()
-	{
-		mDrawListIndex =Drawlist::add(this);
-	}
-
-	~LazerManager()
-	{
-		Drawlist::remove(mDrawListIndex);
-	}
+	int drawListIndex;
+	int physicsListIndex;
 
 	void add(glm::vec3 position, glm::vec3 direction) {
 		Lazer laser(position, direction);
@@ -35,7 +25,7 @@ public:
 		// TODO lasers will always be added to be back and removed from front, change to queue
 	}
 
-	void step(double deltaT) {
+	virtual void doAction(double deltaT) override {
 		currentTime += deltaT;
 		
 		// Remove laser bolts that have exceeded their expiry
@@ -52,9 +42,9 @@ public:
 		}
 	}
 
-	virtual void Draw(GLuint program) const override {
+	virtual void doAction(GLuint program) override {
 		for (const Lazer& L : mLasers) {
-			L.Draw(program);
+			L.draw(program);
 		}
 	}
 };
