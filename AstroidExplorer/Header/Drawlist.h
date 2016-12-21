@@ -31,7 +31,7 @@ namespace Drawlist {
 			}
 		}
 
-		if (index = -1) {
+		if (index == -1) {
 			DrawElement element(true, d);
 			mList.push_back(element);
 			index = mList.size() - 1;
