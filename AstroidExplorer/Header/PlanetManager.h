@@ -34,9 +34,9 @@ public:
 		do {
 			foundCollision = false;
 
-			for (int i = 0; i < planets.size(); i++) {
+			for (unsigned int i = 0; i < planets.size(); i++) {
 				Planet& p1 = planets[i];
-				for (int j = i + 1; j < planets.size(); j++) {
+				for (unsigned int j = i + 1; j < planets.size(); j++) {
 					Planet& p2 = planets[j];
 					if (glm::distance(p1.mInertialCore.mPosition, p2.mInertialCore.mPosition) < (p1.mRadius + p2.mRadius)) {
 						foundCollision = true;
@@ -53,9 +53,9 @@ public:
 		} while (foundCollision);
 
 
-		for (int i = 0; i < planets.size(); i++) {
+		for (unsigned int i = 0; i < planets.size(); i++) {
 			Planet& p1 = planets[i];
-			for (int j = i + 1; j < planets.size(); j++) {
+			for (unsigned int j = i + 1; j < planets.size(); j++) {
 				Planet& p2 = planets[j];
 
 				// gravity of p2 on p1

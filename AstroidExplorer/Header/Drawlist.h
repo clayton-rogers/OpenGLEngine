@@ -19,10 +19,10 @@ namespace Drawlist {
 
 	std::vector<DrawElement> mList;
 
-	int add(Drawable* d) {
-		int index = -1;
+	unsigned int add(Drawable* d) {
+		unsigned int index = -1;
 
-		for (int i = 0; i < mList.size(); i++) {
+		for (unsigned int i = 0; i < mList.size(); i++) {
 			if (!mList[i].isUsed) {
 				mList[i].isUsed = true;
 				mList[i].item = d;
@@ -40,7 +40,7 @@ namespace Drawlist {
 		return index;
 	}
 
-	void remove(int index) {
+	void remove(unsigned int index) {
 		if (index != -1 && index < (mList.size())) {
 			mList.at(index).isUsed = false;
 			mList.at(index).item = nullptr;
