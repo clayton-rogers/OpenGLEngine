@@ -56,6 +56,12 @@
     <ClInclude Include="Header\GenericActionList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Font.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag">
@@ -66,6 +72,12 @@
     </None>
     <None Include="Resources\Planet.obj">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Shaders\text.frag">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\text.vert">
+      <Filter>Source Files\Shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

@@ -1,0 +1,8 @@
+Selection of free fonts.
+http://www.dafont.com/bitmap.php
+
+Font chosen.
+http://www.dafont.com/vcr-osd-mono.font
+
+Convert ttf to packed bitmap.
+http://kvazars.com/littera/

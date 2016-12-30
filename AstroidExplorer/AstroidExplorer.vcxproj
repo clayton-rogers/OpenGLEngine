@@ -69,12 +69,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\Users\clayton\Dropbox\Coding\openGL\AstroidExplorer\AstroidExplorer\Header;C:\Users\clayton\Dropbox\Coding\openGL\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\clayton\Dropbox\Coding\openGL\Library\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>.\Header;..\..\Library\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Library\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>C:\Users\clayton\Dropbox\Coding\openGL\AstroidExplorer\AstroidExplorer\Header;C:\Users\clayton\Dropbox\Coding\openGL\Library\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\clayton\Dropbox\Coding\openGL\Library\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>.\Header;..\..\Library\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Library\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -83,7 +83,7 @@
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -104,7 +104,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;glew32s.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
+    <ClInclude Include="Header\Font.h" />
     <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
@@ -135,8 +136,11 @@
     <ClInclude Include="Header\Planet.h" />
     <ClInclude Include="Header\PlanetManager.h" />
     <ClInclude Include="Header\Shader.h" />
+    <ClInclude Include="Header\Text.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\text.frag" />
+    <None Include="Shaders\text.vert" />
     <None Include="Shaders\vertexNormalColour.frag" />
     <None Include="Shaders\vertexNormalColour.vert" />
   </ItemGroup>

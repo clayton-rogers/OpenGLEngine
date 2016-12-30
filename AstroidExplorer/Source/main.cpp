@@ -14,6 +14,8 @@
 // Standard libraries
 #include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
 
 // Local includes
 #include "Shader.h"
@@ -22,6 +24,8 @@
 #include "Camera.h"
 #include "glCheckError.h"
 #include "GenericActionList.h"
+#include "Font.h"
+#include "Text.h"
 
 bool keys[1024];
 bool firstMouse = true;
@@ -186,6 +190,11 @@ int main() {
 	laserManager.physicsListIndex = physicsList.add(&laserManager);
 
 
+	Shader fontShader = Shader("./Shaders/text.vert", "./Shaders/text.frag");
+	Font vcr("./Resources/Font/VCR-OSD-mono2.png", "./Resources/Font/VCR-OSD-mono.txt");
+	GLuint textTexID;
+	vcr.uploadTextureToGPU(textTexID);
+	Text testString(textTexID, &vcr, "The quick brown fox jumps over the lazy dog", glm::vec2(100.0f, 100.0f));
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -209,15 +218,31 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Draw the frame
-		vertexNormalColourShader.Use();
-		glm::mat4 view = camera.GetViewMatrix();
-		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
+		{
+			vertexNormalColourShader.Use();
+			glm::mat4 view = camera.GetViewMatrix();
+			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
 
-		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
+			glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+			glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+			glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
-		drawList.doActions(vertexNormalColourShader.Program);
+			drawList.doActions(vertexNormalColourShader.Program);
+		}
+
+		// Draw the GUI
+		{
+			fontShader.Use();
+			glm::mat4 projection = glm::ortho(0.0f, float(WINDOW_WIDTH), 0.0f, float(WINDOW_HEIGHT), 0.1f, 100.0f);
+
+
+			glUniformMatrix4fv(glGetUniformLocation(fontShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+			std::stringstream ss;
+			ss << "Frame time: " << deltaT * 1000.0f << " ms";
+			testString.setText(ss.str());
+			testString.doAction(fontShader.Program);
+		}
+
 
 
 		//glCheckError();
