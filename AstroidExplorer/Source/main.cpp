@@ -93,8 +93,8 @@ void do_movement()
 
 
 const bool FULLSCREEN = false;
-const GLuint WINDOW_WIDTH = 1600;
-const GLuint WINDOW_HEIGHT = 1200;
+const GLuint WINDOW_WIDTH = 1000;
+const GLuint WINDOW_HEIGHT = 800;
 
 
 int main() {
