@@ -77,9 +77,6 @@ private:
 	}
 
 	void loadQuadsToGPU() {
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * mVertices.size(), &mVertices[0], GL_STATIC_DRAW);
@@ -93,8 +90,15 @@ public:
 	Text(GLuint textTextureID, Font* font, std::string text, glm::vec2 position) :
 		mTextTexID(textTextureID), mFont(font), mText(text), mPosition(position)
 	{
+		glGenVertexArrays(1, &VAO);
+		glGenBuffers(1, &VBO);
 		generateQuads();
 		loadQuadsToGPU();
+	}
+
+	~Text() {
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBO);
 	}
 
 	void setText(std::string text) {
