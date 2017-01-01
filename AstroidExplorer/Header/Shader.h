@@ -13,6 +13,10 @@ public:
 	GLuint Program;
 
 	// Constructor reads and builds the shader
+	Shader()
+	{
+
+	}
 	Shader(
 		const GLchar* vertexShaderFilepath,
 		const GLchar* fragmentShaderFilepath) {
