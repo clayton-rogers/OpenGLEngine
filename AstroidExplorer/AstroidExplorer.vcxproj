@@ -125,11 +125,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
-    <ClInclude Include="Header\Font.h" />
     <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
-    <ClInclude Include="Header\GUI.h" />
+    <ClInclude Include="Header\GUI\Font.h" />
+    <ClInclude Include="Header\GUI\GUI.h" />
+    <ClInclude Include="Header\GUI\Object.h" />
+    <ClInclude Include="Header\GUI\Text.h" />
+    <ClInclude Include="Header\GUI\TextLine.h" />
     <ClInclude Include="Header\InertialCore3DOF.h" />
     <ClInclude Include="Header\Lazer.h" />
     <ClInclude Include="Header\LazerManager.h" />

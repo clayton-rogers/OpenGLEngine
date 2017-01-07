@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Shaders">
       <UniqueIdentifier>{05050c1f-a9a7-4a16-9f51-55e129b2589c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GUI">
+      <UniqueIdentifier>{fca3b09e-3352-490b-bed7-8f445e93df19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\main.cpp">
@@ -56,11 +59,20 @@
     <ClInclude Include="Header\GenericActionList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Font.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Header\GUI\Object.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Header\GUI.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Header\GUI\GUI.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\Text.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\TextLine.h">
+      <Filter>Header Files\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GUI\Font.h">
+      <Filter>Header Files\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

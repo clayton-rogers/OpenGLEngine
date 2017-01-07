@@ -24,7 +24,7 @@
 #include "Camera.h"
 #include "glCheckError.h"
 #include "GenericActionList.h"
-#include "GUI.h"
+#include "GUI/Textline.h"
 
 bool keys[1024];
 bool firstMouse = true;
