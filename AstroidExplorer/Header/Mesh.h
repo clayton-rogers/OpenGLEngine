@@ -18,9 +18,10 @@
 
 
 class Mesh {
-	GLuint VAO = -1;
-	GLuint VBO = -1;
+	GLuint VAO;
+	GLuint VBO;
 	GLsizei numVertex;
+	bool mIsLoaded = false;
 
 	std::string replaceStrChar(std::string str, const std::string& replace, char ch) {
 
@@ -40,7 +41,7 @@ class Mesh {
 public:
 
 	bool isLoaded() const {
-		return VAO != -1;
+		return mIsLoaded;
 	}
 
 	void load(std::string path) {
@@ -61,6 +62,8 @@ public:
 			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 			glBindVertexArray(0);
 		}
+
+		mIsLoaded = true;
 	}
 
 	const std::vector<GLfloat> loadObject(std::string path) {

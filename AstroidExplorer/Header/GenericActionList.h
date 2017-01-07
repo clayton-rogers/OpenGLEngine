@@ -16,8 +16,8 @@ template <
 class GenericActionList {
 
 	struct Element {
-		bool isUsed = false;
 		Action<InputType>* item = nullptr;
+		bool isUsed = false;
 
 		Element(bool isUsed_, Action<InputType>* item_) : isUsed(isUsed_), item(item_) {}
 	};
@@ -27,7 +27,7 @@ class GenericActionList {
 public:
 
 	unsigned int add(Action<InputType>* e) {
-		unsigned int index;
+		unsigned int index = 0;
 		bool found = false;
 
 		// Check if there's an open slot we can use

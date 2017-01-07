@@ -102,9 +102,9 @@ public:
 
 	CornerUV getUVs(unsigned char inputChar) {
 
-		int index = invalidCharIndex;
+		unsigned int index = invalidCharIndex;
 
-		for (int i = 0; i < mCharacters.size(); i++) {
+		for (unsigned int i = 0; i < mCharacters.size(); i++) {
 			if (mCharacters[i].id == inputChar) {
 				index = i;
 				break;
@@ -122,9 +122,9 @@ public:
 	}
 
 	FontCharacter getFontCharacter(unsigned char inputChar) {
-		int index = invalidCharIndex;
+		unsigned int index = invalidCharIndex;
 
-		for (int i = 0; i < mCharacters.size(); i++) {
+		for (unsigned int i = 0; i < mCharacters.size(); i++) {
 			if (mCharacters[i].id == inputChar) {
 				index = i;
 				break;

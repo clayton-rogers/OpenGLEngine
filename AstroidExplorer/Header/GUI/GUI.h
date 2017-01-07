@@ -18,7 +18,7 @@ namespace GUI {
 
 	Shader fontShader;
 	Font vcr("./Resources/Font/VCR-OSD-mono2.png", "./Resources/Font/VCR-OSD-mono.txt");
-	const float TEXT_SCALE = 1.0 / 3.0;
+	const float TEXT_SCALE = 1.0f / 3.0f;
 	const float characterWidth = float(vcr.getFontCharacter('a').xadvance) * TEXT_SCALE;
 	const float characterHeight = float(vcr.getFontCharacter('L').height) * TEXT_SCALE;
 	GLuint textTexID;

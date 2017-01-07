@@ -21,6 +21,8 @@ public:
 		}
 	}
 
+	virtual ~PlanetManager(){}
+
 	virtual void doAction(double deltaT) override {
 
 		bool foundCollision = false;

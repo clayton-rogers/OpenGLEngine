@@ -18,9 +18,9 @@ namespace GUI {
 	class Text : public Action<GLuint> {
 	private:
 
-		GLuint mTextTexID = -1;
-		GLuint VAO = -1;
-		GLuint VBO = -1;
+		GLuint mTextTexID;
+		GLuint VAO;
+		GLuint VBO;
 		Font* mFont;
 		std::string mText;
 
@@ -37,11 +37,11 @@ namespace GUI {
 			mVertices.clear();
 			GLfloat xDelta = 0.0f;
 
-			for (int i = 0; i < mText.size(); i++) {
+			for (unsigned int i = 0; i < mText.size(); i++) {
 				std::vector<GLfloat> quad;
-				GLfloat height = mFont->getFontCharacter(mText.at(i)).height;
-				GLfloat width = mFont->getFontCharacter(mText.at(i)).width;
-				GLfloat xOffset = mFont->getFontCharacter(mText.at(i)).xoffset;
+				GLfloat height = GLfloat(mFont->getFontCharacter(mText.at(i)).height);
+				GLfloat width = GLfloat(mFont->getFontCharacter(mText.at(i)).width);
+				GLfloat xOffset = GLfloat(mFont->getFontCharacter(mText.at(i)).xoffset);
 				CornerUV uvs = mFont->getUVs(mText.at(i));
 
 				quad.push_back(xDelta + xOffset); // lower left

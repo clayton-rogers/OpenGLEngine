@@ -34,7 +34,7 @@ double deltaT;
 Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 LazerManager laserManager;
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
+void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mode*/)
 {
 	// When user presses the escape key, we set WindowShouldClose property
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
@@ -47,7 +47,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		keys[key] = false;
 }
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void mouse_callback(GLFWwindow* /*window*/, double xpos, double ypos)
 {
 	if (firstMouse) {
 		lastX = xpos;
@@ -63,7 +63,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
-void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/)
 {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		glm::vec3 startPosition = camera.Position;
@@ -72,7 +72,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 }
 
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset)
 {
 	camera.ProcessMouseScroll((GLfloat)yoffset);
 }

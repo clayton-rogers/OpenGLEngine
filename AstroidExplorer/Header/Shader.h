@@ -57,7 +57,7 @@ public:
 			fragmentShaderCode = fragmentShaderStream.str();
 		} catch (std::ifstream::failure e) {
 			std::cout << "Shader file failure:" << e.what() << std::endl;
-			this->Program = -1;
+			this->Program = 0;
 			return;
 		}
 
@@ -74,7 +74,7 @@ public:
 		if (!success) {
 			glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
 			std::cout << "Vertex shader compile: " << infoLog << std::endl;
-			this->Program = -1;
+			this->Program = 0;
 			return;
 		}
 
@@ -86,7 +86,7 @@ public:
 		if (!success) {
 			glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
 			std::cout << "Fragment shader compile: " << infoLog << std::endl;
-			this->Program = -1;
+			this->Program = 0;
 			return;
 		}
 
@@ -99,7 +99,7 @@ public:
 		if (!success) {
 			glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
 			std::cout << "Shader program compile: " << infoLog << std::endl;
-			this->Program = -1;
+			this->Program = 0;
 			return;
 		}
 		glDeleteShader(vertexShader);
