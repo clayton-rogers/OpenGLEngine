@@ -24,8 +24,7 @@
 #include "Camera.h"
 #include "glCheckError.h"
 #include "GenericActionList.h"
-#include "Font.h"
-#include "Text.h"
+#include "GUI.h"
 
 bool keys[1024];
 bool firstMouse = true;
@@ -189,12 +188,9 @@ int main() {
 	planetManager.physicsListIndex = physicsList.add(&planetManager);
 	laserManager.physicsListIndex = physicsList.add(&laserManager);
 
-
-	Shader fontShader = Shader("./Shaders/text.vert", "./Shaders/text.frag");
-	Font vcr("./Resources/Font/VCR-OSD-mono2.png", "./Resources/Font/VCR-OSD-mono.txt");
-	GLuint textTexID;
-	vcr.uploadTextureToGPU(textTexID);
-	Text testString(textTexID, &vcr, "The quick brown fox jumps over the lazy dog", glm::vec2(100.0f, 100.0f));
+	GUI::init(WINDOW_WIDTH, WINDOW_HEIGHT);
+	GUI::TextLine myLine(glm::vec2(30.0f), "Hello World!");
+	GUI::GUIdrawlist.add(&myLine);
 
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
@@ -209,6 +205,7 @@ int main() {
 
 		// Perform physics for this step
 		physicsList.doActions(deltaT);
+		myLine.setPosition(glm::vec2(lastX, WINDOW_HEIGHT - lastY));
 
 
 		// Clear last frame
@@ -231,18 +228,7 @@ int main() {
 		}
 
 		// Draw the GUI
-		{
-			fontShader.Use();
-			glm::mat4 projection = glm::ortho(0.0f, float(WINDOW_WIDTH), 0.0f, float(WINDOW_HEIGHT), 0.1f, 100.0f);
-
-
-			glUniformMatrix4fv(glGetUniformLocation(fontShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-			std::stringstream ss;
-			ss << "Frame time: " << deltaT * 1000.0f << " ms";
-			testString.setText(ss.str());
-			testString.doAction(fontShader.Program);
-		}
-
+		GUI::draw();
 
 
 		//glCheckError();

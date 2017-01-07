@@ -78,7 +78,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
@@ -95,7 +95,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -129,6 +129,7 @@
     <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
+    <ClInclude Include="Header\GUI.h" />
     <ClInclude Include="Header\InertialCore3DOF.h" />
     <ClInclude Include="Header\Lazer.h" />
     <ClInclude Include="Header\LazerManager.h" />
@@ -136,7 +137,6 @@
     <ClInclude Include="Header\Planet.h" />
     <ClInclude Include="Header\PlanetManager.h" />
     <ClInclude Include="Header\Shader.h" />
-    <ClInclude Include="Header\Text.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\text.frag" />
