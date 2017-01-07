@@ -27,7 +27,8 @@ class GenericActionList {
 public:
 
 	unsigned int add(Action<InputType>* e) {
-		unsigned int index = -1;
+		unsigned int index;
+		bool found = false;
 
 		// Check if there's an open slot we can use
 		for (unsigned int i = 0; i < mList.size(); ++i) {
@@ -35,12 +36,13 @@ public:
 				mList[i].isUsed = true;
 				mList[i].item = e;
 				index = i;
+				found = true;
 				break;
 			}
 		}
 
 		// Otherwise push the element to the end
-		if (index == -1) {
+		if (!found) {
 			Element element(true, e);
 			mList.push_back(element);
 			index = mList.size() - 1;
