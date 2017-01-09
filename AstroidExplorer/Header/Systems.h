@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "System.h"
 #include "ComponentType.h"
 #include "ComponentArray.h"
@@ -70,19 +72,16 @@ public:
 		for (int i = 0; i < positionArray.size(); ++i) {
 			for (int j = i + 1; j < positionArray.size(); ++j) {
 				
-				inertialArray[i]->frameForce += calculateGravity(
+				
+				glm::vec3 force = calculateGravity(
 					inertialArray[i]->mass,
 					inertialArray[j]->mass,
 					positionArray[i]->position,
 					positionArray[j]->position
 				);
 
-				inertialArray[j]->frameForce += calculateGravity(
-					inertialArray[j]->mass,
-					inertialArray[i]->mass,
-					positionArray[j]->position,
-					positionArray[i]->position
-				);
+				inertialArray[i]->frameForce += force;
+				inertialArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
 			}
 		}
 	}
