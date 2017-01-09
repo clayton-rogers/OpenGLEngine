@@ -68,9 +68,10 @@ public:
 				inertialArray.push_back(&inertialComponentArray->getComponent(UIDpair->first));
 			}
 		}
-
-		for (int i = 0; i < positionArray.size(); ++i) {
-			for (int j = i + 1; j < positionArray.size(); ++j) {
+		
+		const int size = positionArray.size();
+		for (int i = 0; i < size; ++i) {
+			for (int j = i + 1; j < size; ++j) {
 				
 				
 				glm::vec3 force = calculateGravity(
