@@ -125,7 +125,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Camera.h" />
+    <ClInclude Include="Header\ComponentArray.h" />
+    <ClInclude Include="Header\Components.h" />
+    <ClInclude Include="Header\Entities.h" />
+    <ClInclude Include="Header\Systems.h" />
+    <ClInclude Include="Header\ComponentManager.h" />
+    <ClInclude Include="Header\ComponentType.h" />
+    <ClInclude Include="Header\EntityManager.h" />
     <ClInclude Include="Header\GenericActionList.h" />
+    <ClInclude Include="Header\GenericDB.h" />
     <ClInclude Include="Header\glCheckError.h" />
     <ClInclude Include="Header\Gravity.h" />
     <ClInclude Include="Header\GUI\Font.h" />
@@ -140,6 +148,8 @@
     <ClInclude Include="Header\Planet.h" />
     <ClInclude Include="Header\PlanetManager.h" />
     <ClInclude Include="Header\Shader.h" />
+    <ClInclude Include="Header\System.h" />
+    <ClInclude Include="Header\SystemManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\text.frag" />

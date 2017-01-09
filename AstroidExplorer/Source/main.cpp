@@ -26,6 +26,12 @@
 #include "GenericActionList.h"
 #include "GUI/Textline.h"
 
+#include "SystemManager.h"
+#include "Systems.h"
+#include "Components.h"
+#include "Entities.h"
+
+
 bool keys[1024];
 bool firstMouse = true;
 double lastX, lastY;
@@ -178,20 +184,54 @@ int main() {
 
 	double lastFrameTime = glfwGetTime();
 
-	PlanetManager planetManager;
+	//PlanetManager planetManager;
 
-	GenericActionList<GLuint> drawList;
-	planetManager.drawListIndex = drawList.add(&planetManager);
-	laserManager.drawListIndex = drawList.add(&laserManager);
+	//GenericActionList<GLuint> drawList;
+	//planetManager.drawListIndex = drawList.add(&planetManager);
+	//laserManager.drawListIndex = drawList.add(&laserManager);
 
-	GenericActionList<double> physicsList;
-	planetManager.physicsListIndex = physicsList.add(&planetManager);
-	laserManager.physicsListIndex = physicsList.add(&laserManager);
+	//GenericActionList<double> physicsList;
+	//planetManager.physicsListIndex = physicsList.add(&planetManager);
+	//laserManager.physicsListIndex = physicsList.add(&laserManager);
 
 	GUI::init(WINDOW_WIDTH, WINDOW_HEIGHT);
 	GUI::TextLine myLine(glm::vec2(30.0f), "Hello World!");
 	GUI::GUIdrawlist.add(&myLine);
 
+	// Set up all systems
+	{
+		std::unique_ptr<DrawSystem> drawSystem(new DrawSystem);
+		systemManager.addSystem(std::move(drawSystem));
+		std::unique_ptr<GravitySystem> gravitySystem(new GravitySystem);
+		systemManager.addSystem(std::move(gravitySystem));
+		std::unique_ptr<InertialSystem> inertialSystem(new InertialSystem);
+		systemManager.addSystem(std::move(inertialSystem));
+	}
+
+
+	// Set up all components
+	{
+		std::unique_ptr<DrawComponentArrayType> drawComponentArray(new DrawComponentArrayType);
+		componentManager.addComponent(DRAW, std::move(drawComponentArray));
+		std::unique_ptr<PositionComponentArrayType> positionComponentArray(new PositionComponentArrayType);
+		componentManager.addComponent(POSITION, std::move(positionComponentArray));
+		std::unique_ptr<InertialComponentArrayType> inertialComponentArray(new InertialComponentArrayType);
+		componentManager.addComponent(INERTIAL, std::move(inertialComponentArray));
+		std::unique_ptr<RadiusComponentArrayType> radiusComponentArray(new RadiusComponentArrayType);
+		componentManager.addComponent(RADIUS, std::move(radiusComponentArray));
+	}
+
+	// Set up the entities
+	{
+		Entities::init();
+	}
+	
+	
+	for (int i = 0; i < 1000; i++) {
+		Entities::createPlanet(&vertexNormalColourShader);
+	}
+
+	glfwSwapInterval(0);
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		do_movement();
@@ -203,43 +243,59 @@ int main() {
 			lastFrameTime = currentTime;
 		}
 
-		// Perform physics for this step
-		physicsList.doActions(deltaT);
-		myLine.setPosition(glm::vec2(lastX, WINDOW_HEIGHT - lastY));
-
-
 		// Clear last frame
 		glm::vec3 backgroundColor = glm::vec3(50.0); // just slightly lighter than black
 		backgroundColor /= glm::vec3(255.0);
 		glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Draw the frame
-		{
-			vertexNormalColourShader.Use();
-			glm::mat4 view = camera.GetViewMatrix();
-			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
+		// Perform physics for this step
+		//physicsList.doActions(deltaT);
+		//myLine.setPosition(glm::vec2(lastX, WINDOW_HEIGHT - lastY));
 
-			glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-			glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-			glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
+		// Do everything for this frame
+		vertexNormalColourShader.Use();
+		glm::mat4 view = camera.GetViewMatrix();
+		glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
 
-			drawList.doActions(vertexNormalColourShader.Program);
-		}
+		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
+
+		systemManager.run();
 
 		// Draw the GUI
+		std::stringstream ss;
+		ss << "Frame time: " << deltaT * 1000;
+		myLine.setText(ss.str());
 		GUI::draw();
+
+
+		//// Draw the frame
+		//{
+		//	vertexNormalColourShader.Use();
+		//	glm::mat4 view = camera.GetViewMatrix();
+		//	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
+
+		//	glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		//	glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+		//	glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
+
+		//	drawList.doActions(vertexNormalColourShader.Program);
+		//}
+
+
 
 
 		//glCheckError();
 		glfwSwapBuffers(window);
 	}
 
-	drawList.remove(planetManager.drawListIndex);
-	drawList.remove(laserManager.drawListIndex);
+	//drawList.remove(planetManager.drawListIndex);
+	//drawList.remove(laserManager.drawListIndex);
 
-	physicsList.remove(planetManager.physicsListIndex);
-	physicsList.remove(laserManager.physicsListIndex);
+	//physicsList.remove(planetManager.physicsListIndex);
+	//physicsList.remove(laserManager.physicsListIndex);
 
 	glfwTerminate();
 	return 0;
