@@ -50,37 +50,17 @@ class GravitySystem : public System {
 		return force * direction;
 	}
 
-	//virtual void internalRunEntity(unsigned int UID) override {
-	//	for (auto entity : componentManager.getEntities()) {
-	//		if ((entity.second & mRequiredComponents) == mRequiredComponents && entity.first != UID) {
-	//			// For every other entity that satisfies this systems requirements
-	//			PositionComponent& thisP = getComponent<PositionComponent>(POSITION, UID);
-	//			InertialComponent& thisI = getComponent<InertialComponent>(INERTIAL, UID);
-
-	//			PositionComponent& otherP = getComponent<PositionComponent>(POSITION, entity.first);
-	//			InertialComponent& otherI = getComponent<InertialComponent>(INERTIAL, entity.first);
-
-	//			// Apply a gravity force to this entity
-	//			thisI.frameForce += calculateGravity(
-	//				thisI.mass,
-	//				otherI.mass,
-	//				thisP.position,
-	//				otherP.position
-	//			);
-
-	//		}
-	//	}
-	//}
-
 public:
 
 	virtual void runSystem() {
 		auto& entityMap = componentManager.getEntities();
+		PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
+		InertialComponentArrayType* inertialComponentArray = dynamic_cast<InertialComponentArrayType*>(componentManager.getComponentArray(INERTIAL));
 		for (auto object1 = entityMap.begin(); object1 != entityMap.end(); ++object1) {
 			if ((object1->second & mRequiredComponents) != mRequiredComponents) { continue; }
 
-			PositionComponent& thisP = getComponent<PositionComponent>(POSITION, object1->first);
-			InertialComponent& thisI = getComponent<InertialComponent>(INERTIAL, object1->first);
+			PositionComponent& thisP = positionComponentArray->getComponent(object1->first);
+			InertialComponent& thisI = inertialComponentArray->getComponent(object1->first);
 
 			for (auto object2 = object1; object2 != entityMap.end(); ++object2) {
 				if (object2 == object1) { 
@@ -90,8 +70,8 @@ public:
 				if ((object2->second & mRequiredComponents) != mRequiredComponents) { continue; }
 
 				// Apply the gravity force to both bodies
-				PositionComponent& otherP = getComponent<PositionComponent>(POSITION, object2->first);
-				InertialComponent& otherI = getComponent<InertialComponent>(INERTIAL, object2->first);
+				PositionComponent& otherP = positionComponentArray->getComponent(object2->first);
+				InertialComponent& otherI = inertialComponentArray->getComponent(object2->first);
 
 				// Apply a gravity force to first entity
 				thisI.frameForce += calculateGravity(
@@ -111,12 +91,6 @@ public:
 
 			}
 		}
-		//for (auto& entity : componentManager.getEntities()) {
-
-		//	if ((entity.second & mRequiredComponents) == mRequiredComponents) {
-		//		internalRunEntity(entity.first);
-		//	}
-		//}
 	}
 
 	GravitySystem() {
