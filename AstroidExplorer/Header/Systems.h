@@ -6,6 +6,7 @@
 #include "ComponentType.h"
 #include "ComponentArray.h"
 #include "Components.h"
+#include "Entities.h"
 
 #include <iostream>
 
@@ -90,6 +91,65 @@ public:
 	GravitySystem() {
 		mRequiredComponents[POSITION] = true;
 		mRequiredComponents[INERTIAL] = true;
+	}
+};
+
+class CollisionSystem : public System {
+public:
+	virtual void runSystem() override {
+		bool foundCollision = false;
+		do {
+			foundCollision = false;
+
+			auto& entityMap = componentManager.getEntities();
+			PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
+			RadiusComponentArrayType* radiusComponentArray = dynamic_cast<RadiusComponentArrayType*>(componentManager.getComponentArray(RADIUS));
+
+			std::vector<PositionComponent*> positionArray;
+			std::vector<RadiusComponent*> radiusArray;
+			std::vector<unsigned int> uidArray;
+			// Load up local array once so that we only have to call getComponent once
+			for (auto UIDpair = entityMap.begin(); UIDpair != entityMap.end(); ++UIDpair) {
+				if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
+					positionArray.push_back(&positionComponentArray->getComponent(UIDpair->first));
+					radiusArray.push_back(&radiusComponentArray->getComponent(UIDpair->first));
+					uidArray.push_back(UIDpair->first);
+				}
+			}
+
+			const int size = positionArray.size();
+			for (int i = 0; i < size; ++i) {
+				for (int j = i + 1; j < size; ++j) {
+
+					if (
+						glm::distance(positionArray[i]->position, positionArray[j]->position) <
+						(radiusArray[i]->radius + radiusArray[j]->radius)) 
+					{
+						Entities::createPlanet(
+							positionArray[i], positionArray[j],
+							&getComponent<InertialComponent>(INERTIAL, uidArray[i]), &getComponent<InertialComponent>(INERTIAL, uidArray[j]),
+							&getComponent<DrawComponent>(DRAW, uidArray[i]), &getComponent<DrawComponent>(DRAW, uidArray[j]));
+
+						componentManager.removeEntity(uidArray[i]);
+						componentManager.removeEntity(uidArray[j]);
+
+						foundCollision = true;
+						goto finishLoop;
+					}
+
+				}
+			}
+
+		finishLoop:
+			;
+		} while (foundCollision);
+	}
+
+	CollisionSystem() {
+		mRequiredComponents[DRAW] = true;
+		mRequiredComponents[POSITION] = true;
+		mRequiredComponents[INERTIAL] = true;
+		mRequiredComponents[RADIUS] = true;
 	}
 };
 

@@ -206,6 +206,8 @@ int main() {
 		systemManager.addSystem(std::move(gravitySystem));
 		std::unique_ptr<InertialSystem> inertialSystem(new InertialSystem);
 		systemManager.addSystem(std::move(inertialSystem));
+		std::unique_ptr<CollisionSystem> collisionSystem(new CollisionSystem);
+		systemManager.addSystem(std::move(collisionSystem));
 	}
 
 
@@ -223,15 +225,15 @@ int main() {
 
 	// Set up the entities
 	{
-		Entities::init();
+		Entities::init(&vertexNormalColourShader);
 	}
 	
 	
 	for (int i = 0; i < 1000; i++) {
-		Entities::createPlanet(&vertexNormalColourShader);
+		Entities::createPlanet();
 	}
 
-	glfwSwapInterval(0);
+	//glfwSwapInterval(0); // framelimiter
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		do_movement();
