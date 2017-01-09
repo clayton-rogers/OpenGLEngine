@@ -11,11 +11,17 @@ public:
 	virtual ~ComponentArray() {};
 };
 
+struct UIDhash {
+	std::size_t operator()(unsigned int UID) const {
+		return UID;
+	}
+};
+
 template <
 	typename ComponentType
 >
 class GenericComponentArray : public ComponentArray {
-	std::unordered_map<unsigned int, ComponentType> mComponentElements;
+	std::unordered_map<unsigned int, ComponentType, UIDhash> mComponentElements;
 public:
 	ComponentType& getComponent(unsigned int UID) {
 		return mComponentElements.at(UID);
