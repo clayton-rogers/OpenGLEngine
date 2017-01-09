@@ -38,7 +38,7 @@ public:
 
 	void removeEntity(unsigned int UID) {
 		// TODO remove the actual components too
-		mEntityComponentMap.erase(UID);
+		mEntityComponentMap.at(UID) = NONE_COMPONENT;
 	}
 
 	void addComponentToEntity(ComponentEnum type, unsigned int UID) {
