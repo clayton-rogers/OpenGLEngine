@@ -83,6 +83,10 @@ namespace GUI {
 			this->mText.setPosition(position + BORDER_SIZE);
 		}
 
+		void setText(std::string text) {
+			this->mText.setText(text);
+		}
+
 	};
 
 }
