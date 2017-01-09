@@ -56,39 +56,33 @@ public:
 		auto& entityMap = componentManager.getEntities();
 		PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
 		InertialComponentArrayType* inertialComponentArray = dynamic_cast<InertialComponentArrayType*>(componentManager.getComponentArray(INERTIAL));
-		for (auto object1 = entityMap.begin(); object1 != entityMap.end(); ++object1) {
-			if ((object1->second & mRequiredComponents) != mRequiredComponents) { continue; }
 
-			PositionComponent& thisP = positionComponentArray->getComponent(object1->first);
-			InertialComponent& thisI = inertialComponentArray->getComponent(object1->first);
+		std::vector<PositionComponent*> positionArray;
+		std::vector<InertialComponent*> inertialArray;
+		// Load up local array once so that we only have to call getComponent once
+		for (auto UIDpair = entityMap.begin(); UIDpair != entityMap.end(); ++UIDpair) {
+			if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
+				positionArray.push_back(&positionComponentArray->getComponent(UIDpair->first));
+				inertialArray.push_back(&inertialComponentArray->getComponent(UIDpair->first));
+			}
+		}
 
-			for (auto object2 = object1; object2 != entityMap.end(); ++object2) {
-				if (object2 == object1) { 
-					++object2; 
-					if (object2 == entityMap.end()) { break; }
-				}
-				if ((object2->second & mRequiredComponents) != mRequiredComponents) { continue; }
-
-				// Apply the gravity force to both bodies
-				PositionComponent& otherP = positionComponentArray->getComponent(object2->first);
-				InertialComponent& otherI = inertialComponentArray->getComponent(object2->first);
-
-				// Apply a gravity force to first entity
-				thisI.frameForce += calculateGravity(
-					thisI.mass,
-					otherI.mass,
-					thisP.position,
-					otherP.position
+		for (int i = 0; i < positionArray.size(); ++i) {
+			for (int j = i + 1; j < positionArray.size(); ++j) {
+				
+				inertialArray[i]->frameForce += calculateGravity(
+					inertialArray[i]->mass,
+					inertialArray[j]->mass,
+					positionArray[i]->position,
+					positionArray[j]->position
 				);
 
-				// Apply a gravity force to second entity
-				otherI.frameForce += calculateGravity(
-					otherI.mass,
-					thisI.mass,
-					otherP.position,
-					thisP.position
+				inertialArray[j]->frameForce += calculateGravity(
+					inertialArray[j]->mass,
+					inertialArray[i]->mass,
+					positionArray[j]->position,
+					positionArray[i]->position
 				);
-
 			}
 		}
 	}
