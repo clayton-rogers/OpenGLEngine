@@ -6,14 +6,14 @@
 
 #include <memory>
 #include <array>
-#include <map>
+#include <unordered_map>
 
 
 class ComponentManager {
 
 private:
 	std::array<std::unique_ptr<ComponentArray>, ComponentEnum::ComponentTypeSize> mComponents;
-	std::map<unsigned int, ComponentBitset> mEntityComponentMap;
+	std::unordered_map<unsigned int, ComponentBitset> mEntityComponentMap;
 
 public:
 
@@ -46,7 +46,7 @@ public:
 		mComponents.at(type).get()->addComponentToEntity(UID);
 	}
 
-	std::map<unsigned int, ComponentBitset>& getEntities() {
+	std::unordered_map<unsigned int, ComponentBitset>& getEntities() {
 		return mEntityComponentMap;
 	}
 

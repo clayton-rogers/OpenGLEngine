@@ -2,7 +2,7 @@
 
 #include "ComponentType.h"
 
-#include <map>
+#include <unordered_map>
 #include <utility>
 
 class ComponentArray {
@@ -15,7 +15,7 @@ template <
 	typename ComponentType
 >
 class GenericComponentArray : public ComponentArray {
-	std::map<unsigned int, ComponentType> mComponentElements;
+	std::unordered_map<unsigned int, ComponentType> mComponentElements;
 public:
 	ComponentType& getComponent(unsigned int UID) {
 		return mComponentElements.at(UID);
@@ -24,6 +24,7 @@ public:
 	virtual void addComponentToEntity(unsigned int UID) override {
 		ComponentType c;
 		mComponentElements.emplace(std::make_pair(UID, c));
+		// TODO FUTURE leak: what about when an entity is removed?
 	}
 };
 
