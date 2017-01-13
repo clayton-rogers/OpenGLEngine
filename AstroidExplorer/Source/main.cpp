@@ -213,6 +213,8 @@ int main() {
 	{
 		std::unique_ptr<DrawSystem> drawSystem(new DrawSystem);
 		systemManager.addSystem(std::move(drawSystem));
+		std::unique_ptr<GeneralDraw> generalDrawSystem(new GeneralDraw);
+		systemManager.addSystem(std::move(generalDrawSystem));
 		std::unique_ptr<GravitySystem> gravitySystem(new GravitySystem);
 		systemManager.addSystem(std::move(gravitySystem));
 		std::unique_ptr<VelocitySystem> velocitySystem(new VelocitySystem);

@@ -133,6 +133,8 @@ namespace Entities {
 		d.rotationScaleMatrix = model;
 		d.shader = generalShader;
 		d.shininess = 128.0f;
+
+		return UID;
 	}
 
 }
