@@ -14,6 +14,7 @@
 // Standard libraries
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <string>
 #include <sstream>
 
@@ -38,7 +39,14 @@ double lastX, lastY;
 double deltaT;
 
 Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
-LazerManager laserManager;
+//LazerManager laserManager;
+struct Ray {
+	glm::vec3 position;
+	glm::vec3 direction;
+	//Ray(glm::vec3 position_, glm::vec3 direction_) : position(position_), direction(direction_) {}
+	//Ray(Ray ray) : position(ray.position), direction(ray.direction) {}
+};
+std::queue<Ray> laserQueue;
 
 void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mode*/)
 {
@@ -74,7 +82,10 @@ void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		glm::vec3 startPosition = camera.Position;
 		startPosition -= camera.Up * 0.5f;
-		laserManager.add(startPosition, camera.Front);
+		Ray ray;
+		ray.position = startPosition;
+		ray.direction = camera.Front;
+		laserQueue.push(ray);
 	}
 }
 
@@ -204,9 +215,11 @@ int main() {
 		systemManager.addSystem(std::move(drawSystem));
 		std::unique_ptr<GravitySystem> gravitySystem(new GravitySystem);
 		systemManager.addSystem(std::move(gravitySystem));
-		std::unique_ptr<InertialSystem> inertialSystem(new InertialSystem);
-		systemManager.addSystem(std::move(inertialSystem));
-		std::unique_ptr<CollisionSystem> collisionSystem(new CollisionSystem);
+		std::unique_ptr<VelocitySystem> velocitySystem(new VelocitySystem);
+		systemManager.addSystem(std::move(velocitySystem));
+		std::unique_ptr<MassSystem> massSystem(new MassSystem);
+		systemManager.addSystem(std::move(massSystem));
+		std::unique_ptr<CoalesceSystem> collisionSystem(new CoalesceSystem);
 		systemManager.addSystem(std::move(collisionSystem));
 	}
 
@@ -215,12 +228,18 @@ int main() {
 	{
 		std::unique_ptr<DrawComponentArrayType> drawComponentArray(new DrawComponentArrayType);
 		componentManager.addComponent(DRAW, std::move(drawComponentArray));
+		std::unique_ptr<GeneralDrawComponentArrayType> generalDrawComponentArray(new GeneralDrawComponentArrayType);
+		componentManager.addComponent(GENERAL_DRAW, std::move(generalDrawComponentArray));
 		std::unique_ptr<PositionComponentArrayType> positionComponentArray(new PositionComponentArrayType);
 		componentManager.addComponent(POSITION, std::move(positionComponentArray));
-		std::unique_ptr<InertialComponentArrayType> inertialComponentArray(new InertialComponentArrayType);
-		componentManager.addComponent(INERTIAL, std::move(inertialComponentArray));
-		std::unique_ptr<RadiusComponentArrayType> radiusComponentArray(new RadiusComponentArrayType);
-		componentManager.addComponent(RADIUS, std::move(radiusComponentArray));
+		std::unique_ptr<VelocityComponentArrayType> inertialComponentArray(new VelocityComponentArrayType);
+		componentManager.addComponent(VELOCITY, std::move(inertialComponentArray));
+		std::unique_ptr<MassComponentArrayType> massComponentArray(new MassComponentArrayType);
+		componentManager.addComponent(MASS, std::move(massComponentArray));
+		std::unique_ptr<CoalescableComponentArrayType> radiusComponentArray(new CoalescableComponentArrayType);
+		componentManager.addComponent(COALESCABLE, std::move(radiusComponentArray));
+		std::unique_ptr<BulletComponentArrayType> bulletComponentArray(new BulletComponentArrayType);
+		componentManager.addComponent(BULLET, std::move(bulletComponentArray));
 	}
 
 	// Set up the entities
@@ -263,6 +282,12 @@ int main() {
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
+
+		while (!laserQueue.empty()) {
+			Ray ray = laserQueue.front();
+			laserQueue.pop();
+			Entities::createLaser(ray.position, ray.direction);
+		}
 
 		systemManager.run();
 

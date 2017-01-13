@@ -15,13 +15,13 @@ class DrawSystem : public System {
 	virtual void internalRunEntity(unsigned int UID) override {
 		DrawComponent& d = getComponent<DrawComponent>(DRAW, UID);
 		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
-		RadiusComponent& r = getComponent<RadiusComponent>(RADIUS, UID);
+		CoalescableComponent& c = getComponent<CoalescableComponent>(COALESCABLE, UID);
 
 		d.shader->Use();
 
 		glm::mat4 model;
 		model = glm::translate(model, p.position);
-		model = glm::scale(model, glm::vec3(r.radius));
+		model = glm::scale(model, glm::vec3(c.radius));
 
 		d.mesh->Draw(d.shader->Program, model, d.colour, d.shininess);
 	}
@@ -30,9 +30,29 @@ public:
 	DrawSystem() {
 		mRequiredComponents[DRAW]     = true;
 		mRequiredComponents[POSITION] = true;
-		mRequiredComponents[RADIUS]   = true;
+		mRequiredComponents[COALESCABLE] = true;
 	}
 	
+};
+
+class GeneralDraw : public System {
+	virtual void internalRunEntity(unsigned int UID) override {
+		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(GENERAL_DRAW, UID);
+		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
+
+		d.shader->Use();
+
+		glm::mat4 model;
+		model = glm::translate(model, p.position);
+		model *= d.rotationScaleMatrix;
+
+		d.mesh->Draw(d.shader->Program, model, d.colour, d.shininess);
+	}
+public:
+	GeneralDraw() {
+		mRequiredComponents[GENERAL_DRAW] = true;
+		mRequiredComponents[POSITION] = true;
+	}
 };
 
 const float DELTA_T = 1.0f / 60.0f; // frame time in seconds
@@ -58,15 +78,15 @@ public:
 	virtual void runSystem() {
 		auto& entityMap = componentManager.getEntities();
 		PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
-		InertialComponentArrayType* inertialComponentArray = dynamic_cast<InertialComponentArrayType*>(componentManager.getComponentArray(INERTIAL));
+		MassComponentArrayType* massComponentArray = dynamic_cast<MassComponentArrayType*>(componentManager.getComponentArray(MASS));
 
 		std::vector<PositionComponent*> positionArray;
-		std::vector<InertialComponent*> inertialArray;
+		std::vector<MassComponent*> massArray;
 		// Load up local array once so that we only have to call getComponent once
 		for (auto UIDpair = entityMap.begin(); UIDpair != entityMap.end(); ++UIDpair) {
 			if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
 				positionArray.push_back(&positionComponentArray->getComponent(UIDpair->first));
-				inertialArray.push_back(&inertialComponentArray->getComponent(UIDpair->first));
+				massArray.push_back(&massComponentArray->getComponent(UIDpair->first));
 			}
 		}
 		
@@ -76,25 +96,25 @@ public:
 				
 				
 				glm::vec3 force = calculateGravity(
-					inertialArray[i]->mass,
-					inertialArray[j]->mass,
+					massArray[i]->mass,
+					massArray[j]->mass,
 					positionArray[i]->position,
 					positionArray[j]->position
 				);
 
-				inertialArray[i]->frameForce += force;
-				inertialArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
+				massArray[i]->frameForce += force;
+				massArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
 			}
 		}
 	}
 
 	GravitySystem() {
 		mRequiredComponents[POSITION] = true;
-		mRequiredComponents[INERTIAL] = true;
+		mRequiredComponents[MASS] = true;
 	}
 };
 
-class CollisionSystem : public System {
+class CoalesceSystem : public System {
 public:
 	virtual void runSystem() override {
 		bool foundCollision = false;
@@ -103,16 +123,16 @@ public:
 
 			auto& entityMap = componentManager.getEntities();
 			PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
-			RadiusComponentArrayType* radiusComponentArray = dynamic_cast<RadiusComponentArrayType*>(componentManager.getComponentArray(RADIUS));
+			CoalescableComponentArrayType* radiusComponentArray = dynamic_cast<CoalescableComponentArrayType*>(componentManager.getComponentArray(COALESCABLE));
 
 			std::vector<PositionComponent*> positionArray;
-			std::vector<RadiusComponent*> radiusArray;
+			std::vector<CoalescableComponent*> coalesceArray;
 			std::vector<unsigned int> uidArray;
 			// Load up local array once so that we only have to call getComponent once
 			for (auto UIDpair = entityMap.begin(); UIDpair != entityMap.end(); ++UIDpair) {
 				if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
 					positionArray.push_back(&positionComponentArray->getComponent(UIDpair->first));
-					radiusArray.push_back(&radiusComponentArray->getComponent(UIDpair->first));
+					coalesceArray.push_back(&radiusComponentArray->getComponent(UIDpair->first));
 					uidArray.push_back(UIDpair->first);
 				}
 			}
@@ -123,11 +143,12 @@ public:
 
 					if (
 						glm::distance(positionArray[i]->position, positionArray[j]->position) <
-						(radiusArray[i]->radius + radiusArray[j]->radius)) 
+						(coalesceArray[i]->radius + coalesceArray[j]->radius)) 
 					{
 						Entities::createPlanet(
 							positionArray[i], positionArray[j],
-							&getComponent<InertialComponent>(INERTIAL, uidArray[i]), &getComponent<InertialComponent>(INERTIAL, uidArray[j]),
+							&getComponent<VelocityComponent>(VELOCITY, uidArray[i]), &getComponent<VelocityComponent>(VELOCITY, uidArray[j]),
+							&getComponent<MassComponent>(MASS, uidArray[i]), &getComponent<MassComponent>(MASS, uidArray[j]),
 							&getComponent<DrawComponent>(DRAW, uidArray[i]), &getComponent<DrawComponent>(DRAW, uidArray[j]));
 
 						componentManager.removeEntity(uidArray[i]);
@@ -145,31 +166,46 @@ public:
 		} while (foundCollision);
 	}
 
-	CollisionSystem() {
+	CoalesceSystem() {
 		mRequiredComponents[DRAW] = true;
 		mRequiredComponents[POSITION] = true;
-		mRequiredComponents[INERTIAL] = true;
-		mRequiredComponents[RADIUS] = true;
+		mRequiredComponents[VELOCITY] = true;
+		mRequiredComponents[COALESCABLE] = true;
+		mRequiredComponents[MASS] = true;
 	}
 };
 
-class InertialSystem : public System {
+class MassSystem : public System {
 
 	virtual void internalRunEntity(unsigned int UID) override {
-		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
-		InertialComponent& i = getComponent<InertialComponent>(INERTIAL, UID);	
+		VelocityComponent& i = getComponent<VelocityComponent>(VELOCITY, UID);
+		MassComponent&     m = getComponent<MassComponent>(MASS, UID);
 
-		glm::vec3 acceleration = i.frameForce / i.mass;
+		glm::vec3 acceleration = m.frameForce / m.mass;
 		i.velocity += acceleration * float(DELTA_T);
-		p.position += i.velocity * float(DELTA_T);
 
 		// reset the force to zero
-		i.frameForce = glm::vec3();
+		m.frameForce = glm::vec3();
 	}
 
 public:
-	InertialSystem() {
+	MassSystem() {
+		mRequiredComponents[VELOCITY] = true;
+		mRequiredComponents[MASS] = true;
+	}
+};
+
+class VelocitySystem : public System {
+	virtual void internalRunEntity(unsigned int UID) override {
+		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
+		VelocityComponent& v = getComponent<VelocityComponent>(VELOCITY, UID);
+
+		p.position += v.velocity * float(DELTA_T);
+	}
+
+public:
+	VelocitySystem() {
 		mRequiredComponents[POSITION] = true;
-		mRequiredComponents[INERTIAL] = true;
+		mRequiredComponents[VELOCITY] = true;
 	}
 };

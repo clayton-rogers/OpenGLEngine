@@ -4,9 +4,12 @@
 
 enum ComponentEnum {
 	DRAW,
+	GENERAL_DRAW,
 	POSITION,
-	INERTIAL,
-	RADIUS,
+	VELOCITY,
+	MASS,
+	COALESCABLE,
+	BULLET,
 	ComponentTypeSize
 };
 
