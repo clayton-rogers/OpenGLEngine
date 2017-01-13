@@ -12,6 +12,9 @@
 
 class DrawSystem : public System {
 
+	// TODO add input system
+	// TODO add player that handles input
+
 	virtual void internalRunEntity(unsigned int UID) override {
 		DrawComponent& d = getComponent<DrawComponent>(DRAW, UID);
 		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
