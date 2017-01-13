@@ -14,6 +14,7 @@ class DrawSystem : public System {
 
 	// TODO add input system
 	// TODO add player that handles input
+	// TODO add expiry system and component
 
 	virtual void internalRunEntity(unsigned int UID) override {
 		DrawComponent& d = getComponent<DrawComponent>(DRAW, UID);
