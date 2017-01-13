@@ -223,6 +223,8 @@ int main() {
 		systemManager.addSystem(std::move(massSystem));
 		std::unique_ptr<CoalesceSystem> collisionSystem(new CoalesceSystem);
 		systemManager.addSystem(std::move(collisionSystem));
+		std::unique_ptr<BulletCollisionSystem> bulletCollisionSystem(new BulletCollisionSystem);
+		systemManager.addSystem(std::move(bulletCollisionSystem));
 	}
 
 

@@ -20,6 +20,11 @@ namespace Entities {
 		generalShader = generalShader_;
 	}
 
+	static float calculateRadius(float mass) {
+		float volume = mass / 5540; // density of earth
+		return std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
+	}
+
 	unsigned int createPlanet() {
 		unsigned int UID = componentManager.addEntity();
 		componentManager.addComponentToEntity(DRAW, UID);
@@ -29,7 +34,7 @@ namespace Entities {
 		componentManager.addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent&    i = getComponent<VelocityComponent>(VELOCITY, UID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, UID);
 		MassComponent&        m = getComponent<MassComponent>(MASS, UID);
 		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, UID);
 		DrawComponent&        d = getComponent<DrawComponent>(DRAW, UID);
@@ -41,24 +46,68 @@ namespace Entities {
 		p.position.y = posGen(gen);
 		p.position.z = posGen(gen);
 		std::uniform_real_distribution<GLfloat> velGen(-5.0f, 5.0f);
-		i.velocity.x = velGen(gen);
-		i.velocity.y = velGen(gen);
-		i.velocity.z = velGen(gen);
+		v.velocity.x = velGen(gen);
+		v.velocity.y = velGen(gen);
+		v.velocity.z = velGen(gen);
 		std::uniform_real_distribution<GLfloat> colourGen(0.0f, 1.0f);
 		d.colour.r = colourGen(gen);
 		d.colour.g = colourGen(gen);
 		d.colour.b = colourGen(gen);
 		std::uniform_real_distribution<GLfloat> massGen(500.0f, 50000.0f);
-		{
-			m.mass = massGen(gen);
-			float volume = m.mass / 5540; // density of earth
-			r.radius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
-		}
+		m.mass = massGen(gen);
+		r.radius = calculateRadius(m.mass);
 
 		d.mesh = &planetMesh;
 		d.shader = generalShader;
 
 		return UID;
+	}
+
+	void splitPlanet(unsigned int sourceUID) {
+
+		PositionComponent&    sourceP = getComponent<PositionComponent>(POSITION, sourceUID);
+		VelocityComponent&    sourceV = getComponent<VelocityComponent>(VELOCITY, sourceUID);
+		MassComponent&        sourceM = getComponent<MassComponent>(MASS, sourceUID);
+		CoalescableComponent& sourceR = getComponent<CoalescableComponent>(COALESCABLE, sourceUID);
+		DrawComponent&        sourceD = getComponent<DrawComponent>(DRAW, sourceUID);
+
+		unsigned int newUID = componentManager.addEntity();
+		componentManager.addComponentToEntity(DRAW, newUID);
+		componentManager.addComponentToEntity(POSITION, newUID);
+		componentManager.addComponentToEntity(VELOCITY, newUID);
+		componentManager.addComponentToEntity(MASS, newUID);
+		componentManager.addComponentToEntity(COALESCABLE, newUID);
+
+		PositionComponent&    p = getComponent<PositionComponent>(POSITION, newUID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, newUID);
+		MassComponent&        m = getComponent<MassComponent>(MASS, newUID);
+		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, newUID);
+		DrawComponent&        d = getComponent<DrawComponent>(DRAW, newUID);
+		
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<GLfloat> colourGen(0.0f, 1.0f);
+		d.colour.r = colourGen(gen);
+		d.colour.g = colourGen(gen);
+		d.colour.b = colourGen(gen);
+
+		v.velocity       = sourceV.velocity * (-1.0f);
+		m.frameForce = glm::vec3(0.0f);
+		m.mass       = sourceM.mass / 2.0f;
+		sourceM.mass = sourceM.mass / 2.0f;
+		r.radius       = calculateRadius(m.mass);
+		sourceR.radius = r.radius;
+		d.colour.r = colourGen(gen);
+		d.colour.g = colourGen(gen);
+		d.colour.b = colourGen(gen);
+		sourceD.colour.r = colourGen(gen);
+		sourceD.colour.g = colourGen(gen);
+		sourceD.colour.b = colourGen(gen);
+		d.mesh = sourceD.mesh;
+		d.shader = sourceD.shader;
+		d.shininess = sourceD.shininess;
+
+		p.position = sourceP.position + glm::normalize(sourceV.velocity) * ((-r.radius) * 3.0f);
 	}
 
 	unsigned int createPlanet(
@@ -75,19 +124,18 @@ namespace Entities {
 		componentManager.addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent&    i = getComponent<VelocityComponent>(VELOCITY, UID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, UID);
 		MassComponent&        m = getComponent<MassComponent>(MASS, UID);
 		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, UID);
 		DrawComponent&        d = getComponent<DrawComponent>(DRAW, UID);
 
 		m.mass = m1->mass + m2->mass;
 		p.position = (m1->mass * p1->position + m2->mass * p2->position) / (m1->mass + m2->mass);
-		i.velocity = (m1->mass * v1->velocity + m2->mass * v2->velocity) / (m1->mass + m2->mass);
+		v.velocity = (m1->mass * v1->velocity + m2->mass * v2->velocity) / (m1->mass + m2->mass);
 		d.colour   = (m1->mass * d1->colour   + m2->mass * d2->colour  ) / (m1->mass + m2->mass);
 		d.shininess = (d1->shininess + d2->shininess) / 2.0f;
 
-		float volume = m.mass / 5540; // density of earth
-		r.radius = std::cbrt(volume * (3.0f / 4.0f) / 3.1415927f);
+		r.radius = calculateRadius(m.mass);
 
 		d.mesh = &planetMesh;
 		d.shader = generalShader;

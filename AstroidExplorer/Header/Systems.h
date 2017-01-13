@@ -209,3 +209,56 @@ public:
 		mRequiredComponents[VELOCITY] = true;
 	}
 };
+
+class BulletCollisionSystem : public System {
+	ComponentBitset mTargetComponents;
+
+	virtual void runSystem() override {
+
+		std::vector<PositionComponent*> bulletPositionArray;
+		std::vector<BulletComponent*> bulletRadiusArray;
+		std::vector<unsigned int> bulletUidArray;
+
+		std::vector<PositionComponent*> targetPositionArray;
+		std::vector<CoalescableComponent*> targetRadiusArray;
+		std::vector<unsigned int> targetUidArray;
+
+		// Cache the bullets and targets
+		for (auto UIDpair = componentManager.getEntities().begin(); UIDpair != componentManager.getEntities().end(); ++UIDpair) {
+			if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
+				bulletPositionArray.push_back(&getComponent<PositionComponent>(POSITION, UIDpair->first));
+				bulletRadiusArray.push_back(&getComponent<BulletComponent>(BULLET, UIDpair->first));
+				bulletUidArray.push_back(UIDpair->first);
+			}
+			if ((UIDpair->second & mTargetComponents) == mTargetComponents) {
+				targetPositionArray.push_back(&getComponent<PositionComponent>(POSITION, UIDpair->first));
+				targetRadiusArray.push_back(&getComponent<CoalescableComponent>(COALESCABLE, UIDpair->first));
+				targetUidArray.push_back(UIDpair->first);
+			}
+		}
+
+		const int bulletSize = bulletPositionArray.size();
+		const int targetSize = targetPositionArray.size();
+		for (int bulletIndex = 0; bulletIndex < bulletSize; ++bulletIndex) {
+			for (int targetIndex = 0; targetIndex < targetSize; ++targetIndex) {
+				if (glm::distance(bulletPositionArray[bulletIndex]->position, targetPositionArray[targetIndex]->position) <
+					(bulletRadiusArray[bulletIndex]->radius + targetRadiusArray[targetIndex]->radius)) 
+				{
+					// Delete the bullet
+					componentManager.removeEntity(bulletUidArray[bulletIndex]);
+
+					// Split the target
+					Entities::splitPlanet(targetUidArray[targetIndex]);
+				}
+			}
+		}
+	}
+public:
+	BulletCollisionSystem() {
+		mRequiredComponents[POSITION] = true;
+		mRequiredComponents[BULLET] = true;
+
+		mTargetComponents[POSITION] = true;
+		mTargetComponents[COALESCABLE] = true;
+	}
+};
