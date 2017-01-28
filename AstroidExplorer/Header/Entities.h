@@ -33,11 +33,11 @@ namespace Entities {
 		componentManager.addComponentToEntity(MASS, UID);
 		componentManager.addComponentToEntity(COALESCABLE, UID);
 
-		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, UID);
-		MassComponent&        m = getComponent<MassComponent>(MASS, UID);
-		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, UID);
-		DrawComponent&        d = getComponent<DrawComponent>(DRAW, UID);
+		PositionComponent&    p = getComponent<PositionComponent>(UID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
+		MassComponent&        m = getComponent<MassComponent>(UID);
+		CoalescableComponent& r = getComponent<CoalescableComponent>(UID);
+		DrawComponent&        d = getComponent<DrawComponent>(UID);
 
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -65,11 +65,11 @@ namespace Entities {
 
 	void splitPlanet(unsigned int sourceUID) {
 
-		PositionComponent&    sourceP = getComponent<PositionComponent>(POSITION, sourceUID);
-		VelocityComponent&    sourceV = getComponent<VelocityComponent>(VELOCITY, sourceUID);
-		MassComponent&        sourceM = getComponent<MassComponent>(MASS, sourceUID);
-		CoalescableComponent& sourceR = getComponent<CoalescableComponent>(COALESCABLE, sourceUID);
-		DrawComponent&        sourceD = getComponent<DrawComponent>(DRAW, sourceUID);
+		PositionComponent&    sourceP = getComponent<PositionComponent>(sourceUID);
+		VelocityComponent&    sourceV = getComponent<VelocityComponent>(sourceUID);
+		MassComponent&        sourceM = getComponent<MassComponent>(sourceUID);
+		CoalescableComponent& sourceR = getComponent<CoalescableComponent>(sourceUID);
+		DrawComponent&        sourceD = getComponent<DrawComponent>(sourceUID);
 
 		unsigned int newUID = componentManager.addEntity();
 		componentManager.addComponentToEntity(DRAW, newUID);
@@ -78,11 +78,11 @@ namespace Entities {
 		componentManager.addComponentToEntity(MASS, newUID);
 		componentManager.addComponentToEntity(COALESCABLE, newUID);
 
-		PositionComponent&    p = getComponent<PositionComponent>(POSITION, newUID);
-		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, newUID);
-		MassComponent&        m = getComponent<MassComponent>(MASS, newUID);
-		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, newUID);
-		DrawComponent&        d = getComponent<DrawComponent>(DRAW, newUID);
+		PositionComponent&    p = getComponent<PositionComponent>(newUID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(newUID);
+		MassComponent&        m = getComponent<MassComponent>(newUID);
+		CoalescableComponent& r = getComponent<CoalescableComponent>(newUID);
+		DrawComponent&        d = getComponent<DrawComponent>(newUID);
 		
 		std::random_device rd;
 		std::mt19937 gen(rd());
@@ -91,7 +91,15 @@ namespace Entities {
 		d.colour.g = colourGen(gen);
 		d.colour.b = colourGen(gen);
 
-		v.velocity       = sourceV.velocity * (-1.0f);
+		//v.velocity       = sourceV.velocity * (-1.0f);
+		std::uniform_real_distribution<float> velGen(-10.0f, 10.0f);
+		v.velocity.x = velGen(gen);
+		v.velocity.y = velGen(gen);
+		v.velocity.z = velGen(gen);
+		sourceV.velocity.x = velGen(gen);
+		sourceV.velocity.y = velGen(gen);
+		sourceV.velocity.z = velGen(gen);
+
 		m.frameForce = glm::vec3(0.0f);
 		m.mass       = sourceM.mass / 2.0f;
 		sourceM.mass = sourceM.mass / 2.0f;
@@ -123,11 +131,11 @@ namespace Entities {
 		componentManager.addComponentToEntity(MASS, UID);
 		componentManager.addComponentToEntity(COALESCABLE, UID);
 
-		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent&    v = getComponent<VelocityComponent>(VELOCITY, UID);
-		MassComponent&        m = getComponent<MassComponent>(MASS, UID);
-		CoalescableComponent& r = getComponent<CoalescableComponent>(COALESCABLE, UID);
-		DrawComponent&        d = getComponent<DrawComponent>(DRAW, UID);
+		PositionComponent&    p = getComponent<PositionComponent>(UID);
+		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
+		MassComponent&        m = getComponent<MassComponent>(UID);
+		CoalescableComponent& r = getComponent<CoalescableComponent>(UID);
+		DrawComponent&        d = getComponent<DrawComponent>(UID);
 
 		m.mass = m1->mass + m2->mass;
 		p.position = (m1->mass * p1->position + m2->mass * p2->position) / (m1->mass + m2->mass);
@@ -154,10 +162,10 @@ namespace Entities {
 		componentManager.addComponentToEntity(VELOCITY, UID);
 		componentManager.addComponentToEntity(BULLET, UID);
 
-		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent&    i = getComponent<VelocityComponent>(VELOCITY, UID);
-		BulletComponent&      b = getComponent<BulletComponent>(BULLET, UID);
-		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(GENERAL_DRAW, UID);
+		PositionComponent&    p = getComponent<PositionComponent>(UID);
+		VelocityComponent&    i = getComponent<VelocityComponent>(UID);
+		BulletComponent&      b = getComponent<BulletComponent>(UID);
+		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(UID);
 
 		p.position = position;
 		

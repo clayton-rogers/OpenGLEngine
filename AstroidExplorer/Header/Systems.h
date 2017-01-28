@@ -17,9 +17,9 @@ class DrawSystem : public System {
 	// TODO add expiry system and component
 
 	virtual void internalRunEntity(unsigned int UID) override {
-		DrawComponent& d = getComponent<DrawComponent>(DRAW, UID);
-		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
-		CoalescableComponent& c = getComponent<CoalescableComponent>(COALESCABLE, UID);
+		DrawComponent& d = getComponent<DrawComponent>(UID);
+		PositionComponent& p = getComponent<PositionComponent>(UID);
+		CoalescableComponent& c = getComponent<CoalescableComponent>(UID);
 
 		d.shader->Use();
 
@@ -41,8 +41,8 @@ public:
 
 class GeneralDraw : public System {
 	virtual void internalRunEntity(unsigned int UID) override {
-		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(GENERAL_DRAW, UID);
-		PositionComponent&    p = getComponent<PositionComponent>(POSITION, UID);
+		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(UID);
+		PositionComponent&    p = getComponent<PositionComponent>(UID);
 
 		d.shader->Use();
 
@@ -151,9 +151,9 @@ public:
 					{
 						Entities::createPlanet(
 							positionArray[i], positionArray[j],
-							&getComponent<VelocityComponent>(VELOCITY, uidArray[i]), &getComponent<VelocityComponent>(VELOCITY, uidArray[j]),
-							&getComponent<MassComponent>(MASS, uidArray[i]), &getComponent<MassComponent>(MASS, uidArray[j]),
-							&getComponent<DrawComponent>(DRAW, uidArray[i]), &getComponent<DrawComponent>(DRAW, uidArray[j]));
+							&getComponent<VelocityComponent>(uidArray[i]), &getComponent<VelocityComponent>(uidArray[j]),
+							&getComponent<MassComponent>(uidArray[i]), &getComponent<MassComponent>(uidArray[j]),
+							&getComponent<DrawComponent>(uidArray[i]), &getComponent<DrawComponent>(uidArray[j]));
 
 						componentManager.removeEntity(uidArray[i]);
 						componentManager.removeEntity(uidArray[j]);
@@ -182,8 +182,8 @@ public:
 class MassSystem : public System {
 
 	virtual void internalRunEntity(unsigned int UID) override {
-		VelocityComponent& i = getComponent<VelocityComponent>(VELOCITY, UID);
-		MassComponent&     m = getComponent<MassComponent>(MASS, UID);
+		VelocityComponent& i = getComponent<VelocityComponent>(UID);
+		MassComponent&     m = getComponent<MassComponent>(UID);
 
 		glm::vec3 acceleration = m.frameForce / m.mass;
 		i.velocity += acceleration * float(DELTA_T);
@@ -201,8 +201,8 @@ public:
 
 class VelocitySystem : public System {
 	virtual void internalRunEntity(unsigned int UID) override {
-		PositionComponent& p = getComponent<PositionComponent>(POSITION, UID);
-		VelocityComponent& v = getComponent<VelocityComponent>(VELOCITY, UID);
+		PositionComponent& p = getComponent<PositionComponent>(UID);
+		VelocityComponent& v = getComponent<VelocityComponent>(UID);
 
 		p.position += v.velocity * float(DELTA_T);
 	}
@@ -230,13 +230,13 @@ class BulletCollisionSystem : public System {
 		// Cache the bullets and targets
 		for (auto UIDpair = componentManager.getEntities().begin(); UIDpair != componentManager.getEntities().end(); ++UIDpair) {
 			if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
-				bulletPositionArray.push_back(&getComponent<PositionComponent>(POSITION, UIDpair->first));
-				bulletRadiusArray.push_back(&getComponent<BulletComponent>(BULLET, UIDpair->first));
+				bulletPositionArray.push_back(&getComponent<PositionComponent>(UIDpair->first));
+				bulletRadiusArray.push_back(&getComponent<BulletComponent>(UIDpair->first));
 				bulletUidArray.push_back(UIDpair->first);
 			}
 			if ((UIDpair->second & mTargetComponents) == mTargetComponents) {
-				targetPositionArray.push_back(&getComponent<PositionComponent>(POSITION, UIDpair->first));
-				targetRadiusArray.push_back(&getComponent<CoalescableComponent>(COALESCABLE, UIDpair->first));
+				targetPositionArray.push_back(&getComponent<PositionComponent>(UIDpair->first));
+				targetRadiusArray.push_back(&getComponent<CoalescableComponent>(UIDpair->first));
 				targetUidArray.push_back(UIDpair->first);
 			}
 		}

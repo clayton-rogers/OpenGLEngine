@@ -37,6 +37,6 @@ public:
 template <
 	typename ComponentType
 >
-ComponentType& getComponent(ComponentEnum type, unsigned int UID) {
-	return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(type)))->getComponent(UID);
+ComponentType& getComponent(unsigned int UID) {
+	return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(ComponentType::type)))->getComponent(UID);
 }
