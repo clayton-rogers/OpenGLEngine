@@ -67,9 +67,9 @@ class GravitySystem : public System {
 
 	// Calculates the force of mass2 on mass1
 	glm::vec3 calculateGravity(float mass1, float mass2, glm::vec3 position1, glm::vec3 position2) const {
-		float distanceBetween = glm::distance(position1, position2);
+		float distanceBetweenSquared = glm::distance2(position1, position2);
 
-		float force = (bigG*gravityScaling) * mass1 * mass2 / (distanceBetween * distanceBetween);
+		float force = (bigG*gravityScaling) * mass1 * mass2 / distanceBetweenSquared;
 
 		// direction from mass 1 to mass 2
 		glm::vec3 direction = glm::normalize(position2 - position1);
