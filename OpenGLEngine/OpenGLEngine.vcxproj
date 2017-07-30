@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F1681E24-8223-4F9F-9673-495CA38995FB}</ProjectGuid>
+    <ProjectGuid>{2696315F-0207-4122-A584-C335145EB8D4}</ProjectGuid>
     <RootNamespace>AstroidExplorer</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>OpenGLEngine</ProjectName>
