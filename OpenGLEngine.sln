@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGLEngine", "OpenGLEngine\OpenGLEngine.vcxproj", "{2696315F-0207-4122-A584-C335145EB8D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AstroidExplorer", "AstroidExplorer\AstroidExplorer.vcxproj", "{304E15DC-E2BE-4E04-B4B7-12295E8CC271}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{2696315F-0207-4122-A584-C335145EB8D4}.Release|x64.Build.0 = Release|x64
 		{2696315F-0207-4122-A584-C335145EB8D4}.Release|x86.ActiveCfg = Release|Win32
 		{2696315F-0207-4122-A584-C335145EB8D4}.Release|x86.Build.0 = Release|Win32
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Debug|x64.ActiveCfg = Debug|x64
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Debug|x64.Build.0 = Debug|x64
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Debug|x86.ActiveCfg = Debug|Win32
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Debug|x86.Build.0 = Debug|Win32
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Release|x64.ActiveCfg = Release|x64
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Release|x64.Build.0 = Release|x64
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Release|x86.ActiveCfg = Release|Win32
+		{304E15DC-E2BE-4E04-B4B7-12295E8CC271}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

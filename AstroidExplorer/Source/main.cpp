@@ -189,7 +189,7 @@ int main() {
 
 
 	// *** Main Game Loop *** //
-	Shader vertexNormalColourShader = Shader("./Shaders/vertexNormalColour.vert", "./Shaders/vertexNormalColour.frag");
+	Shader vertexNormalColourShader = Shader("../OpenGLEngine/Shaders/vertexNormalColour.vert", "../OpenGLEngine/Shaders/vertexNormalColour.frag");
 	vertexNormalColourShader.Use();
 	glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "lightDirection"), -1.0f, -3.0f, -1.0f);
 
