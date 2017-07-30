@@ -124,6 +124,7 @@
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header\Averager.h" />
     <ClInclude Include="Header\Camera.h" />
     <ClInclude Include="Header\ComponentArray.h" />
     <ClInclude Include="Header\Components.h" />

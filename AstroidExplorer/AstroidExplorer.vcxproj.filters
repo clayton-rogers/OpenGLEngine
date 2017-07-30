@@ -104,6 +104,9 @@
     <ClInclude Include="Header\ComponentArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Averager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag">

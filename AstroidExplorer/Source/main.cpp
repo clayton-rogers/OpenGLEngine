@@ -26,6 +26,7 @@
 #include "glCheckError.h"
 #include "GenericActionList.h"
 #include "GUI/Textline.h"
+#include "Averager.h"
 
 #include "SystemManager.h"
 #include "Systems.h"
@@ -111,7 +112,6 @@ void do_movement()
 const bool FULLSCREEN = false;
 const GLuint WINDOW_WIDTH = 1000;
 const GLuint WINDOW_HEIGHT = 800;
-
 
 int main() {
 
@@ -250,7 +250,8 @@ int main() {
 	{
 		Entities::init(&vertexNormalColourShader);
 	}
-	
+
+	Averager<double, 60> framerateAverager;
 	
 	for (int i = 0; i < 1000; i++) {
 		Entities::createPlanet();
@@ -296,8 +297,9 @@ int main() {
 		systemManager.run();
 
 		// Draw the GUI
+		framerateAverager.push(deltaT);
 		std::stringstream ss;
-		ss << "Frame time: " << deltaT * 1000;
+		ss << "Frame time: " << framerateAverager.sample() * 1000;
 		myLine.setText(ss.str());
 		GUI::draw();
 
