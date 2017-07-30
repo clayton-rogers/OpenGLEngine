@@ -85,6 +85,8 @@ namespace GUI {
 
 		void setText(std::string text) {
 			this->mText.setText(text);
+			this->mSize = glm::vec2(2 * BORDER_SIZE + text.size() * characterWidth, 2 * BORDER_SIZE + characterHeight);
+			genAndLoadQuads();
 		}
 
 	};
