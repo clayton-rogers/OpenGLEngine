@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ComponentType.h"
-
 #include <unordered_map>
 #include <utility>
 
@@ -33,10 +31,3 @@ public:
 		// TODO FUTURE leak: what about when an entity is removed?
 	}
 };
-
-template <
-	typename ComponentType
->
-ComponentType& getComponent(unsigned int UID) {
-	return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(ComponentType::type)))->getComponent(UID);
-}

@@ -1,9 +1,9 @@
 #pragma once
 
 // GLM Mathemtics
+#pragma warning(push, 0)
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#pragma warning (pop)
 
 
 namespace Gravity {

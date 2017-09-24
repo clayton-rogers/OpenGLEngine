@@ -24,31 +24,13 @@
     <ClInclude Include="Header\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Planet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\glCheckError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\InertialCore3DOF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Gravity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\PlanetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Lazer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\LazerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\GenericActionList.h">
@@ -69,12 +51,6 @@
     <ClInclude Include="Header\GUI\Font.h">
       <Filter>Header Files\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Header\GenericDB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ComponentType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\System.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,22 +60,13 @@
     <ClInclude Include="Header\ComponentManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Systems.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Entities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\ComponentArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Averager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\OpenGLEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,5 +83,16 @@
     <None Include="Shaders\text.vert">
       <Filter>Source Files\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\OpenGLEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\System.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

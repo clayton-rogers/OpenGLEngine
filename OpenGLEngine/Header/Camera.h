@@ -4,10 +4,11 @@
 #include <vector>
 
 // GL Includes
+#pragma warning(push, 0)
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-
+#pragma warning (pop)
 
 
 // Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
@@ -18,17 +19,18 @@ enum Camera_Movement {
 	RIGHT
 };
 
-// Default camera values
-const GLfloat YAW = -90.0f;
-const GLfloat PITCH = 0.0f;
-const GLfloat SPEED = 5.0f;
-const GLfloat SENSITIVTY = 0.2f;
-const GLfloat ZOOM = 60.0f;
 
 
 // An abstract camera class that processes input and calculates the corresponding Eular Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
+	// Default camera values
+	const static GLfloat YAW;
+	const static GLfloat PITCH;
+	const static GLfloat SPEED;
+	const static GLfloat SENSITIVTY;
+	const static GLfloat ZOOM;
+
 public:
 	// Camera Attributes
 	glm::vec3 Position;

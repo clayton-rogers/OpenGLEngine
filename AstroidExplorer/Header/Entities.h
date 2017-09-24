@@ -1,14 +1,20 @@
 #pragma once
-
+#pragma warning(push, 0)
 #include <glm/glm.hpp>
+#include <glm/gtx/vector_angle.hpp>
+#pragma warning(pop)
 
-#include "ComponentManager.h"
 #include "Components.h"
+#include "OpenGLEngine.h"
+#include "Shader.h"
+#include "Mesh.h"
 
 #include <random>
 #include <cmath>
 
 namespace Entities {
+
+	using OpenGLEngine::getComponent;
 
 	Mesh planetMesh;
 	Mesh laserMesh;
@@ -26,12 +32,13 @@ namespace Entities {
 	}
 
 	unsigned int createPlanet() {
-		unsigned int UID = componentManager.addEntity();
-		componentManager.addComponentToEntity(DRAW, UID);
-		componentManager.addComponentToEntity(POSITION, UID);
-		componentManager.addComponentToEntity(VELOCITY, UID);
-		componentManager.addComponentToEntity(MASS, UID);
-		componentManager.addComponentToEntity(COALESCABLE, UID);
+		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
+		unsigned int UID = componentManager->addEntity();
+		componentManager->addComponentToEntity(DRAW, UID);
+		componentManager->addComponentToEntity(POSITION, UID);
+		componentManager->addComponentToEntity(VELOCITY, UID);
+		componentManager->addComponentToEntity(MASS, UID);
+		componentManager->addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
@@ -71,12 +78,13 @@ namespace Entities {
 		CoalescableComponent& sourceR = getComponent<CoalescableComponent>(sourceUID);
 		DrawComponent&        sourceD = getComponent<DrawComponent>(sourceUID);
 
-		unsigned int newUID = componentManager.addEntity();
-		componentManager.addComponentToEntity(DRAW, newUID);
-		componentManager.addComponentToEntity(POSITION, newUID);
-		componentManager.addComponentToEntity(VELOCITY, newUID);
-		componentManager.addComponentToEntity(MASS, newUID);
-		componentManager.addComponentToEntity(COALESCABLE, newUID);
+		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
+		unsigned int newUID = componentManager->addEntity();
+		componentManager->addComponentToEntity(DRAW, newUID);
+		componentManager->addComponentToEntity(POSITION, newUID);
+		componentManager->addComponentToEntity(VELOCITY, newUID);
+		componentManager->addComponentToEntity(MASS, newUID);
+		componentManager->addComponentToEntity(COALESCABLE, newUID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(newUID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(newUID);
@@ -124,12 +132,13 @@ namespace Entities {
 		const MassComponent*     m1, const MassComponent*     m2,
 		const DrawComponent*     d1, const DrawComponent*     d2)
 	{
-		unsigned int UID = componentManager.addEntity();
-		componentManager.addComponentToEntity(DRAW, UID);
-		componentManager.addComponentToEntity(POSITION, UID);
-		componentManager.addComponentToEntity(VELOCITY, UID);
-		componentManager.addComponentToEntity(MASS, UID);
-		componentManager.addComponentToEntity(COALESCABLE, UID);
+		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
+		unsigned int UID = componentManager->addEntity();
+		componentManager->addComponentToEntity(DRAW, UID);
+		componentManager->addComponentToEntity(POSITION, UID);
+		componentManager->addComponentToEntity(VELOCITY, UID);
+		componentManager->addComponentToEntity(MASS, UID);
+		componentManager->addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
@@ -156,11 +165,12 @@ namespace Entities {
 	unsigned int createLaser(glm::vec3 position, glm::vec3 direction) {
 		const float LASER_VELOCITY = 30.0f;
 
-		unsigned int UID = componentManager.addEntity();
-		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
-		componentManager.addComponentToEntity(POSITION, UID);
-		componentManager.addComponentToEntity(VELOCITY, UID);
-		componentManager.addComponentToEntity(BULLET, UID);
+		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
+		unsigned int UID = componentManager->addEntity();
+		componentManager->addComponentToEntity(GENERAL_DRAW, UID);
+		componentManager->addComponentToEntity(POSITION, UID);
+		componentManager->addComponentToEntity(VELOCITY, UID);
+		componentManager->addComponentToEntity(BULLET, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    i = getComponent<VelocityComponent>(UID);
