@@ -128,7 +128,6 @@
     <ClInclude Include="Header\OpenGLEngine.h" />
     <ClInclude Include="Header\ComponentManager.h" />
     <ClInclude Include="Header\GenericActionList.h" />
-    <ClInclude Include="Header\Gravity.h" />
     <ClInclude Include="Header\GUI\Font.h" />
     <ClInclude Include="Header\GUI\GUI.h" />
     <ClInclude Include="Header\GUI\Object.h" />

@@ -27,9 +27,6 @@
     <ClInclude Include="Header\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Gravity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
