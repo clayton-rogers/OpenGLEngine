@@ -2,8 +2,12 @@
 
 #include <glm/glm.hpp>
 
+#include "Shader.h"
+#include "Mesh.h"
+
 
 #include "ComponentArray.h"
+#include "ComponentType.h"
 
 
 struct DrawComponent {

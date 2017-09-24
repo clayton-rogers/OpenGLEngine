@@ -4,7 +4,7 @@
 #include "Entities.h"
 
 
-const bool FULLSCREEN = false;
+const bool FULLSCREEN = true;
 const GLuint WINDOW_WIDTH = 1000;
 const GLuint WINDOW_HEIGHT = 800;
 
@@ -20,7 +20,7 @@ int main() {
 	OpenGLEngine::addSystem(std::unique_ptr<GravitySystem>(new GravitySystem));
 	OpenGLEngine::addSystem(std::unique_ptr<VelocitySystem>(new VelocitySystem));
 	OpenGLEngine::addSystem(std::unique_ptr<MassSystem>(new MassSystem));
-	OpenGLEngine::addSystem(std::unique_ptr<CoalesceSystem>(new CoalesceSystem));
+	//OpenGLEngine::addSystem(std::unique_ptr<CoalesceSystem>(new CoalesceSystem));
 	OpenGLEngine::addSystem(std::unique_ptr<BulletCollisionSystem>(new BulletCollisionSystem));
 
 
@@ -34,7 +34,7 @@ int main() {
 	OpenGLEngine::addComponent(BULLET,       std::unique_ptr<BulletComponentArrayType>(new BulletComponentArrayType));
 
 	
-	for (int i = 0; i < 100; i++) {
+	for (int i = 0; i < 1000; i++) {
 		Entities::createPlanet();
 	}
 

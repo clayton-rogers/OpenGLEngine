@@ -60,13 +60,6 @@ namespace OpenGLEngine {
 	}
 #define glCheckError() glCheckError_(__FILE__, __LINE__)
 
-	template <
-		typename ComponentType
-	>
-		ComponentType& getComponent(unsigned int UID) {
-		return (dynamic_cast<GenericComponentArray<ComponentType>*>(OpenGLEngine::getComponentManager()->getComponentArray(ComponentType::type)))->getComponent(UID);
-	}
-
 	
 	struct Ray {
 		glm::vec3 position;
@@ -240,7 +233,7 @@ namespace OpenGLEngine {
 		GUI::TextLine myLine(glm::vec2(30.0f), "Hello World!");
 		GUI::GUIdrawlist.add(&myLine);
 
-		//glfwSwapInterval(0); // framelimiter
+		glfwSwapInterval(0); // framelimiter
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			do_movement();
