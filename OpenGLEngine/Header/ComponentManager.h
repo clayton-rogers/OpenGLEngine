@@ -1,24 +1,36 @@
 #pragma once
 
-#include "EntityManager.h"
-#include "ComponentType.h"
 #include "ComponentArray.h"
 
 #include <memory>
-#include <array>
 #include <unordered_map>
+#include <limits>
+#include <bitset>
 
+
+enum ComponentEnum : int;
+
+typedef std::bitset<16> ComponentBitset; // TODO Max number of components should be configurable.
+const ComponentBitset NONE_COMPONENT;
+
+static unsigned int getNextUID() {
+	static unsigned int nextUID = 0;
+	if (std::numeric_limits<decltype(nextUID)>::max() == nextUID) {
+		throw "Ran out of UIDs";
+	}
+	return nextUID++;
+}
 
 class ComponentManager {
 
 private:
-	std::array<std::unique_ptr<ComponentArray>, ComponentEnum::ComponentTypeSize> mComponents;
+	std::unordered_map<ComponentEnum, std::unique_ptr<ComponentArray>> mComponents;
 	std::unordered_map<unsigned int, ComponentBitset> mEntityComponentMap;
 
 public:
 
 	void addComponent(ComponentEnum type, std::unique_ptr<ComponentArray> component) {
-		mComponents.at(type) = std::move(component);
+		mComponents[type] = std::move(component);
 	}
 
 	ComponentArray* getComponentArray(ComponentEnum type) {
@@ -51,6 +63,3 @@ public:
 	}
 
 };
-
-ComponentManager componentManager;
-// TODO FUTURE ComponentManager& getEntityManager() { return componentManager; }

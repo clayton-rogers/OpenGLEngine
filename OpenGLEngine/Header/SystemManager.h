@@ -23,6 +23,3 @@ public:
 	}
 
 };
-
-
-SystemManager systemManager;

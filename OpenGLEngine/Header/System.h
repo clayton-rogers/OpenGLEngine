@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ComponentType.h"
-#include "ComponentManager.h"
+#include "ComponentManager.h" // for component bitset
 
 #include <memory>
 
@@ -17,15 +16,7 @@ protected:
 
 public:
 
-	virtual void runSystem() {
-		preLoop();
-		for (auto& entity : componentManager.getEntities()) {
-			if ((entity.second & mRequiredComponents) == mRequiredComponents) {
-				internalRunEntity(entity.first);
-			}
-		}
-		postLoop();
-	}
+	virtual void runSystem();
 
 	virtual ~System() {
 

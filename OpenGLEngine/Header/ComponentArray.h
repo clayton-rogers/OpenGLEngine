@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ComponentType.h"
+#include "OpenGLEngine.h"
 
 #include <unordered_map>
 #include <utility>
@@ -38,5 +38,5 @@ template <
 	typename ComponentType
 >
 ComponentType& getComponent(unsigned int UID) {
-	return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(ComponentType::type)))->getComponent(UID);
+	return (dynamic_cast<GenericComponentArray<ComponentType>*>(OpenGLEngine::getComponentManager()->getComponentArray(ComponentType::type)))->getComponent(UID);
 }

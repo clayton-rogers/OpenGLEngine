@@ -26,13 +26,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -125,12 +125,9 @@
     <ClInclude Include="Header\Averager.h" />
     <ClInclude Include="Header\Camera.h" />
     <ClInclude Include="Header\ComponentArray.h" />
-    <ClInclude Include="Header\Components.h" />
-    <ClInclude Include="Header\Entities.h" />
+    <ClInclude Include="Header\OpenGLEngine.h" />
     <ClInclude Include="Header\Systems.h" />
     <ClInclude Include="Header\ComponentManager.h" />
-    <ClInclude Include="Header\ComponentType.h" />
-    <ClInclude Include="Header\EntityManager.h" />
     <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\GenericDB.h" />
     <ClInclude Include="Header\glCheckError.h" />
@@ -155,6 +152,11 @@
     <None Include="Shaders\text.vert" />
     <None Include="Shaders\vertexNormalColour.frag" />
     <None Include="Shaders\vertexNormalColour.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\OpenGLEngine.cpp" />
+    <ClCompile Include="Source\System.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

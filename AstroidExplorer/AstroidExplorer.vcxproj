@@ -123,6 +123,11 @@
   <ItemGroup>
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\Components.h" />
+    <ClInclude Include="Header\ComponentType.h" />
+    <ClInclude Include="Header\Entities.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

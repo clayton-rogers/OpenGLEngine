@@ -4,8 +4,6 @@
 
 
 #include "ComponentArray.h"
-#include "Shader.h"
-#include "Mesh.h"
 
 
 struct DrawComponent {
