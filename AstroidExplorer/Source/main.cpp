@@ -4,7 +4,7 @@
 #include "Entities.h"
 
 
-const bool FULLSCREEN = true;
+const bool FULLSCREEN = false;
 const GLuint WINDOW_WIDTH = 1000;
 const GLuint WINDOW_HEIGHT = 800;
 

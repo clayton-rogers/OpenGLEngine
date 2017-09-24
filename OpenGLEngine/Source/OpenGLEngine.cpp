@@ -233,7 +233,7 @@ namespace OpenGLEngine {
 		GUI::TextLine myLine(glm::vec2(30.0f), "Hello World!");
 		GUI::GUIdrawlist.add(&myLine);
 
-		glfwSwapInterval(0); // framelimiter
+		//glfwSwapInterval(0); // framelimiter
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			do_movement();
