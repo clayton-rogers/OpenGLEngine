@@ -24,31 +24,13 @@
     <ClInclude Include="Header\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Planet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\glCheckError.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\InertialCore3DOF.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Gravity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\PlanetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Lazer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\LazerManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\GenericActionList.h">
@@ -68,9 +50,6 @@
     </ClInclude>
     <ClInclude Include="Header\GUI\Font.h">
       <Filter>Header Files\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\GenericDB.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\System.h">
       <Filter>Header Files</Filter>

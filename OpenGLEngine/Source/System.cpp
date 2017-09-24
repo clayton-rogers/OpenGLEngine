@@ -1,6 +1,5 @@
 #include "System.h"
 
-#include "ComponentType.h"
 #include "OpenGLEngine.h"
 
 void System::runSystem() {
