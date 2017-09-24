@@ -1,12 +1,9 @@
 #pragma once
 
-#include <glm/glm.hpp>
+// Include the library
+#include "OpenGLEngine.h"
 
-#include "System.h"
 #include "ComponentType.h"
-#include "ComponentArray.h"
-#include "Components.h"
-#include "Entities.h"
 
 #include <iostream>
 

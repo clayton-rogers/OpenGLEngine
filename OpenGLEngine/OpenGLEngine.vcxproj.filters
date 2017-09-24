@@ -60,9 +60,6 @@
     <ClInclude Include="Header\ComponentManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Systems.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\ComponentArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>

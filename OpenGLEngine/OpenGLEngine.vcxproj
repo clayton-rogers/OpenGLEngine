@@ -126,7 +126,6 @@
     <ClInclude Include="Header\Camera.h" />
     <ClInclude Include="Header\ComponentArray.h" />
     <ClInclude Include="Header\OpenGLEngine.h" />
-    <ClInclude Include="Header\Systems.h" />
     <ClInclude Include="Header\ComponentManager.h" />
     <ClInclude Include="Header\GenericActionList.h" />
     <ClInclude Include="Header\Gravity.h" />

@@ -29,5 +29,8 @@
     <ClInclude Include="Header\Entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Systems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
