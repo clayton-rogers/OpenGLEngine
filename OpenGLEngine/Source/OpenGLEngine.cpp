@@ -1,5 +1,12 @@
 #include "OpenGLEngine.h"
 
+#include "Camera.h"
+#include "Shader.h"
+#include "SystemManager.h"
+#include "Averager.h"
+#include "GUI/GUI.h"
+#include "GUI/TextLine.h"
+
 // GLFW
 #include <GLFW/glfw3.h>
 
@@ -8,14 +15,8 @@
 #include <glm/gtc/type_ptr.hpp>
 #pragma warning (pop)
 
-#include "Camera.h"
-#include "Shader.h"
-#include "SystemManager.h"
-#include "Averager.h"
-#include "GUI/GUI.h"
-#include "GUI/TextLine.h"
-
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <queue>
 
