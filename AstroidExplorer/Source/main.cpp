@@ -5,6 +5,7 @@
 
 
 const bool FULLSCREEN = false;
+const bool VSYNC_ON = false;
 const GLuint WINDOW_WIDTH = 1000;
 const GLuint WINDOW_HEIGHT = 800;
 
@@ -38,7 +39,7 @@ int main() {
 		Entities::createPlanet();
 	}
 
-	OpenGLEngine::run();
+	OpenGLEngine::run(VSYNC_ON);
 
 	
 	return 0;

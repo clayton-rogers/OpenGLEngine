@@ -25,12 +25,12 @@ namespace OpenGLEngine {
 
 	bool finalSetup();
 
-	void run();
+	void run(bool vsyncOn);
 
 	template <
 		typename ComponentType
 	>
-		ComponentType& getComponent(unsigned int UID) {
+	ComponentType& getComponent(unsigned int UID) {
 		return (dynamic_cast<GenericComponentArray<ComponentType>*>(OpenGLEngine::getComponentManager()->getComponentArray(ComponentType::type)))->getComponent(UID);
 	}
 

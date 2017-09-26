@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp" />
     <ClCompile Include="Source\OpenGLEngine.cpp" />
+    <ClCompile Include="Source\Shader.cpp" />
     <ClCompile Include="Source\System.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

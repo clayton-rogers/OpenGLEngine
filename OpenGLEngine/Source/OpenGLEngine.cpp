@@ -228,13 +228,15 @@ namespace OpenGLEngine {
 		return &componentManager;
 	}
 
-	void run() {
+	void run(bool vsyncOn) {
 
 		GUI::init(WINDOW_WIDTH, WINDOW_HEIGHT);
 		GUI::TextLine myLine(glm::vec2(30.0f), "Hello World!");
 		GUI::GUIdrawlist.add(&myLine);
 
-		//glfwSwapInterval(0); // framelimiter
+		if (!vsyncOn) {
+			glfwSwapInterval(0); // framelimiter
+		}
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			do_movement();

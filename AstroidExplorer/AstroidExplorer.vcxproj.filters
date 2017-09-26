@@ -20,16 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header\Components.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\ComponentType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Entities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Systems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

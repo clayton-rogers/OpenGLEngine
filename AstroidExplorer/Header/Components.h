@@ -7,7 +7,18 @@
 
 
 #include "ComponentArray.h"
-#include "ComponentType.h"
+
+
+enum ComponentEnum : char {
+	DRAW,
+	GENERAL_DRAW,
+	POSITION,
+	VELOCITY,
+	MASS,
+	COALESCABLE,
+	BULLET,
+	ComponentTypeSize
+};
 
 
 struct DrawComponent {

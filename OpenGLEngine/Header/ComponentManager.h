@@ -8,9 +8,9 @@
 #include <bitset>
 
 
-enum ComponentEnum : int;
+enum ComponentEnum : char;
 
-typedef std::bitset<16> ComponentBitset; // TODO Max number of components should be configurable.
+typedef std::bitset<32> ComponentBitset; // TODO Max number of components should be configurable.
 const ComponentBitset NONE_COMPONENT;
 
 static unsigned int getNextUID() {
