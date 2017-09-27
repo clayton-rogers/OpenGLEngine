@@ -1,13 +1,15 @@
 #pragma once
-#pragma warning(push, 0)
-#include <glm/glm.hpp>
-#include <glm/gtx/vector_angle.hpp>
-#pragma warning(pop)
 
 #include "Components.h"
 #include "OpenGLEngine.h"
 #include "Shader.h"
 #include "Mesh.h"
+
+#pragma warning(push, 0)
+#include <glm/glm.hpp>
+#include <glm/gtx/vector_angle.hpp>
+#pragma warning(pop)
+
 
 #include <random>
 #include <cmath>

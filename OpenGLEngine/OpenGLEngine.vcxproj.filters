@@ -19,12 +19,12 @@
     <Filter Include="Header Files\GUI">
       <UniqueIdentifier>{fca3b09e-3352-490b-bed7-8f445e93df19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{37f1a267-bb0b-4202-a490-c1824e8b2ecd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Mesh.h">
@@ -65,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="Header\OpenGLEngine.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Util\Camera.h">
+      <Filter>Header Files\Util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

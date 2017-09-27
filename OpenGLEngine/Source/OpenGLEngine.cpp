@@ -1,6 +1,6 @@
 #include "OpenGLEngine.h"
 
-#include "Camera.h"
+#include "Util/Camera.h"
 #include "Shader.h"
 #include "SystemManager.h"
 #include "Averager.h"
