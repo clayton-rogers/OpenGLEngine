@@ -60,15 +60,6 @@ namespace OpenGLEngine {
 	}
 #define glCheckError() glCheckError_(__FILE__, __LINE__)
 
-	
-	struct Ray {
-		glm::vec3 position;
-		glm::vec3 direction;
-		//Ray(glm::vec3 position_, glm::vec3 direction_) : position(position_), direction(direction_) {}
-		//Ray(Ray ray) : position(ray.position), direction(ray.direction) {}
-	};
-	std::queue<Ray> laserQueue;
-
 	const InputState& getInputState() {
 		return inputState;
 	}
@@ -130,16 +121,6 @@ namespace OpenGLEngine {
 		}
 		// Note: the mouse pressed booleans get cleared at the end of the frame ever loop
 
-
-		// TODO remove
-		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
-			glm::vec3 startPosition = camera.Position;
-			startPosition -= camera.Up * 0.5f;
-			Ray ray;
-			ray.position = startPosition;
-			ray.direction = camera.Front;
-			laserQueue.push(ray);
-		}
 	}
 
 	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset)
@@ -294,12 +275,6 @@ namespace OpenGLEngine {
 			glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 			glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
-			while (!laserQueue.empty()) {
-				Ray ray = laserQueue.front();
-				laserQueue.pop();
-				//Entities::createLaser(ray.position, ray.direction);
-			}
-
 			systemManager.run();
 			inputState.clearMousePressed();
 
@@ -309,22 +284,6 @@ namespace OpenGLEngine {
 			ss << "Frame time: " << framerateAverager.sample() * 1000;
 			myLine.setText(ss.str());
 			GUI::draw();
-
-
-			//// Draw the frame
-			//{
-			//	vertexNormalColourShader.Use();
-			//	glm::mat4 view = camera.GetViewMatrix();
-			//	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 100.0f);
-
-			//	glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-			//	glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-			//	glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
-
-			//	drawList.doActions(vertexNormalColourShader.Program);
-			//}
-
-
 
 
 			//glCheckError();

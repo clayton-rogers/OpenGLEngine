@@ -162,8 +162,6 @@ namespace Entities {
 		return UID;
 	}
 
-
-
 	unsigned int createLaser(glm::vec3 position, glm::vec3 direction) {
 		const float LASER_VELOCITY = 30.0f;
 		using OpenGLEngine::componentManager;

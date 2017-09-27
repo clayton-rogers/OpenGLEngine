@@ -15,6 +15,24 @@
 
 using OpenGLEngine::getComponent;
 
+class LaserCreator : public System {
+
+	virtual void preLoop() override {
+		OpenGLEngine::InputState i = OpenGLEngine::getInputState();
+
+		if (i.leftMousePressed) {
+			/*glm::vec3 startPosition = camera.Position;
+			startPosition -= camera.Up * 0.5f;
+			Entities::createLaser(startPosition, camera.Front);*/
+			// TODO make this system actually use the camera
+
+			Entities::createLaser(glm::vec3(0.0), glm::vec3(1.0, 0.0, 0.0));
+
+		}
+	}
+
+};
+
 class DrawSystem : public System {
 
 	// TODO add input system

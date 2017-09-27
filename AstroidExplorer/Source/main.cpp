@@ -23,6 +23,7 @@ int main() {
 	OpenGLEngine::addSystem(std::unique_ptr<MassSystem>(new MassSystem));
 	//OpenGLEngine::addSystem(std::unique_ptr<CoalesceSystem>(new CoalesceSystem));
 	OpenGLEngine::addSystem(std::unique_ptr<BulletCollisionSystem>(new BulletCollisionSystem));
+	OpenGLEngine::addSystem(std::unique_ptr<LaserCreator>(new LaserCreator));
 
 
 	// Set up all components
