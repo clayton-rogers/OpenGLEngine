@@ -22,10 +22,9 @@
 
 namespace OpenGLEngine {
 
-	bool keys[1024];
 	bool firstMouse = true;
-	double lastX, lastY;
-	double deltaT;
+	
+	InputState inputState;
 
 	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 	SystemManager systemManager;
@@ -70,6 +69,10 @@ namespace OpenGLEngine {
 	};
 	std::queue<Ray> laserQueue;
 
+	const InputState& getInputState() {
+		return inputState;
+	}
+
 	void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mode*/)
 	{
 		// When user presses the escape key, we set WindowShouldClose property
@@ -78,29 +81,57 @@ namespace OpenGLEngine {
 		}
 
 		if (action == GLFW_PRESS)
-			keys[key] = true;
+			inputState.keys[key] = true;
 		else if (action == GLFW_RELEASE)
-			keys[key] = false;
+			inputState.keys[key] = false;
 	}
 
 	void mouse_callback(GLFWwindow* /*window*/, double xpos, double ypos)
 	{
 		if (firstMouse) {
-			lastX = xpos;
-			lastY = ypos;
+			inputState.xPos = xpos;
+			inputState.yPos = ypos;
 			firstMouse = false;
 		}
 
-		GLfloat xoffset = (GLfloat)(xpos - lastX);
-		GLfloat yoffset = (GLfloat)(lastY - ypos);
-		lastX = xpos;
-		lastY = ypos;
+		inputState.xOffset = (GLfloat)(xpos - inputState.xPos);
+		inputState.yOffset = (GLfloat)(inputState.yPos - ypos);
+		inputState.xPos = xpos;
+		inputState.yPos = ypos;
 
-		camera.ProcessMouseMovement(xoffset, yoffset);
+		camera.ProcessMouseMovement(inputState.xOffset, inputState.yOffset);
 	}
 
 	void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/)
 	{
+		if (button == GLFW_MOUSE_BUTTON_LEFT) {
+			if (action == GLFW_PRESS) {
+				inputState.leftMousePressed = true;
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_LEFT] = true;
+			} else if (action == GLFW_RELEASE) {
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_LEFT] = false;
+			}
+		}
+		if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+			if (action == GLFW_PRESS) {
+				inputState.rightMousePressed = true;
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_RIGHT] = true;
+			} else if (action == GLFW_RELEASE) {
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_RIGHT] = false;
+			}
+		}
+		if (button == GLFW_MOUSE_BUTTON_MIDDLE) {
+			if (action == GLFW_PRESS) {
+				inputState.middleMousePressed = true;
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_MIDDLE] = true;
+			} else if (action == GLFW_RELEASE) {
+				inputState.mouseButtons[GLFW_MOUSE_BUTTON_MIDDLE] = false;
+			}
+		}
+		// Note: the mouse pressed booleans get cleared at the end of the frame ever loop
+
+
+		// TODO remove
 		if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 			glm::vec3 startPosition = camera.Position;
 			startPosition -= camera.Up * 0.5f;
@@ -119,14 +150,14 @@ namespace OpenGLEngine {
 	void do_movement()
 	{
 		// Camera controls
-		if (keys[GLFW_KEY_W])
-			camera.ProcessKeyboard(Camera_Movement::FORWARD, deltaT);
-		if (keys[GLFW_KEY_S])
-			camera.ProcessKeyboard(Camera_Movement::BACKWARD, deltaT);
-		if (keys[GLFW_KEY_A])
-			camera.ProcessKeyboard(Camera_Movement::LEFT, deltaT);
-		if (keys[GLFW_KEY_D])
-			camera.ProcessKeyboard(Camera_Movement::RIGHT, deltaT);
+		if (inputState.keys[GLFW_KEY_W])
+			camera.ProcessKeyboard(Camera_Movement::FORWARD, inputState.deltaT);
+		if (inputState.keys[GLFW_KEY_S])
+			camera.ProcessKeyboard(Camera_Movement::BACKWARD, inputState.deltaT);
+		if (inputState.keys[GLFW_KEY_A])
+			camera.ProcessKeyboard(Camera_Movement::LEFT, inputState.deltaT);
+		if (inputState.keys[GLFW_KEY_D])
+			camera.ProcessKeyboard(Camera_Movement::RIGHT, inputState.deltaT);
 	}
 
 	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight) {
@@ -240,7 +271,7 @@ namespace OpenGLEngine {
 			// Calculate the time for this frame
 			{
 				double currentTime = glfwGetTime();
-				deltaT = currentTime - lastFrameTime;
+				inputState.deltaT = currentTime - lastFrameTime;
 				lastFrameTime = currentTime;
 			}
 
@@ -270,9 +301,10 @@ namespace OpenGLEngine {
 			}
 
 			systemManager.run();
+			inputState.clearMousePressed();
 
 			// Draw the GUI
-			framerateAverager.push(deltaT);
+			framerateAverager.push(inputState.deltaT);
 			std::stringstream ss;
 			ss << "Frame time: " << framerateAverager.sample() * 1000;
 			myLine.setText(ss.str());

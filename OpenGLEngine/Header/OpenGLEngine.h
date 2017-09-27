@@ -13,18 +13,34 @@
 
 namespace OpenGLEngine {
 
-	extern ComponentManager componentManager;
+	struct InputState {
+		bool keys[1024] = { false };      // Use GLFW_KEY enums to dereference
+		double xOffset = 0.0;
+		double yOffset = 0.0;             // Distance in pixels the mouse has moved
+		double xPos = 0.0;
+		double yPos = 0.0;                // Position in pixels of the mouse
+		GLfloat deltaT = 0.0;             // Time in seconds since the last loop
+		bool mouseButtons[3] = { false }; // Use GLFW_MOUSE_BUTTON enums to dereference
+		bool leftMousePressed = false;    // Whether the left mouse button was pressed this frame
+		bool rightMousePressed = false;   // Whether the right mouse button was pressed this frame
+		bool middleMousePressed = false;  // Whether the middle mouse button was pressed this frame
 
-	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight);
-	
+		// Gets called ever loop so that they are only true for one frame
+		void clearMousePressed() {
+			leftMousePressed = false;
+			rightMousePressed = false;
+			middleMousePressed = false;
+		}
+	};
+
+	extern ComponentManager componentManager;
+	const InputState& getInputState();
 	Shader& getShader();
 
+	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight);
 	void addSystem(std::unique_ptr<System> system);
-
 	void addComponent(ComponentEnum type, std::unique_ptr<ComponentArray> component);
-
 	bool finalSetup();
-
 	void run(bool vsyncOn);
 
 	template <
