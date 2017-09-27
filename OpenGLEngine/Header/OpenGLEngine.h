@@ -13,6 +13,8 @@
 
 namespace OpenGLEngine {
 
+	extern ComponentManager componentManager;
+
 	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight);
 	
 	Shader& getShader();
@@ -20,8 +22,6 @@ namespace OpenGLEngine {
 	void addSystem(std::unique_ptr<System> system);
 
 	void addComponent(ComponentEnum type, std::unique_ptr<ComponentArray> component);
-
-	ComponentManager* getComponentManager();
 
 	bool finalSetup();
 
@@ -31,7 +31,7 @@ namespace OpenGLEngine {
 		typename ComponentType
 	>
 	ComponentType& getComponent(unsigned int UID) {
-		return (dynamic_cast<GenericComponentArray<ComponentType>*>(OpenGLEngine::getComponentManager()->getComponentArray(ComponentType::type)))->getComponent(UID);
+		return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(ComponentType::type)))->getComponent(UID);
 	}
 
 }

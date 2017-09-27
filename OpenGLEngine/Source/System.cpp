@@ -4,7 +4,7 @@
 
 void System::runSystem() {
 	preLoop();
-	for (auto& entity : OpenGLEngine::getComponentManager()->getEntities()) {
+	for (auto& entity : OpenGLEngine::componentManager.getEntities()) {
 		if ((entity.second & mRequiredComponents) == mRequiredComponents) {
 			internalRunEntity(entity.first);
 		}

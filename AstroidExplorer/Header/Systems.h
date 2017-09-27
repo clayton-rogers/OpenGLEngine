@@ -85,9 +85,9 @@ class GravitySystem : public System {
 public:
 
 	virtual void runSystem() {
-		auto& entityMap = OpenGLEngine::getComponentManager()->getEntities();
-		PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(OpenGLEngine::getComponentManager()->getComponentArray(POSITION));
-		MassComponentArrayType* massComponentArray = dynamic_cast<MassComponentArrayType*>(OpenGLEngine::getComponentManager()->getComponentArray(MASS));
+		auto& entityMap = OpenGLEngine::componentManager.getEntities();
+		PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(OpenGLEngine::componentManager.getComponentArray(POSITION));
+		MassComponentArrayType* massComponentArray = dynamic_cast<MassComponentArrayType*>(OpenGLEngine::componentManager.getComponentArray(MASS));
 
 		std::vector<PositionComponent*> positionArray;
 		std::vector<MassComponent*> massArray;
@@ -126,14 +126,15 @@ public:
 class CoalesceSystem : public System {
 public:
 	virtual void runSystem() override {
+		using OpenGLEngine::componentManager;
+
 		bool foundCollision = false;
 		do {
 			foundCollision = false;
 
-			auto componentManager = OpenGLEngine::getComponentManager();
-			auto& entityMap = componentManager->getEntities();
-			PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager->getComponentArray(POSITION));
-			CoalescableComponentArrayType* radiusComponentArray = dynamic_cast<CoalescableComponentArrayType*>(componentManager->getComponentArray(COALESCABLE));
+			auto& entityMap = componentManager.getEntities();
+			PositionComponentArrayType* positionComponentArray = dynamic_cast<PositionComponentArrayType*>(componentManager.getComponentArray(POSITION));
+			CoalescableComponentArrayType* radiusComponentArray = dynamic_cast<CoalescableComponentArrayType*>(componentManager.getComponentArray(COALESCABLE));
 
 			std::vector<PositionComponent*> positionArray;
 			std::vector<CoalescableComponent*> coalesceArray;
@@ -161,8 +162,8 @@ public:
 							&getComponent<MassComponent>(uidArray[i]), &getComponent<MassComponent>(uidArray[j]),
 							&getComponent<DrawComponent>(uidArray[i]), &getComponent<DrawComponent>(uidArray[j]));
 
-						componentManager->removeEntity(uidArray[i]);
-						componentManager->removeEntity(uidArray[j]);
+						componentManager.removeEntity(uidArray[i]);
+						componentManager.removeEntity(uidArray[j]);
 
 						foundCollision = true;
 						goto finishLoop;
@@ -224,6 +225,7 @@ class BulletCollisionSystem : public System {
 	ComponentBitset mTargetComponents;
 
 	virtual void runSystem() override {
+		using OpenGLEngine::componentManager;
 
 		std::vector<PositionComponent*> bulletPositionArray;
 		std::vector<BulletComponent*> bulletRadiusArray;
@@ -233,10 +235,8 @@ class BulletCollisionSystem : public System {
 		std::vector<CoalescableComponent*> targetRadiusArray;
 		std::vector<unsigned int> targetUidArray;
 
-		auto componentManager = OpenGLEngine::getComponentManager();
-
 		// Cache the bullets and targets
-		for (auto UIDpair = componentManager->getEntities().begin(); UIDpair != componentManager->getEntities().end(); ++UIDpair) {
+		for (auto UIDpair = componentManager.getEntities().begin(); UIDpair != componentManager.getEntities().end(); ++UIDpair) {
 			if ((UIDpair->second & mRequiredComponents) == mRequiredComponents) {
 				bulletPositionArray.push_back(&getComponent<PositionComponent>(UIDpair->first));
 				bulletRadiusArray.push_back(&getComponent<BulletComponent>(UIDpair->first));
@@ -257,7 +257,7 @@ class BulletCollisionSystem : public System {
 					(bulletRadiusArray[bulletIndex]->radius + targetRadiusArray[targetIndex]->radius)) 
 				{
 					// Delete the bullet
-					componentManager->removeEntity(bulletUidArray[bulletIndex]);
+					componentManager.removeEntity(bulletUidArray[bulletIndex]);
 
 					// Split the target
 					Entities::splitPlanet(targetUidArray[targetIndex]);

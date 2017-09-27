@@ -32,13 +32,14 @@ namespace Entities {
 	}
 
 	unsigned int createPlanet() {
-		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
-		unsigned int UID = componentManager->addEntity();
-		componentManager->addComponentToEntity(DRAW, UID);
-		componentManager->addComponentToEntity(POSITION, UID);
-		componentManager->addComponentToEntity(VELOCITY, UID);
-		componentManager->addComponentToEntity(MASS, UID);
-		componentManager->addComponentToEntity(COALESCABLE, UID);
+		using OpenGLEngine::componentManager;
+
+		unsigned int UID = componentManager.addEntity();
+		componentManager.addComponentToEntity(DRAW, UID);
+		componentManager.addComponentToEntity(POSITION, UID);
+		componentManager.addComponentToEntity(VELOCITY, UID);
+		componentManager.addComponentToEntity(MASS, UID);
+		componentManager.addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
@@ -71,6 +72,7 @@ namespace Entities {
 	}
 
 	void splitPlanet(unsigned int sourceUID) {
+		using OpenGLEngine::componentManager;
 
 		PositionComponent&    sourceP = getComponent<PositionComponent>(sourceUID);
 		VelocityComponent&    sourceV = getComponent<VelocityComponent>(sourceUID);
@@ -78,13 +80,12 @@ namespace Entities {
 		CoalescableComponent& sourceR = getComponent<CoalescableComponent>(sourceUID);
 		DrawComponent&        sourceD = getComponent<DrawComponent>(sourceUID);
 
-		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
-		unsigned int newUID = componentManager->addEntity();
-		componentManager->addComponentToEntity(DRAW, newUID);
-		componentManager->addComponentToEntity(POSITION, newUID);
-		componentManager->addComponentToEntity(VELOCITY, newUID);
-		componentManager->addComponentToEntity(MASS, newUID);
-		componentManager->addComponentToEntity(COALESCABLE, newUID);
+		unsigned int newUID = componentManager.addEntity();
+		componentManager.addComponentToEntity(DRAW, newUID);
+		componentManager.addComponentToEntity(POSITION, newUID);
+		componentManager.addComponentToEntity(VELOCITY, newUID);
+		componentManager.addComponentToEntity(MASS, newUID);
+		componentManager.addComponentToEntity(COALESCABLE, newUID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(newUID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(newUID);
@@ -132,13 +133,14 @@ namespace Entities {
 		const MassComponent*     m1, const MassComponent*     m2,
 		const DrawComponent*     d1, const DrawComponent*     d2)
 	{
-		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
-		unsigned int UID = componentManager->addEntity();
-		componentManager->addComponentToEntity(DRAW, UID);
-		componentManager->addComponentToEntity(POSITION, UID);
-		componentManager->addComponentToEntity(VELOCITY, UID);
-		componentManager->addComponentToEntity(MASS, UID);
-		componentManager->addComponentToEntity(COALESCABLE, UID);
+		using OpenGLEngine::componentManager;
+
+		unsigned int UID = componentManager.addEntity();
+		componentManager.addComponentToEntity(DRAW, UID);
+		componentManager.addComponentToEntity(POSITION, UID);
+		componentManager.addComponentToEntity(VELOCITY, UID);
+		componentManager.addComponentToEntity(MASS, UID);
+		componentManager.addComponentToEntity(COALESCABLE, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    v = getComponent<VelocityComponent>(UID);
@@ -164,13 +166,13 @@ namespace Entities {
 
 	unsigned int createLaser(glm::vec3 position, glm::vec3 direction) {
 		const float LASER_VELOCITY = 30.0f;
+		using OpenGLEngine::componentManager;
 
-		ComponentManager* componentManager = OpenGLEngine::getComponentManager();
-		unsigned int UID = componentManager->addEntity();
-		componentManager->addComponentToEntity(GENERAL_DRAW, UID);
-		componentManager->addComponentToEntity(POSITION, UID);
-		componentManager->addComponentToEntity(VELOCITY, UID);
-		componentManager->addComponentToEntity(BULLET, UID);
+		unsigned int UID = componentManager.addEntity();
+		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
+		componentManager.addComponentToEntity(POSITION, UID);
+		componentManager.addComponentToEntity(VELOCITY, UID);
+		componentManager.addComponentToEntity(BULLET, UID);
 
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 		VelocityComponent&    i = getComponent<VelocityComponent>(UID);

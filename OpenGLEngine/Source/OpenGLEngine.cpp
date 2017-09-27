@@ -224,10 +224,6 @@ namespace OpenGLEngine {
 		return true;
 	}
 
-	ComponentManager* getComponentManager() {
-		return &componentManager;
-	}
-
 	void run(bool vsyncOn) {
 
 		GUI::init(WINDOW_WIDTH, WINDOW_HEIGHT);
