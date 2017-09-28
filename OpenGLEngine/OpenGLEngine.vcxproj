@@ -134,6 +134,7 @@
     <ClInclude Include="Header\GUI\TextLine.h" />
     <ClInclude Include="Header\Mesh.h" />
     <ClInclude Include="Header\Shader.h" />
+    <ClInclude Include="Header\Stock\CameraSystem.h" />
     <ClInclude Include="Header\System.h" />
     <ClInclude Include="Header\SystemManager.h" />
     <ClInclude Include="Header\Util\Camera.h" />

@@ -22,6 +22,9 @@
     <Filter Include="Header Files\Util">
       <UniqueIdentifier>{37f1a267-bb0b-4202-a490-c1824e8b2ecd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Stock">
+      <UniqueIdentifier>{01ff7d88-eda8-4829-9bcd-dd2954a4fd05}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Shader.h">
@@ -71,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="Header\Util\GLCheckError.h">
       <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\CameraSystem.h">
+      <Filter>Header Files\Stock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
