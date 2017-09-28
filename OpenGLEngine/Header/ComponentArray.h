@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
 #include <utility>
 
 class ComponentArray {
@@ -19,15 +20,17 @@ template <
 	typename ComponentType
 >
 class GenericComponentArray : public ComponentArray {
-	std::unordered_map<unsigned int, ComponentType, UIDhash> mComponentElements;
+	std::vector<ComponentType> mComponentElements;
 public:
 	ComponentType& getComponent(unsigned int UID) {
 		return mComponentElements.at(UID);
 	}
 
 	virtual void addComponentToEntity(unsigned int UID) override {
-		ComponentType c;
-		mComponentElements.emplace(std::make_pair(UID, c));
-		// TODO FUTURE leak: what about when an entity is removed?
+		if (UID >= mComponentElements.size()) {
+			// resize to fit the new element
+			// components added are default-inserted
+			mComponentElements.resize(UID + 1);
+		}
 	}
 };
