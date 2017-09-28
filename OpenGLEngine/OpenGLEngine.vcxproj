@@ -137,6 +137,7 @@
     <ClInclude Include="Header\System.h" />
     <ClInclude Include="Header\SystemManager.h" />
     <ClInclude Include="Header\Util\Camera.h" />
+    <ClInclude Include="Header\Util\GLCheckError.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\text.frag" />
