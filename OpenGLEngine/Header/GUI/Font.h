@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include <glm/glm.hpp>
+#include "local_glm.h"
 #include <SOIL.h>
 
 

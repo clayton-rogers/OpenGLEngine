@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/gtc/type_ptr.hpp>
+#include "local_glm.h"
 
 #include "GUI.h"
 #include "Text.h"

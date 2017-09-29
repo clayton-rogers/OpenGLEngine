@@ -1,11 +1,9 @@
 #include "Util/Camera.h"
 
-
-#pragma warning(push, 0)
+#define GLEW_STATIC
 #include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#pragma warning (pop)
+
+#include "local_glm.h"
 
 #include <vector>
 

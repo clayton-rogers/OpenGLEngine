@@ -1,11 +1,12 @@
 #pragma once
 
 
-#pragma warning(push, 0)
+#define GLEW_STATIC
 #include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#pragma warning (pop)
+// TODO why does removing this include cause everything to break
+// TODO remove all the other unneeded glew references
+
+#include "local_glm.h"
 
 #include <vector>
 

@@ -1,4 +1,7 @@
 #include "OpenGLEngine.h"
+
+#include "Stock/CameraSystem.h"
+
 #include "Systems.h"
 #include "Components.h"
 #include "Entities.h"
@@ -24,6 +27,10 @@ int main() {
 	//OpenGLEngine::addSystem(std::unique_ptr<CoalesceSystem>(new CoalesceSystem));
 	OpenGLEngine::addSystem(std::unique_ptr<BulletCollisionSystem>(new BulletCollisionSystem));
 	OpenGLEngine::addSystem(std::unique_ptr<LaserCreator>(new LaserCreator));
+	
+	std::unique_ptr<CameraSystem> cameraSystem(new CameraSystem);
+	cameraSystem->setCameraComponentEnum(CAMERA);
+	OpenGLEngine::addSystem(std::move(cameraSystem));
 
 
 	// Set up all components
@@ -34,6 +41,9 @@ int main() {
 	OpenGLEngine::addComponent(MASS,         std::unique_ptr<MassComponentArrayType>(new MassComponentArrayType));
 	OpenGLEngine::addComponent(COALESCABLE,  std::unique_ptr<CoalescableComponentArrayType>(new CoalescableComponentArrayType));
 	OpenGLEngine::addComponent(BULLET,       std::unique_ptr<BulletComponentArrayType>(new BulletComponentArrayType));
+	
+	CameraComponent::type = CAMERA;
+	OpenGLEngine::addComponent(CAMERA,       std::unique_ptr<CameraComponentArrayType>(new CameraComponentArrayType));
 
 	
 	for (int i = 0; i < 1000; i++) {

@@ -10,10 +10,7 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
-#pragma warning(push, 0)
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#pragma warning (pop)
+#include "local_glm.h"
 
 #include <iostream>
 #include <sstream>

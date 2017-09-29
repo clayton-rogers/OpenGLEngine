@@ -7,7 +7,7 @@
 class System {
 
 	// do nothing by default
-	virtual void internalRunEntity(unsigned int UID) {};
+	virtual void internalRunEntity(unsigned int /*UID*/) {};
 	virtual void preLoop() {};
 	virtual void postLoop() {};
 

@@ -1,15 +1,12 @@
 #pragma once
 
-#pragma warning(push, 0)
-#include <glm/glm.hpp>
-#include <glm/gtx/norm.hpp>
-#pragma warning (pop)
-
 // Include the library
 #include "OpenGLEngine.h"
 
 #include "Components.h"
 #include "Entities.h"
+
+#include "local_glm.h"
 
 #include <iostream>
 

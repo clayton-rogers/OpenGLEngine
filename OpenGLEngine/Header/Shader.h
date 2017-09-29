@@ -1,5 +1,6 @@
 #pragma once
 
+#define GLEW_STATIC
 #include <GL/glew.h> // include glew to get all the required OpenGL headers
 
 class Shader {

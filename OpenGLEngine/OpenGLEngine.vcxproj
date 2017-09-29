@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClInclude Include="Header\Averager.h" />
     <ClInclude Include="Header\ComponentArray.h" />
+    <ClInclude Include="Header\local_glm.h" />
     <ClInclude Include="Header\OpenGLEngine.h" />
     <ClInclude Include="Header\ComponentManager.h" />
     <ClInclude Include="Header\GenericActionList.h" />

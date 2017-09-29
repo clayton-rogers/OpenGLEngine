@@ -1,7 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/gtx/vector_angle.hpp>
+#include "local_glm.h"
 
 #include "../GenericActionList.h"
 #include "GUI.h"

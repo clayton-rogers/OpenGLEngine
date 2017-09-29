@@ -5,11 +5,7 @@
 #include "Shader.h"
 #include "Mesh.h"
 
-#pragma warning(push, 0)
-#include <glm/glm.hpp>
-#include <glm/gtx/vector_angle.hpp>
-#pragma warning(pop)
-
+#include "local_glm.h"
 
 #include <random>
 #include <cmath>

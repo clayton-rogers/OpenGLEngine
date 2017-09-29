@@ -1,12 +1,13 @@
 #pragma once
 
-#include <glm/glm.hpp>
 
 #include "Shader.h"
 #include "Mesh.h"
 
 
 #include "ComponentArray.h"
+
+#include "local_glm.h"
 
 
 enum ComponentEnum : char {
@@ -17,6 +18,7 @@ enum ComponentEnum : char {
 	MASS,
 	COALESCABLE,
 	BULLET,
+	CAMERA,
 	ComponentTypeSize
 };
 

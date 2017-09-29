@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iostream>
 
+#define GLEW_STATIC
 #include <GL/glew.h> // include glew to get all the required OpenGL headers
 
 Shader::Shader(

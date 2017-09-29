@@ -3,8 +3,7 @@
 #define GLEW_STATIC
 #include <GL/glew.h>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include "local_glm.h"
 
 #include "../GenericActionList.h"
 #include "Font.h"
