@@ -1,10 +1,5 @@
 #include "Util/Camera.h"
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-
-#include "local_glm.h"
-
 #include <vector>
 
 const GLfloat Camera::YAW = -90.0f;

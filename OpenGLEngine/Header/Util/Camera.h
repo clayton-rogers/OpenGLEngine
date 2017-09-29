@@ -1,12 +1,9 @@
 #pragma once
 
+#include "local_glm.h"
 
 #define GLEW_STATIC
 #include <GL/glew.h>
-// TODO why does removing this include cause everything to break
-// TODO remove all the other unneeded glew references
-
-#include "local_glm.h"
 
 #include <vector>
 

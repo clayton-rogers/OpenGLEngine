@@ -35,8 +35,6 @@ class CameraSystem : public System {
 	const int key_left      = GLFW_KEY_A;
 	const int key_right     = GLFW_KEY_D;
 
-	const GLfloat deltaT = GLfloat (1.0/60.0);
-
 	virtual void internalRunEntity(unsigned int UID) override {
 		// TODO handle inputs and move camera
 	};

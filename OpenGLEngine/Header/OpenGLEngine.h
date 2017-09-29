@@ -1,15 +1,15 @@
 #pragma once
 
+#include "System.h"
+#include "ComponentManager.h"
+#include "ComponentArray.h"
+#include "Shader.h"
+
 // GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
 
 #include <memory>
-
-#include "System.h"
-#include "ComponentManager.h"
-#include "ComponentArray.h"
-#include "Shader.h"
 
 namespace OpenGLEngine {
 
