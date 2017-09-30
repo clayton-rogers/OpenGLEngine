@@ -9,6 +9,12 @@
 #include "local_glm.h"
 #include <SOIL/SOIL.h>
 
+#ifdef _MSC_VER
+	#define SSCANF sscanf_s
+#else
+	#define SSCANF std::sscanf
+#endif // _MSC_VER
+
 
 struct FontCharacter {
 	int id;
@@ -61,7 +67,7 @@ public:
 				std::getline(fontmapFile, line);
 				FontCharacter c;
 
-				int scanRet = sscanf_s(line.c_str(),
+				int scanRet = SSCANF(line.c_str(),
 					"char id=%d x=%d y=%d width=%d height=%d xoffset=%d yoffset=%d xadvance=%d page=%d chnl=%d",
 					&c.id, &c.x, &c.y, &c.width, &c.height, &c.xoffset, &c.yoffset, &c.xadvance, &c.page, &c.chnl);
 				if (scanRet != 10) {
@@ -143,6 +149,8 @@ public:
 	}
 
 };
+
+#undef SSCANF
 
 
 const int Font::INVALID_CHAR_ID = 127; // For VCR-OSD font map this gives a box with X

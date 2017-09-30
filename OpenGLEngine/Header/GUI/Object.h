@@ -26,11 +26,10 @@ namespace GUI {
 			glm::vec2 clickPosition = glm::vec2(0.0f),
 			glm::vec2 clickSize = glm::vec2(0.0f)
 		) :
-			mPosition(position),
-			mSize(size),
 			mClickPosition(clickPosition),
-			mClickSize(clickSize) {
-		}
+			mClickSize(clickSize),
+			mPosition(position),
+			mSize(size) {}
 
 		bool isClickInside(glm::vec2 clickPosition) const {
 			// A vector from bottom right to click position

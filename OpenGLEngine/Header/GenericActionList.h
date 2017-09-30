@@ -19,7 +19,7 @@ class GenericActionList {
 		Action<InputType>* item = nullptr;
 		bool isUsed = false;
 
-		Element(bool isUsed_, Action<InputType>* item_) : isUsed(isUsed_), item(item_) {}
+		Element(bool isUsed_, Action<InputType>* item_) : item(item_), isUsed(isUsed_) {}
 	};
 
 	std::vector<Element> mList;
