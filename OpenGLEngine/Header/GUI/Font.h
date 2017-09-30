@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "local_glm.h"
-#include <SOIL.h>
+#include <SOIL/SOIL.h>
 
 
 struct FontCharacter {
