@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <future>
+#include <array>
 
 using OpenGLEngine::getComponent;
 
@@ -117,7 +118,10 @@ public:
 		}
 
 		const int size = positionArray.size();
-		auto fn = [&positionArray, &massArray, size](int lower, int upper) {
+		std::vector<std::mutex> massMutexs(size);
+		std::mutex massMutex;
+
+		auto fn = [&positionArray, &massArray, size, &massMutexs](int lower, int upper) {
 			for (int i = lower; i < upper; ++i) {
 				for (int j = i + 1; j < size; ++j) {
 
@@ -129,8 +133,14 @@ public:
 						positionArray[j]->position
 					);
 
-					massArray[i]->frameForce += force;
-					massArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
+					{
+						//std::lock(massMutexs[i], massMutexs[j]);
+						//std::lock_guard<std::mutex> locki(massMutexs[i], std::adopt_lock);
+						//std::lock_guard<std::mutex> lockj(massMutexs[j], std::adopt_lock);
+
+						massArray[i]->frameForce += force;
+						massArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
+					}
 				}
 			}
 		};
