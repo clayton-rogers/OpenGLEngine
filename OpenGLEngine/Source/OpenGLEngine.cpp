@@ -239,10 +239,6 @@ namespace OpenGLEngine {
 			glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// Perform physics for this step
-			//physicsList.doActions(deltaT);
-			//myLine.setPosition(glm::vec2(lastX, WINDOW_HEIGHT - lastY));
-
 			// Do everything for this frame
 			vertexNormalColourShader.Use();
 			glm::mat4 view = camera.GetViewMatrix();
@@ -253,7 +249,7 @@ namespace OpenGLEngine {
 			glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
 
 			systemManager.run();
-			inputState.clearMousePressed();
+			inputState.clearInputs();
 
 			// Draw the GUI
 			framerateAverager.push(inputState.deltaT);

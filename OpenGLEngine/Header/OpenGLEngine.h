@@ -26,10 +26,13 @@ namespace OpenGLEngine {
 		bool middleMousePressed = false;  // Whether the middle mouse button was pressed this frame
 
 		// Gets called ever loop so that they are only true for one frame
-		void clearMousePressed() {
+		void clearInputs() {
 			leftMousePressed = false;
 			rightMousePressed = false;
 			middleMousePressed = false;
+
+			xOffset = 0.0;
+			yOffset = 0.0;
 		}
 	};
 
