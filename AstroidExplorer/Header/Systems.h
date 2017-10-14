@@ -9,6 +9,8 @@
 #include "local_glm.h"
 
 #include <iostream>
+#include <vector>
+#include <future>
 
 using OpenGLEngine::getComponent;
 
@@ -52,11 +54,11 @@ class DrawSystem : public System {
 
 public:
 	DrawSystem() {
-		mRequiredComponents[DRAW]     = true;
+		mRequiredComponents[DRAW] = true;
 		mRequiredComponents[POSITION] = true;
 		mRequiredComponents[COALESCABLE] = true;
 	}
-	
+
 };
 
 class GeneralDraw : public System {
@@ -82,11 +84,11 @@ public:
 const float DELTA_T = 1.0f / 60.0f; // frame time in seconds
 
 class GravitySystem : public System {
-	const float bigG = 6.6740831e-11f;
-	const float gravityScaling = 1000000;
+	static const float bigG;
+	static const float gravityScaling;
 
 	// Calculates the force of mass2 on mass1
-	glm::vec3 calculateGravity(float mass1, float mass2, glm::vec3 position1, glm::vec3 position2) const {
+	static glm::vec3 calculateGravity(float mass1, float mass2, glm::vec3 position1, glm::vec3 position2) {
 		float distanceBetweenSquared = glm::distance2(position1, position2);
 
 		float force = (bigG*gravityScaling) * mass1 * mass2 / distanceBetweenSquared;
@@ -113,22 +115,53 @@ public:
 				massArray.push_back(&massComponentArray->getComponent(UIDpair->first));
 			}
 		}
-		
-		const int size = positionArray.size();
-		for (int i = 0; i < size; ++i) {
-			for (int j = i + 1; j < size; ++j) {
-				
-				
-				glm::vec3 force = calculateGravity(
-					massArray[i]->mass,
-					massArray[j]->mass,
-					positionArray[i]->position,
-					positionArray[j]->position
-				);
 
-				massArray[i]->frameForce += force;
-				massArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
+		const int size = positionArray.size();
+		auto fn = [&positionArray, &massArray, size](int lower, int upper) {
+			for (int i = lower; i < upper; ++i) {
+				for (int j = i + 1; j < size; ++j) {
+
+
+					glm::vec3 force = calculateGravity(
+						massArray[i]->mass,
+						massArray[j]->mass,
+						positionArray[i]->position,
+						positionArray[j]->position
+					);
+
+					massArray[i]->frameForce += force;
+					massArray[j]->frameForce -= force; // Apply gravity in the oposite direction for second object
+				}
 			}
+		};
+
+		std::vector<std::future<void>> futures;
+
+		// The following are found by entering the following in wolfram-alpha:
+		//A = n_4^2/2, A = (n_3 + 2 n_4)/2 * n_3, A = (n_2 + 2 n_3 + 2 n_4)/2 * n_2, A = (n_1 + 2 n_2 + 2 n_3 + 2 n_4)/2 * n_1, A = 100^2/8
+		//A = n_4 ^ 2 / 2, A = (n_3 + 2 n_4) / 2 * n_3, A = (n_2 + 2 n_3 + 2 n_4) / 2 * n_2, A = (n_1 + 2 n_2 + 2 n_3 + 2 n_4) / 2 * n_1, A = 1250
+		// This is the approximate solution to slicing an isoceles right triangle into equal area slices
+
+		const int n1 = static_cast<int>(13.4 * size / 100.0);
+		const int n2 = static_cast<int>(15.9 * size / 100.0);
+		const int n3 = static_cast<int>(20.7 * size / 100.0);
+		const int n4 = static_cast<int>(50.0 * size / 100.0);
+
+		const int first = n1;
+		const int second = n1 + n2;
+		const int third = n1 + n2 + n3;
+
+		//const int first = size / 4;
+		//const int second = 2 * first;
+		//const int third = 3 * first;
+
+		futures.emplace_back(std::async(std::launch::async, fn, 0, first));
+		futures.emplace_back(std::async(std::launch::async, fn, first, second));
+		futures.emplace_back(std::async(std::launch::async, fn, second, third));
+		futures.emplace_back(std::async(std::launch::async, fn, third, size));
+
+		for (auto& f : futures) {
+			f.get(); // join() all
 		}
 	}
 
@@ -137,6 +170,8 @@ public:
 		mRequiredComponents[MASS] = true;
 	}
 };
+const float GravitySystem::bigG = 6.6740831e-11f;
+const float GravitySystem::gravityScaling = 1000000;
 
 class CoalesceSystem : public System {
 public:
@@ -169,8 +204,7 @@ public:
 
 					if (
 						glm::distance(positionArray[i]->position, positionArray[j]->position) <
-						(coalesceArray[i]->radius + coalesceArray[j]->radius)) 
-					{
+						(coalesceArray[i]->radius + coalesceArray[j]->radius)) {
 						Entities::createPlanet(
 							positionArray[i], positionArray[j],
 							&getComponent<VelocityComponent>(uidArray[i]), &getComponent<VelocityComponent>(uidArray[j]),
@@ -269,8 +303,7 @@ class BulletCollisionSystem : public System {
 		for (int bulletIndex = 0; bulletIndex < bulletSize; ++bulletIndex) {
 			for (int targetIndex = 0; targetIndex < targetSize; ++targetIndex) {
 				if (glm::distance(bulletPositionArray[bulletIndex]->position, targetPositionArray[targetIndex]->position) <
-					(bulletRadiusArray[bulletIndex]->radius + targetRadiusArray[targetIndex]->radius)) 
-				{
+					(bulletRadiusArray[bulletIndex]->radius + targetRadiusArray[targetIndex]->radius)) {
 					// Delete the bullet
 					componentManager.removeEntity(bulletUidArray[bulletIndex]);
 
