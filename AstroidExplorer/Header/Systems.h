@@ -8,24 +8,29 @@
 
 #include "local_glm.h"
 
+#include "Stock/CameraSystem.h"
+
 #include <iostream>
 
 using OpenGLEngine::getComponent;
 
 class LaserCreator : public System {
 
-	virtual void preLoop() override {
+	virtual void internalRunEntity(unsigned int UID) override {
+		OpenGLEngine::Stock::CameraComponent& c = OpenGLEngine::getComponent<OpenGLEngine::Stock::CameraComponent>(UID);
+
 		OpenGLEngine::InputState i = OpenGLEngine::getInputState();
 
 		if (i.leftMousePressed) {
-			/*glm::vec3 startPosition = camera.Position;
-			startPosition -= camera.Up * 0.5f;
-			Entities::createLaser(startPosition, camera.Front);*/
-			// TODO make this system actually use the camera
-
-			Entities::createLaser(glm::vec3(0.0), glm::vec3(1.0, 0.0, 0.0));
-
+			glm::vec3 startPosition = c.position;
+			startPosition -= c.up * 0.5f;
+			Entities::createLaser(startPosition, c.front);
 		}
+	}
+
+public:
+	LaserCreator() {
+		mRequiredComponents[CAMERA] = true;
 	}
 
 };
