@@ -34,12 +34,8 @@ int main() {
 	// Set up all systems
 	OpenGLEngine::addSystem(std::unique_ptr<DrawSystem>(new DrawSystem));
 	OpenGLEngine::addSystem(std::unique_ptr<GeneralDraw>(new GeneralDraw));
-	OpenGLEngine::addSystem(std::unique_ptr<GravitySystem>(new GravitySystem));
 	OpenGLEngine::addSystem(std::unique_ptr<VelocitySystem>(new VelocitySystem));
 	OpenGLEngine::addSystem(std::unique_ptr<MassSystem>(new MassSystem));
-	//OpenGLEngine::addSystem(std::unique_ptr<CoalesceSystem>(new CoalesceSystem));
-	OpenGLEngine::addSystem(std::unique_ptr<BulletCollisionSystem>(new BulletCollisionSystem));
-	OpenGLEngine::addSystem(std::unique_ptr<LaserCreator>(new LaserCreator));
 	
 	std::unique_ptr<CameraSystem> cameraSystem(new CameraSystem);
 	cameraSystem->setCameraComponentEnum(CAMERA);
