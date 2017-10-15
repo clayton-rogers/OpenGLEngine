@@ -32,10 +32,6 @@ class LaserCreator : public System {
 
 class DrawSystem : public System {
 
-	// TODO add input system
-	// TODO add player that handles input
-	// TODO add expiry system and component
-
 	// Setup the camera after finding it
 	virtual void preLoop() {
 		ComponentBitset cameraComponentBitset;
@@ -49,7 +45,7 @@ class DrawSystem : public System {
 			}
 		}
 
-		CameraComponent& c = getComponent<CameraComponent>(cameraUID);
+		OpenGLEngine::Stock::CameraComponent& c = getComponent<OpenGLEngine::Stock::CameraComponent>(cameraUID);
 		Shader& shader = OpenGLEngine::getShader();
 
 		// Clear last frame

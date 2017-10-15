@@ -14,6 +14,10 @@ const GLuint WINDOW_HEIGHT = 1080;
 
 int main() {
 
+	using OpenGLEngine::Stock::CameraSystem;
+	using OpenGLEngine::Stock::CameraComponent;
+	using OpenGLEngine::Stock::CameraComponentArrayType;
+
 	OpenGLEngine::setupEnvironment(FULLSCREEN, WINDOW_WIDTH, WINDOW_HEIGHT);
 	Entities::init();
 	

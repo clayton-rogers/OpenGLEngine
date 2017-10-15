@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 #include "SystemManager.h"
-#include "Averager.h"
+#include "Util/Averager.h"
 #include "GUI/GUI.h"
 #include "GUI/TextLine.h"
 
