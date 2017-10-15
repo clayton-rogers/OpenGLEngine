@@ -1,6 +1,5 @@
 #include "OpenGLEngine.h"
 
-#include "Util/Camera.h"
 #include "Shader.h"
 #include "SystemManager.h"
 #include "Averager.h"
@@ -23,7 +22,6 @@ namespace OpenGLEngine {
 	
 	InputState inputState;
 
-	Camera camera = Camera(glm::vec3(0.0f, 0.0f, 20.0f));
 	SystemManager systemManager;
 	ComponentManager componentManager;
 	
@@ -70,8 +68,6 @@ namespace OpenGLEngine {
 		inputState.yOffset = (GLfloat)(inputState.yPos - ypos);
 		inputState.xPos = xpos;
 		inputState.yPos = ypos;
-
-		camera.ProcessMouseMovement(inputState.xOffset, inputState.yOffset);
 	}
 
 	void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/)
@@ -106,21 +102,9 @@ namespace OpenGLEngine {
 
 	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset)
 	{
-		camera.ProcessMouseScroll((GLfloat)yoffset);
+		// TODO add this to the input state
 	}
 
-	void do_movement()
-	{
-		// Camera controls
-		if (inputState.keys[GLFW_KEY_W])
-			camera.ProcessKeyboard(Camera_Movement::FORWARD, inputState.deltaT);
-		if (inputState.keys[GLFW_KEY_S])
-			camera.ProcessKeyboard(Camera_Movement::BACKWARD, inputState.deltaT);
-		if (inputState.keys[GLFW_KEY_A])
-			camera.ProcessKeyboard(Camera_Movement::LEFT, inputState.deltaT);
-		if (inputState.keys[GLFW_KEY_D])
-			camera.ProcessKeyboard(Camera_Movement::RIGHT, inputState.deltaT);
-	}
 
 	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight) {
 
@@ -227,8 +211,7 @@ namespace OpenGLEngine {
 			glfwSwapInterval(0); // framelimiter
 		}
 		while (!glfwWindowShouldClose(window)) {
-			glfwPollEvents();
-			do_movement();
+			glfwPollEvents(); // Handle all the glfw events with callbacks
 
 			// Calculate the time for this frame
 			{
@@ -237,22 +220,8 @@ namespace OpenGLEngine {
 				lastFrameTime = currentTime;
 			}
 
-			// Clear last frame
-			glm::vec3 backgroundColor = glm::vec3(50.0); // just slightly lighter than black
-			backgroundColor /= glm::vec3(255.0);
-			glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			// Do everything for this frame
-			vertexNormalColourShader.Use();
-			glm::mat4 view = camera.GetViewMatrix();
-			glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), aspectRatio, 0.1f, 300.0f);
-
-			//glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "view"), 1, GL_FALSE, glm::value_ptr(view));
-			//glUniformMatrix4fv(glGetUniformLocation(vertexNormalColourShader.Program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-			//glUniform3f(glGetUniformLocation(vertexNormalColourShader.Program, "eyePosition"), camera.Position.x, camera.Position.y, camera.Position.z);
-
 			systemManager.run();
+
 			inputState.clearInputs();
 
 			// Draw the GUI
