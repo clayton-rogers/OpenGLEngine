@@ -52,19 +52,14 @@ int main() {
 	OpenGLEngine::addComponent(MASS,         std::unique_ptr<MassComponentArrayType>(new MassComponentArrayType));
 	OpenGLEngine::addComponent(GENERAL_DRAW, std::unique_ptr<GeneralDrawComponentArrayType>(new GeneralDrawComponentArrayType));
 	OpenGLEngine::addComponent(CAMERA,       std::unique_ptr<CameraComponentArrayType>(new CameraComponentArrayType));
+
 	
-
-
-	{ // Add the camera entity
-		using OpenGLEngine::componentManager;
-
-		unsigned int UID = componentManager.addEntity();
-		componentManager.addComponentToEntity(CAMERA, UID);
-	}
-
+	// Start the game
+	Entities::createPlayer();
+	
+	
 	OpenGLEngine::run(VSYNC_ON);
 
-	
 	return 0;
 }
 

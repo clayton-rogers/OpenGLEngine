@@ -1,6 +1,7 @@
 #include "Entities.h"
 
 #include "Stock/GeneralDrawComponent.h"
+#include "Stock/CameraComponent.h"
 
 #include "Mesh.h"
 #include "Shader.h"
@@ -13,13 +14,56 @@
 namespace Entities {
 
 	using OpenGLEngine::getComponent;
+	using OpenGLEngine::componentManager;
 
 	Mesh planetMesh;
 	Mesh laserMesh;
+	Mesh planeMesh;
 
 	void init() {
 		planetMesh.load("./Resources/Planet.obj");
 		laserMesh.load("./Resources/Lazer.obj");
+		planeMesh.load("./Resources/plane.obj");
+	}
+
+	unsigned int createPlayer() {
+		unsigned int UID = componentManager.addEntity();
+
+
+		componentManager.addComponentToEntity(CAMERA, UID);
+		{
+			CameraComponent& c = getComponent<CameraComponent>(UID);
+			// self initialized for now
+		}
+
+		componentManager.addComponentToEntity(POSITION, UID);
+		{
+			PositionComponent& p = getComponent<PositionComponent>(UID);
+			p.position.y = 1.0f; // 1 meter above ground
+		}
+
+		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
+		{
+			GeneralDrawComponent& g = getComponent<GeneralDrawComponent>(UID);
+			g.colour = glm::vec3(0.0f, 1.0f, 0.0f); // player colour green
+			g.mesh = &planeMesh;
+
+			//glm::vec3 direction;
+			//glm::mat4 model;
+			//{
+			//	glm::vec3 modelDirection = glm::vec3(0.0f, 1.0f, 0.0f);
+			//	glm::vec3 rotationVector = glm::cross(modelDirection, glm::normalize(direction));
+			//	float rotationAngle = glm::angle(modelDirection, glm::normalize(direction));
+
+			//	model = glm::rotate(model, rotationAngle, rotationVector);
+			//	model = glm::scale(model, glm::vec3(0.1f, 0.5f, 0.1f));
+			//}
+
+			g.rotationScaleMatrix; // Use default for now
+			g.shininess = 8.0f;
+		}
+
+		return UID;
 	}
 
 	static float calculateRadius(float mass) {
@@ -28,7 +72,6 @@ namespace Entities {
 	}
 
 	unsigned int createPlanet() {
-		using OpenGLEngine::componentManager;
 
 		unsigned int UID = componentManager.addEntity();
 		componentManager.addComponentToEntity(DRAW, UID);
@@ -67,7 +110,6 @@ namespace Entities {
 	}
 
 	void splitPlanet(unsigned int sourceUID) {
-		using OpenGLEngine::componentManager;
 
 		PositionComponent&    sourceP = getComponent<PositionComponent>(sourceUID);
 		VelocityComponent&    sourceV = getComponent<VelocityComponent>(sourceUID);
@@ -127,7 +169,6 @@ namespace Entities {
 		const MassComponent*     m1, const MassComponent*     m2,
 		const DrawComponent*     d1, const DrawComponent*     d2)
 	{
-		using OpenGLEngine::componentManager;
 
 		unsigned int UID = componentManager.addEntity();
 		componentManager.addComponentToEntity(DRAW, UID);
@@ -157,7 +198,6 @@ namespace Entities {
 
 	unsigned int createLaser(glm::vec3 position, glm::vec3 direction) {
 		const float LASER_VELOCITY = 30.0f;
-		using OpenGLEngine::componentManager;
 
 		unsigned int UID = componentManager.addEntity();
 		componentManager.addComponentToEntity(GENERAL_DRAW, UID);

@@ -31,11 +31,18 @@ class FollowCameraSystem : public System {
 	}
 
 	virtual void internalRunEntity(unsigned int UID) override {
-		auto& camera = OpenGLEngine::getComponent<CameraComponent>(UID);
+		CameraComponent& camera = OpenGLEngine::getComponent<CameraComponent>(UID);
+		PositionComponent& p = OpenGLEngine::getComponent<PositionComponent>(UID);
 
-		// TODO follow the position
+		camera.position = p.position;
 
-		updateCameraVectors(camera);
+		// move back and up a bit
+		camera.position -= camera.front * 2.0f;
+		camera.position += camera.up * 2.0f;
+
+		// TODO actually follow the position
+
+		//updateCameraVectors(camera);
 	};
 
 public:
