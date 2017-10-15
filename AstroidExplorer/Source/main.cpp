@@ -50,6 +50,13 @@ int main() {
 		Entities::createPlanet();
 	}
 
+	{ // Add the camera entity
+		using OpenGLEngine::componentManager;
+
+		unsigned int UID = componentManager.addEntity();
+		componentManager.addComponentToEntity(CAMERA, UID);
+	}
+
 	OpenGLEngine::run(VSYNC_ON);
 
 	
