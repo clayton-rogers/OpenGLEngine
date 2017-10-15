@@ -8,8 +8,6 @@
 #include <bitset>
 
 
-enum ComponentEnum : char;
-
 typedef std::bitset<32> ComponentBitset; // TODO Max number of components should be configurable.
 const ComponentBitset NONE_COMPONENT;
 

@@ -12,7 +12,7 @@ class System {
 	virtual void postLoop() {};
 
 protected:
-	ComponentBitset mRequiredComponents;
+	static ComponentBitset mRequiredComponents;
 
 public:
 

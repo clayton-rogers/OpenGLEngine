@@ -17,7 +17,7 @@ using OpenGLEngine::getComponent;
 class LaserCreator : public System {
 
 	virtual void internalRunEntity(unsigned int UID) override {
-		OpenGLEngine::Stock::CameraComponent& c = OpenGLEngine::getComponent<OpenGLEngine::Stock::CameraComponent>(UID);
+		CameraComponent& c = OpenGLEngine::getComponent<CameraComponent>(UID);
 
 		OpenGLEngine::InputState i = OpenGLEngine::getInputState();
 
@@ -50,7 +50,7 @@ class DrawSystem : public System {
 			}
 		}
 
-		OpenGLEngine::Stock::CameraComponent& c = getComponent<OpenGLEngine::Stock::CameraComponent>(cameraUID);
+		CameraComponent& c = getComponent<CameraComponent>(cameraUID);
 		Shader& shader = OpenGLEngine::getShader();
 
 		// Clear last frame
@@ -88,26 +88,6 @@ public:
 		mRequiredComponents[COALESCABLE] = true;
 	}
 	
-};
-
-class GeneralDraw : public System {
-	virtual void internalRunEntity(unsigned int UID) override {
-		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(UID);
-		PositionComponent&    p = getComponent<PositionComponent>(UID);
-
-		OpenGLEngine::getShader().Use();
-
-		glm::mat4 model;
-		model = glm::translate(model, p.position);
-		model *= d.rotationScaleMatrix;
-
-		d.mesh->Draw(OpenGLEngine::getShader().Program, model, d.colour, d.shininess);
-	}
-public:
-	GeneralDraw() {
-		mRequiredComponents[GENERAL_DRAW] = true;
-		mRequiredComponents[POSITION] = true;
-	}
 };
 
 const float DELTA_T = 1.0f / 60.0f; // frame time in seconds
@@ -229,41 +209,6 @@ public:
 		mRequiredComponents[VELOCITY] = true;
 		mRequiredComponents[COALESCABLE] = true;
 		mRequiredComponents[MASS] = true;
-	}
-};
-
-class MassSystem : public System {
-
-	virtual void internalRunEntity(unsigned int UID) override {
-		VelocityComponent& i = getComponent<VelocityComponent>(UID);
-		MassComponent&     m = getComponent<MassComponent>(UID);
-
-		glm::vec3 acceleration = m.frameForce / m.mass;
-		i.velocity += acceleration * float(DELTA_T);
-
-		// reset the force to zero
-		m.frameForce = glm::vec3();
-	}
-
-public:
-	MassSystem() {
-		mRequiredComponents[VELOCITY] = true;
-		mRequiredComponents[MASS] = true;
-	}
-};
-
-class VelocitySystem : public System {
-	virtual void internalRunEntity(unsigned int UID) override {
-		PositionComponent& p = getComponent<PositionComponent>(UID);
-		VelocityComponent& v = getComponent<VelocityComponent>(UID);
-
-		p.position += v.velocity * float(DELTA_T);
-	}
-
-public:
-	VelocitySystem() {
-		mRequiredComponents[POSITION] = true;
-		mRequiredComponents[VELOCITY] = true;
 	}
 };
 

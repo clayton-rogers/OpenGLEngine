@@ -4,6 +4,8 @@
 #include <vector>
 #include <utility>
 
+enum ComponentEnum : char;
+
 class ComponentArray {
 public:
 	virtual void addComponentToEntity(unsigned int UID) = 0;

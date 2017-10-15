@@ -136,7 +136,13 @@
     <ClInclude Include="Header\GUI\TextLine.h" />
     <ClInclude Include="Header\Mesh.h" />
     <ClInclude Include="Header\Shader.h" />
+    <ClInclude Include="Header\Stock\CameraComponent.h" />
     <ClInclude Include="Header\Stock\CameraSystem.h" />
+    <ClInclude Include="Header\Stock\FollowCameraSystem.h" />
+    <ClInclude Include="Header\Stock\GeneralDrawComponent.h" />
+    <ClInclude Include="Header\Stock\GeneralDrawSystem.h" />
+    <ClInclude Include="Header\Stock\InertialComponents.h" />
+    <ClInclude Include="Header\Stock\InertialSystems.h" />
     <ClInclude Include="Header\System.h" />
     <ClInclude Include="Header\SystemManager.h" />
     <ClInclude Include="Header\Util\Averager.h" />
@@ -151,8 +157,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Camera.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\OpenGLEngine.cpp" />
     <ClCompile Include="Source\Shader.cpp" />
+    <ClCompile Include="Source\Stock.cpp" />
     <ClCompile Include="Source\System.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

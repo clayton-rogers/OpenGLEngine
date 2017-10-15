@@ -25,6 +25,12 @@
     <Filter Include="Header Files\Stock">
       <UniqueIdentifier>{01ff7d88-eda8-4829-9bcd-dd2954a4fd05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Stock\Components">
+      <UniqueIdentifier>{dba47bdf-4f3c-4dd2-92c7-f4915c7b7095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Stock\Systems">
+      <UniqueIdentifier>{3a1649ed-f427-4f18-8306-5fc8f5a7a439}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Shader.h">
@@ -72,14 +78,32 @@
     <ClInclude Include="Header\Util\GLCheckError.h">
       <Filter>Header Files\Util</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Stock\CameraSystem.h">
-      <Filter>Header Files\Stock</Filter>
-    </ClInclude>
     <ClInclude Include="Header\local_glm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Header\Util\Averager.h">
       <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\CameraComponent.h">
+      <Filter>Header Files\Stock\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\CameraSystem.h">
+      <Filter>Header Files\Stock\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\FollowCameraSystem.h">
+      <Filter>Header Files\Stock\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\GeneralDrawComponent.h">
+      <Filter>Header Files\Stock\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\GeneralDrawSystem.h">
+      <Filter>Header Files\Stock\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\InertialComponents.h">
+      <Filter>Header Files\Stock\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\InertialSystems.h">
+      <Filter>Header Files\Stock\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +131,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Stock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -2,6 +2,8 @@
 
 #include "OpenGLEngine.h"
 
+ComponentBitset System::mRequiredComponents;
+
 void System::runSystem() {
 	preLoop();
 	for (auto& entity : OpenGLEngine::componentManager.getEntities()) {
