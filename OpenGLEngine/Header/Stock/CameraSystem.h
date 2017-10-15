@@ -21,7 +21,7 @@ struct CameraComponent {
 	GLfloat yaw   = -90.0f;
 	GLfloat pitch = 0;
 
-	GLfloat MovementSpeed    = 15.0f;
+	GLfloat MovementSpeed    = 30.0f;
 	GLfloat MouseSensitivity = 0.2f;
 	GLfloat Zoom             = 60.0f;
 };
@@ -67,7 +67,7 @@ class CameraSystem : public System {
 			camera.position -= camera.right * velocity;
 		}
 		if (input.keys[key_right]) {
-			camera.position += camera.front * velocity;
+			camera.position += camera.right * velocity;
 		}
 
 		camera.yaw   += input.xOffset * camera.MouseSensitivity;
