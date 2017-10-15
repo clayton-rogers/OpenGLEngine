@@ -90,13 +90,13 @@ class GeneralDraw : public System {
 		GeneralDrawComponent& d = getComponent<GeneralDrawComponent>(UID);
 		PositionComponent&    p = getComponent<PositionComponent>(UID);
 
-		d.shader->Use();
+		OpenGLEngine::getShader().Use();
 
 		glm::mat4 model;
 		model = glm::translate(model, p.position);
 		model *= d.rotationScaleMatrix;
 
-		d.mesh->Draw(d.shader->Program, model, d.colour, d.shininess);
+		d.mesh->Draw(OpenGLEngine::getShader().Program, model, d.colour, d.shininess);
 	}
 public:
 	GeneralDraw() {

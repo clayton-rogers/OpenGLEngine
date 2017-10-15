@@ -34,7 +34,6 @@ typedef GenericComponentArray<DrawComponent> DrawComponentArrayType;
 
 struct GeneralDrawComponent {
 	static const ComponentEnum type = GENERAL_DRAW;
-	Shader* shader;
 	Mesh* mesh;
 	glm::vec3 colour = glm::vec3(1.0f, 0.0f, 1.0f);
 	float shininess = 64;
