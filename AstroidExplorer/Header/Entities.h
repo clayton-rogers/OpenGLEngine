@@ -16,12 +16,10 @@ namespace Entities {
 
 	Mesh planetMesh;
 	Mesh laserMesh;
-	Shader* generalShader;
 
-	void init(Shader* generalShader_) {
+	void init() {
 		planetMesh.load("./Resources/Planet.obj");
 		laserMesh.load("./Resources/Lazer.obj");
-		generalShader = generalShader_;
 	}
 
 	static float calculateRadius(float mass) {
@@ -63,8 +61,7 @@ namespace Entities {
 		m.mass = massGen(gen);
 		r.radius = calculateRadius(m.mass);
 
-		d.mesh = &planetMesh;
-		d.shader = generalShader;
+		d.mesh = &planetMesh;		
 
 		return UID;
 	}
@@ -119,7 +116,6 @@ namespace Entities {
 		sourceD.colour.g = colourGen(gen);
 		sourceD.colour.b = colourGen(gen);
 		d.mesh = sourceD.mesh;
-		d.shader = sourceD.shader;
 		d.shininess = sourceD.shininess;
 
 		p.position = sourceP.position + glm::normalize(sourceV.velocity) * ((-r.radius) * 3.0f);
@@ -155,7 +151,6 @@ namespace Entities {
 		r.radius = calculateRadius(m.mass);
 
 		d.mesh = &planetMesh;
-		d.shader = generalShader;
 
 		return UID;
 	}
@@ -195,7 +190,6 @@ namespace Entities {
 		d.colour = glm::vec3(1.0f, 0.0f, 0.0f);
 		d.mesh = &laserMesh;
 		d.rotationScaleMatrix = model;
-		d.shader = generalShader;
 		d.shininess = 128.0f;
 
 		return UID;

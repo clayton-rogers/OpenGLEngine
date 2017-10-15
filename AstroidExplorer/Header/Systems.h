@@ -73,13 +73,11 @@ class DrawSystem : public System {
 		PositionComponent& p = getComponent<PositionComponent>(UID);
 		CoalescableComponent& c = getComponent<CoalescableComponent>(UID);
 
-		d.shader->Use();
-
 		glm::mat4 model;
 		model = glm::translate(model, p.position);
 		model = glm::scale(model, glm::vec3(c.radius));
 
-		d.mesh->Draw(d.shader->Program, model, d.colour, d.shininess);
+		d.mesh->Draw(OpenGLEngine::getShader().Program, model, d.colour, d.shininess);
 	}
 
 public:

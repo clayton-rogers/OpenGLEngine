@@ -8,14 +8,14 @@
 
 
 const bool FULLSCREEN = false;
-const bool VSYNC_ON = false;
-const GLuint WINDOW_WIDTH = 1000;
-const GLuint WINDOW_HEIGHT = 800;
+const bool VSYNC_ON = true;
+const GLuint WINDOW_WIDTH = 1920;
+const GLuint WINDOW_HEIGHT = 1080;
 
 int main() {
 
 	OpenGLEngine::setupEnvironment(FULLSCREEN, WINDOW_WIDTH, WINDOW_HEIGHT);
-	Entities::init(&OpenGLEngine::getShader());
+	Entities::init();
 	
 
 	// Set up all systems
