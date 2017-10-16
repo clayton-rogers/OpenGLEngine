@@ -214,6 +214,12 @@ namespace OpenGLEngine {
 				lastFrameTime = currentTime;
 			}
 
+			// Clear last frame
+			glm::vec3 backgroundColor = glm::vec3(50.0); // just slightly lighter than black
+			backgroundColor /= glm::vec3(255.0);
+			glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			systemManager.run();
 
 			inputState.clearInputs();
