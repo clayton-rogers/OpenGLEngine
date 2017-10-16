@@ -3,14 +3,15 @@
 #include "OpenGLEngine.h"
 
 #include "GeneralDrawComponent.h"
+#include "CameraComponent.h"
 #include "InertialComponents.h"
 
 class GeneralDrawSystem : public System {
 
+	ComponentBitset cameraComponentBitset;
+
 	// Setup the camera after finding it
 	virtual void preLoop() {
-		ComponentBitset cameraComponentBitset;
-		cameraComponentBitset[CAMERA] = true;
 		unsigned int cameraUID;
 
 		for (auto& entity : OpenGLEngine::componentManager.getEntities()) {
@@ -20,7 +21,7 @@ class GeneralDrawSystem : public System {
 			}
 		}
 
-		CameraComponent& c = getComponent<CameraComponent>(cameraUID);
+		CameraComponent& c = OpenGLEngine::getComponent<CameraComponent>(cameraUID);
 		Shader& shader = OpenGLEngine::getShader();
 
 		// Clear last frame
@@ -54,8 +55,10 @@ class GeneralDrawSystem : public System {
 
 public:
 
-	GeneralDrawSystem(ComponentEnum generalDraw, ComponentEnum position) {
+	GeneralDrawSystem(ComponentEnum generalDraw, ComponentEnum position, ComponentEnum camera) {
 		mRequiredComponents[generalDraw] = true;
 		mRequiredComponents[position] = true;
+
+		cameraComponentBitset[camera] = true;
 	}
 };

@@ -11,7 +11,7 @@
 
 const bool FULLSCREEN = false;
 const bool VSYNC_ON = true;
-const bool PERFORMANCE_TEST = true;
+const bool PERFORMANCE_TEST = false;
 const GLuint WINDOW_WIDTH = 1920;
 const GLuint WINDOW_HEIGHT = 1080;
 
@@ -32,7 +32,7 @@ int main() {
 	// Set up all systems
 	OpenGLEngine::addSystem(std::unique_ptr<VelocitySystem>(new VelocitySystem(POSITION, VELOCITY)));
 	OpenGLEngine::addSystem(std::unique_ptr<MassSystem>(new MassSystem(VELOCITY, MASS)));
-	OpenGLEngine::addSystem(std::unique_ptr<GeneralDrawSystem>(new GeneralDrawSystem(GENERAL_DRAW, POSITION)));
+	OpenGLEngine::addSystem(std::unique_ptr<GeneralDrawSystem>(new GeneralDrawSystem(GENERAL_DRAW, POSITION, CAMERA)));
 	OpenGLEngine::addSystem(std::unique_ptr<FollowCameraSystem>(new FollowCameraSystem(CAMERA, POSITION)));
 	//OpenGLEngine::addSystem(std::unique_ptr<CameraSystem>(new CameraSystem(CAMERA)));
 
@@ -66,7 +66,7 @@ void runPerformance() {
 
 	// Set up all systems
 	OpenGLEngine::addSystem(std::unique_ptr<DrawSystem>(new DrawSystem));
-	OpenGLEngine::addSystem(std::unique_ptr<GeneralDrawSystem>(new GeneralDrawSystem(GENERAL_DRAW, POSITION)));
+	OpenGLEngine::addSystem(std::unique_ptr<GeneralDrawSystem>(new GeneralDrawSystem(GENERAL_DRAW, POSITION, CAMERA)));
 	OpenGLEngine::addSystem(std::unique_ptr<GravitySystem>(new GravitySystem));
 	OpenGLEngine::addSystem(std::unique_ptr<VelocitySystem>(new VelocitySystem(POSITION, VELOCITY)));
 	OpenGLEngine::addSystem(std::unique_ptr<MassSystem>(new MassSystem(VELOCITY, MASS)));
