@@ -19,11 +19,32 @@ namespace Entities {
 	Mesh planetMesh;
 	Mesh laserMesh;
 	Mesh planeMesh;
+	Mesh groundMesh;
 
 	void init() {
 		planetMesh.load("./Resources/Planet.obj");
 		laserMesh.load("./Resources/Lazer.obj");
 		planeMesh.load("./Resources/plane.obj");
+		groundMesh.load("./Resources/ground.obj");
+	}
+
+	unsigned int createGround() {
+		unsigned int UID = componentManager.addEntity();
+
+		componentManager.addComponentToEntity(POSITION, UID);
+		{
+			PositionComponent& p = getComponent<PositionComponent>(UID);
+			// default initialized
+		}
+
+		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
+		{
+			GeneralDrawComponent& g = getComponent<GeneralDrawComponent>(UID);
+			g.colour = glm::vec3(0.3f, 0.15f, 0.13f); // Brown ground
+			g.mesh = &groundMesh;
+			//g.rotationScaleMatrix; // use default for now
+			g.shininess = 1.0f;
+		}
 	}
 
 	unsigned int createPlayer() {
@@ -59,7 +80,7 @@ namespace Entities {
 			//	model = glm::scale(model, glm::vec3(0.1f, 0.5f, 0.1f));
 			//}
 
-			g.rotationScaleMatrix; // Use default for now
+			//g.rotationScaleMatrix; // Use default for now
 			g.shininess = 8.0f;
 		}
 

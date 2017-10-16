@@ -22,4 +22,6 @@ namespace Entities {
 
 	unsigned int createPlayer();
 
+	unsigned int createGround();
+
 }

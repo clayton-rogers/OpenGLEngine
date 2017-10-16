@@ -56,6 +56,7 @@ int main() {
 	
 	// Start the game
 	Entities::createPlayer();
+	Entities::createGround();
 	
 	
 	OpenGLEngine::run(VSYNC_ON);
