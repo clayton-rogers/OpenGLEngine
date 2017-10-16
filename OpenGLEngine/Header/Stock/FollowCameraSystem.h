@@ -37,7 +37,7 @@ class FollowCameraSystem : public System {
 		camera.position = p.position;
 
 		// move back and up a bit
-		camera.position -= camera.front * 2.0f;
+		camera.position -= camera.front * 10.0f;
 		camera.position += camera.up * 2.0f;
 
 		// TODO actually follow the position
@@ -46,7 +46,7 @@ class FollowCameraSystem : public System {
 	};
 
 public:
-	static void setRequiredEnums(ComponentEnum camera, ComponentEnum position) {
+	FollowCameraSystem(ComponentEnum camera, ComponentEnum position) {
 		mRequiredComponents[camera] = true;
 		mRequiredComponents[position] = true;
 	}

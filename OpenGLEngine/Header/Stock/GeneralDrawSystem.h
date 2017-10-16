@@ -51,9 +51,10 @@ class GeneralDrawSystem : public System {
 
 		d.mesh->Draw(OpenGLEngine::getShader().Program, model, d.colour, d.shininess);
 	}
+
 public:
 
-	static void setRequiredComponentEnums(ComponentEnum generalDraw, ComponentEnum position) {
+	GeneralDrawSystem(ComponentEnum generalDraw, ComponentEnum position) {
 		mRequiredComponents[generalDraw] = true;
 		mRequiredComponents[position] = true;
 	}

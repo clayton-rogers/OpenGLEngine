@@ -44,7 +44,6 @@ namespace OpenGLEngine {
 	void setupEnvironment(bool isFullscreen, GLuint windowWidth, GLuint windowHeight);
 	void addSystem(std::unique_ptr<System> system);
 	void addComponent(ComponentEnum type, std::unique_ptr<ComponentArray> component);
-	bool finalSetup();
 	void run(bool vsyncOn);
 
 	template <

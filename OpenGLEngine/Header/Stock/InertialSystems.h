@@ -21,7 +21,7 @@ class MassSystem : public System {
 
 public:
 
-	static void setRequiredComponentEnums(ComponentEnum velocity, ComponentEnum mass) {
+	MassSystem(ComponentEnum velocity, ComponentEnum mass) {
 		mRequiredComponents[velocity] = true;
 		mRequiredComponents[mass] = true;
 	}
@@ -37,7 +37,7 @@ class VelocitySystem : public System {
 
 public:
 
-	static void setRequiredComponentEnums(ComponentEnum position, ComponentEnum velocity) {
+	VelocitySystem(ComponentEnum position, ComponentEnum velocity) {
 		mRequiredComponents[position] = true;
 		mRequiredComponents[velocity] = true;
 	}

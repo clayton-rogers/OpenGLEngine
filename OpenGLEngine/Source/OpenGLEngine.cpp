@@ -195,12 +195,6 @@ namespace OpenGLEngine {
 		componentManager.addComponent(type, std::move(component));
 	}
 
-	bool finalSetup() {
-		// TODO check that all components and systems and types line up.
-
-		return true;
-	}
-
 	void run(bool vsyncOn) {
 
 		GUI::init(WINDOW_WIDTH, WINDOW_HEIGHT);

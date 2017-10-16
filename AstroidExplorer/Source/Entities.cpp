@@ -45,6 +45,8 @@ namespace Entities {
 			//g.rotationScaleMatrix; // use default for now
 			g.shininess = 1.0f;
 		}
+
+		return UID;
 	}
 
 	unsigned int createPlayer() {

@@ -56,7 +56,7 @@ class CameraSystem : public System {
 	};
 
 public:
-	static void setCameraComponentEnum(ComponentEnum camera) {
+	CameraSystem(ComponentEnum camera) {
 		mRequiredComponents[camera] = true;
 	}
 };

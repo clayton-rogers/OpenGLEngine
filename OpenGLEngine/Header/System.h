@@ -12,13 +12,11 @@ class System {
 	virtual void postLoop() {};
 
 protected:
-	static ComponentBitset mRequiredComponents;
+	ComponentBitset mRequiredComponents;
 
 public:
 
 	virtual void runSystem();
 
-	virtual ~System() {
-
-	}
+	virtual ~System() {}
 };

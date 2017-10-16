@@ -10,6 +10,7 @@ class ComponentArray {
 public:
 	virtual void addComponentToEntity(unsigned int UID) = 0;
 	virtual ~ComponentArray() {};
+	virtual ComponentEnum getType() = 0;
 };
 
 struct UIDhash {
@@ -34,5 +35,9 @@ public:
 			// components added are default-inserted
 			mComponentElements.resize(UID + 1);
 		}
+	}
+
+	virtual ComponentEnum getType() {
+		return ComponentType::type;
 	}
 };
