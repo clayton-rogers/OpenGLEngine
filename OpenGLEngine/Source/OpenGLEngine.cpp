@@ -26,7 +26,7 @@ namespace OpenGLEngine {
 
 	double lastFrameTime = glfwGetTime();
 	Averager<double, 60> framerateAverager;
-	GLFWwindow* window = nullptr;
+	GLFWwindow* mainWindow = nullptr;
 	float aspectRatio = 0;
 	Shader vertexNormalColourShader;
 
@@ -101,7 +101,7 @@ namespace OpenGLEngine {
 
 	}
 
-	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) {
+	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double /*yoffset*/) {
 		// TODO add this to the input state
 	}
 
@@ -128,29 +128,29 @@ namespace OpenGLEngine {
 			glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 
 			// Create the window and check for errors
-			window = glfwCreateWindow(mode->width, mode->height, "Astroid Explorer", nullptr, nullptr);
-			glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+			mainWindow = glfwCreateWindow(mode->width, mode->height, "Astroid Explorer", nullptr, nullptr);
+			glfwSetWindowMonitor(mainWindow, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 			aspectRatio = float(mode->width) / float(mode->height);
 		} else {
-			window = glfwCreateWindow(windowWidth, windowHeight, "Astroid Explorer", nullptr, nullptr);
+			mainWindow = glfwCreateWindow(windowWidth, windowHeight, "Astroid Explorer", nullptr, nullptr);
 			aspectRatio = float(windowWidth) / float(windowHeight);
 		}
-		if (window == nullptr) {
+		if (mainWindow == nullptr) {
 			std::cout << "Failed to create GLFW window" << std::endl;
 			glfwTerminate();
 			throw "Failed to create GLFW window";
 		}
-		glfwMakeContextCurrent(window);
+		glfwMakeContextCurrent(mainWindow);
 
 		// Set the required callback functions
-		glfwSetKeyCallback(window, key_callback);
-		glfwSetCursorPosCallback(window, mouse_callback);
-		glfwSetScrollCallback(window, scroll_callback);
-		glfwSetMouseButtonCallback(window, mouse_button_callback);
+		glfwSetKeyCallback(mainWindow, key_callback);
+		glfwSetCursorPosCallback(mainWindow, mouse_callback);
+		glfwSetScrollCallback(mainWindow, scroll_callback);
+		glfwSetMouseButtonCallback(mainWindow, mouse_button_callback);
 
 
 		// Options
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(mainWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		// *** GLEW SETUP *** //
 		{
@@ -167,7 +167,7 @@ namespace OpenGLEngine {
 		// *** VIEWPORT *** //
 		{
 			int width, height;
-			glfwGetFramebufferSize(window, &width, &height);
+			glfwGetFramebufferSize(mainWindow, &width, &height);
 			glViewport(0, 0, width, height);
 		}
 
@@ -202,7 +202,7 @@ namespace OpenGLEngine {
 		if (!vsyncOn) {
 			glfwSwapInterval(0); // framelimiter
 		}
-		while (!glfwWindowShouldClose(window)) {
+		while (!glfwWindowShouldClose(mainWindow)) {
 			glfwPollEvents(); // Handle all the glfw events with callbacks
 
 			// Calculate the time for this frame
@@ -229,7 +229,7 @@ namespace OpenGLEngine {
 			myLine.setText(ss.str());
 			GUI::draw();
 
-			glfwSwapBuffers(window);
+			glfwSwapBuffers(mainWindow);
 		}
 
 		glfwTerminate();
