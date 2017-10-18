@@ -1,7 +1,6 @@
 #pragma once
 
 #include <unordered_map>
-#include <vector>
 #include <utility>
 
 enum ComponentEnum : char;
@@ -9,6 +8,7 @@ enum ComponentEnum : char;
 class ComponentArray {
 public:
 	virtual void addComponentToEntity(unsigned int UID) = 0;
+	virtual void removeComponentFromEntity(unsigned int UID) = 0;
 	virtual ~ComponentArray() {};
 	virtual ComponentEnum getType() = 0;
 };
@@ -23,18 +23,18 @@ template <
 	typename ComponentType
 >
 class GenericComponentArray : public ComponentArray {
-	std::vector<ComponentType> mComponentElements;
+	std::unordered_map<unsigned int, ComponentType> mComponentElements;
 public:
 	ComponentType& getComponent(unsigned int UID) {
 		return mComponentElements.at(UID);
 	}
 
 	virtual void addComponentToEntity(unsigned int UID) override {
-		if (UID >= mComponentElements.size()) {
-			// resize to fit the new element
-			// components added are default-inserted
-			mComponentElements.resize(UID + 1);
-		}
+		mComponentElements.emplace(UID, ComponentType());
+	}
+
+	virtual void removeComponentFromEntity(unsigned int UID) override {
+		mComponentElements.erase(UID);
 	}
 
 	virtual ComponentEnum getType() {
