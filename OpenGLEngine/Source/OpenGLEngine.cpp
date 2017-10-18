@@ -18,8 +18,6 @@
 
 namespace OpenGLEngine {
 
-	bool firstMouse = true;
-	
 	InputState inputState;
 
 	SystemManager systemManager;
@@ -58,6 +56,7 @@ namespace OpenGLEngine {
 
 	void mouse_callback(GLFWwindow* /*window*/, double xpos, double ypos)
 	{
+		static bool firstMouse = true;
 		if (firstMouse) {
 			inputState.xPos = xpos;
 			inputState.yPos = ypos;
@@ -151,8 +150,6 @@ namespace OpenGLEngine {
 
 		// Options
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		// TODO: add input handlers
-
 
 		// *** GLEW SETUP *** //
 		{
