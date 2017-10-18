@@ -64,7 +64,7 @@ public:
 
 	void addComponentToEntity(ComponentEnum type, unsigned int UID) {
 		mEntityComponentMap.at(UID)[type] = true;
-		mComponents.at(type).get()->addComponentToEntity(UID);
+		mComponents.at(type)->addComponentToEntity(UID);
 	}
 
 	std::unordered_map<unsigned int, ComponentBitset>& getEntities() {

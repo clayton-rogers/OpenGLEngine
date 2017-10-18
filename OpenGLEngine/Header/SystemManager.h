@@ -1,7 +1,6 @@
 #pragma once
 
 #include "System.h"
-#include "ComponentManager.h"
 
 #include <vector>
 #include <memory>
@@ -17,8 +16,7 @@ public:
 
 	void run() {
 		for (auto& systemPtr : mSystems) {
-			System* system = systemPtr.get();
-			system->runSystem();
+			systemPtr->runSystem();
 		}
 	}
 
