@@ -65,6 +65,12 @@ namespace Entities {
 			p.position.y = 1.0f; // 1 meter above ground
 		}
 
+		componentManager.addComponentToEntity(VELOCITY, UID);
+		{
+			VelocityComponent& v = getComponent<VelocityComponent>(UID);
+			v.velocity.z = -1.5f; // little forward vel
+		}
+
 		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
 		{
 			GeneralDrawComponent& g = getComponent<GeneralDrawComponent>(UID);
