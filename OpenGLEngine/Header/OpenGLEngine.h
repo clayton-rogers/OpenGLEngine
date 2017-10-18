@@ -15,11 +15,11 @@ namespace OpenGLEngine {
 
 	struct InputState {
 		bool keys[1024] = { false };      // Use GLFW_KEY enums to dereference
-		double xOffset = 0.0;
-		double yOffset = 0.0;             // Distance in pixels the mouse has moved
-		double xPos = 0.0;
-		double yPos = 0.0;                // Position in pixels of the mouse
-		GLfloat deltaT = 0.0;             // Time in seconds since the last loop
+		float xOffset = 0.0;
+		float yOffset = 0.0;             // Distance in pixels the mouse has moved
+		float xPos = 0.0;
+		float yPos = 0.0;                // Position in pixels of the mouse
+		float deltaT = 0.0;             // Time in seconds since the last loop
 		bool mouseButtons[3] = { false }; // Use GLFW_MOUSE_BUTTON enums to dereference
 		bool leftMousePressed = false;    // Whether the left mouse button was pressed this frame
 		bool rightMousePressed = false;   // Whether the right mouse button was pressed this frame

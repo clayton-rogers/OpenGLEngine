@@ -15,11 +15,11 @@ struct CameraComponent {
 	glm::vec3 right = glm::vec3(-1.0f, 0.0f, 0.0f);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
-	GLfloat yaw = -90.0f;
-	GLfloat pitch = 0;
+	float yaw = -90.0f;
+	float pitch = 0;
 
-	GLfloat MovementSpeed = 30.0f;
-	GLfloat MouseSensitivity = 0.2f;
-	GLfloat Zoom = 60.0f;
+	float MovementSpeed = 30.0f;
+	float MouseSensitivity = 0.2f;
+	float Zoom = 60.0f;
 };
 typedef GenericComponentArray<CameraComponent> CameraComponentArrayType;

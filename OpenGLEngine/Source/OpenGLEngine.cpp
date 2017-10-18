@@ -41,8 +41,7 @@ namespace OpenGLEngine {
 		return aspectRatio;
 	}
 
-	void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mode*/)
-	{
+	void key_callback(GLFWwindow* window, int key, int /*scancode*/, int action, int /*mode*/) {
 		// When user presses the escape key, we set WindowShouldClose property
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
@@ -54,19 +53,22 @@ namespace OpenGLEngine {
 			inputState.keys[key] = false;
 	}
 
-	void mouse_callback(GLFWwindow* /*window*/, double xpos, double ypos)
-	{
+	void mouse_callback(GLFWwindow* /*window*/, double xpos, double ypos) {
+
+		float xposf = static_cast<float>(xpos);
+		float yposf = static_cast<float>(ypos);
+
 		static bool firstMouse = true;
 		if (firstMouse) {
-			inputState.xPos = xpos;
-			inputState.yPos = ypos;
+			inputState.xPos = xposf;
+			inputState.yPos = yposf;
 			firstMouse = false;
 		}
 
-		inputState.xOffset = (GLfloat)(xpos - inputState.xPos);
-		inputState.yOffset = (GLfloat)(inputState.yPos - ypos);
-		inputState.xPos = xpos;
-		inputState.yPos = ypos;
+		inputState.xOffset = xposf - inputState.xPos;
+		inputState.yOffset = inputState.yPos - yposf;
+		inputState.xPos = xposf;
+		inputState.yPos = yposf;
 	}
 
 	void mouse_button_callback(GLFWwindow* /*window*/, int button, int action, int /*mods*/)
@@ -99,8 +101,7 @@ namespace OpenGLEngine {
 
 	}
 
-	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset)
-	{
+	void scroll_callback(GLFWwindow* /*window*/, double /*xoffset*/, double yoffset) {
 		// TODO add this to the input state
 	}
 
@@ -207,7 +208,7 @@ namespace OpenGLEngine {
 			// Calculate the time for this frame
 			{
 				double currentTime = glfwGetTime();
-				inputState.deltaT = currentTime - lastFrameTime;
+				inputState.deltaT = static_cast<float>(currentTime - lastFrameTime);
 				lastFrameTime = currentTime;
 			}
 
