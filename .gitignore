@@ -7,6 +7,9 @@
 *.userosscache
 *.sln.docstates
 
+# Blender backup files
+*.blend1
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

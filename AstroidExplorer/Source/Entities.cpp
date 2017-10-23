@@ -26,7 +26,7 @@ namespace Entities {
 		planetMesh.load("./Resources/Planet.obj");
 		laserMesh.load("./Resources/Lazer.obj");
 		planeMesh.load("./Resources/plane.obj");
-		groundMesh.load("./Resources/ground.obj");
+		groundMesh.load("./Resources/ground2.obj");
 	}
 
 	unsigned int createGround() {
