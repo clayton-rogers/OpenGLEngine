@@ -9,6 +9,10 @@
 // GLFW
 #include <GLFW/glfw3.h>
 
+// GLEW
+#define GLEW_STATIC
+#include <GL/glew.h>
+
 #include "local_glm.h"
 
 #include <iostream>
