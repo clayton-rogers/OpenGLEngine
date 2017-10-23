@@ -5,6 +5,7 @@
 #include "GeneralDrawComponent.h"
 #include "CameraComponent.h"
 #include "InertialComponents.h"
+#include "RotationalComponents.h"
 
 class GeneralDrawSystem : public System {
 
@@ -43,6 +44,11 @@ class GeneralDrawSystem : public System {
 		glm::mat4 model;
 		model = glm::translate(model, p.position);
 		model *= d.rotationScaleMatrix;
+
+		if (OpenGLEngine::hasComponent<AngularPositionComponent>(UID)) {
+			AngularPositionComponent& ap = OpenGLEngine::getComponent<AngularPositionComponent>(UID);
+			model *= glm::toMat4(ap.angularPosition);
+		}
 
 		d.mesh->Draw(OpenGLEngine::getShader().Program, model, d.colour, d.shininess);
 	}

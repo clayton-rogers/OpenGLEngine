@@ -6,6 +6,7 @@
 #include "Stock/CameraSystem.h"
 #include "Stock/GeneralDrawSystem.h"
 #include "Stock/InertialSystems.h"
+#include "Stock/RotationalSystems.h"
 
 #include "OpenGLEngine.h"
 
@@ -35,6 +36,8 @@ int main() {
 	OpenGLEngine::addSystem(std::unique_ptr<GeneralDrawSystem>(new GeneralDrawSystem(GENERAL_DRAW, POSITION, CAMERA)));
 	OpenGLEngine::addSystem(std::unique_ptr<FollowCameraSystem>(new FollowCameraSystem(CAMERA, POSITION)));
 	//OpenGLEngine::addSystem(std::unique_ptr<CameraSystem>(new CameraSystem(CAMERA)));
+	OpenGLEngine::addSystem(std::unique_ptr<AngularVelocitySystem>(new AngularVelocitySystem(ANGULAR_POSITION, ANGULAR_VELOCITY)));
+	OpenGLEngine::addSystem(std::unique_ptr<MomentofInertiaSystem>(new MomentofInertiaSystem(ANGULAR_VELOCITY, MOMENT_OF_INERTIA)));
 
 
 	// Set up all components
@@ -43,11 +46,18 @@ int main() {
 	MassComponent::type = MASS;
 	GeneralDrawComponent::type = GENERAL_DRAW;
 	CameraComponent::type = CAMERA;
+	AngularPositionComponent::type = ANGULAR_POSITION;
+	AngularVelocityComponent::type = ANGULAR_VELOCITY;
+	MomentofInertiaComponent::type = MOMENT_OF_INERTIA;
+
 	OpenGLEngine::addComponent(POSITION,     std::unique_ptr<PositionComponentArrayType>(new PositionComponentArrayType));
 	OpenGLEngine::addComponent(VELOCITY,     std::unique_ptr<VelocityComponentArrayType>(new VelocityComponentArrayType));
 	OpenGLEngine::addComponent(MASS,         std::unique_ptr<MassComponentArrayType>(new MassComponentArrayType));
 	OpenGLEngine::addComponent(GENERAL_DRAW, std::unique_ptr<GeneralDrawComponentArrayType>(new GeneralDrawComponentArrayType));
 	OpenGLEngine::addComponent(CAMERA,       std::unique_ptr<CameraComponentArrayType>(new CameraComponentArrayType));
+	OpenGLEngine::addComponent(ANGULAR_POSITION,  std::make_unique<AngularPositionComponentArrayType>());
+	OpenGLEngine::addComponent(ANGULAR_VELOCITY,  std::make_unique<AngularVelocityComponentArrayType>());
+	OpenGLEngine::addComponent(MOMENT_OF_INERTIA, std::make_unique<MomentofInertiaComponentArrayType>());
 
 	// Start the game
 	Entities::createPlayer();

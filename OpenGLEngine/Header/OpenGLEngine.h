@@ -46,11 +46,14 @@ namespace OpenGLEngine {
 	void addComponent(ComponentEnum type, std::unique_ptr<ComponentArray> component);
 	void run(bool vsyncOn);
 
-	template <
-		typename ComponentType
-	>
+	template <typename ComponentType>
 	ComponentType& getComponent(unsigned int UID) {
 		return (dynamic_cast<GenericComponentArray<ComponentType>*>(componentManager.getComponentArray(ComponentType::type)))->getComponent(UID);
+	}
+
+	template<typename ComponentType>
+	bool hasComponent(unsigned int UID) {
+		return componentManager.getBitsetForEntity(UID).test(ComponentType::type);
 	}
 
 }

@@ -105,6 +105,12 @@
     <ClInclude Include="Header\Stock\InertialSystems.h">
       <Filter>Header Files\Stock\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Stock\RotationalComponents.h">
+      <Filter>Header Files\Stock\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Stock\RotationalSystems.h">
+      <Filter>Header Files\Stock\Systems</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\vertexNormalColour.frag">

@@ -2,6 +2,7 @@
 
 #include "Stock/GeneralDrawComponent.h"
 #include "Stock/CameraComponent.h"
+#include "Stock/RotationalComponents.h"
 
 #include "Mesh.h"
 #include "Shader.h"
@@ -69,6 +70,33 @@ namespace Entities {
 		{
 			VelocityComponent& v = getComponent<VelocityComponent>(UID);
 			v.velocity.z = -1.5f; // little forward vel
+		}
+
+		componentManager.addComponentToEntity(MASS, UID);
+		{
+			MassComponent& m = getComponent<MassComponent>(UID);
+			m.mass = 100; // kg
+		}
+
+		componentManager.addComponentToEntity(ANGULAR_POSITION, UID);
+		{
+			AngularPositionComponent& p = getComponent<AngularPositionComponent>(UID);
+		}
+
+		componentManager.addComponentToEntity(ANGULAR_VELOCITY, UID);
+		{
+			AngularVelocityComponent& v = getComponent<AngularVelocityComponent>(UID);
+		}
+
+		componentManager.addComponentToEntity(MOMENT_OF_INERTIA, UID);
+		{
+			MomentofInertiaComponent& m = getComponent<MomentofInertiaComponent>(UID);
+			const float val = 2.0f / 5.0f * 100.0f * 0.75f * 0.75f; // 2/5 M r^2  solid sphere
+			m.momentofInertia = glm::mat3(
+				val,  0.0, 0.0,
+				0.0,  val, 0.0,
+				0.0,  0.0, val
+			);
 		}
 
 		componentManager.addComponentToEntity(GENERAL_DRAW, UID);
