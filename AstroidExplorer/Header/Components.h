@@ -22,6 +22,7 @@ enum ComponentEnum : char {
 	ANGULAR_POSITION,
 	ANGULAR_VELOCITY,
 	MOMENT_OF_INERTIA,
+	AERODYNAMIC,
 	ComponentTypeSize
 };
 

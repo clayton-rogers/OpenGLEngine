@@ -2,6 +2,8 @@
 #include "Components.h"
 #include "Entities.h"
 
+#include "AerodynamicSystem.h"
+
 #include "Stock/FollowCameraSystem.h"
 #include "Stock/CameraSystem.h"
 #include "Stock/GeneralDrawSystem.h"
@@ -38,6 +40,7 @@ int main() {
 	//OpenGLEngine::addSystem(std::unique_ptr<CameraSystem>(new CameraSystem(CAMERA)));
 	OpenGLEngine::addSystem(std::unique_ptr<AngularVelocitySystem>(new AngularVelocitySystem(ANGULAR_POSITION, ANGULAR_VELOCITY)));
 	OpenGLEngine::addSystem(std::unique_ptr<MomentofInertiaSystem>(new MomentofInertiaSystem(ANGULAR_VELOCITY, MOMENT_OF_INERTIA)));
+	OpenGLEngine::addSystem(std::unique_ptr<AerodynamicSystem>(new AerodynamicSystem(ANGULAR_POSITION, VELOCITY, AERODYNAMIC, MASS)));
 
 
 	// Set up all components
@@ -49,6 +52,7 @@ int main() {
 	AngularPositionComponent::type = ANGULAR_POSITION;
 	AngularVelocityComponent::type = ANGULAR_VELOCITY;
 	MomentofInertiaComponent::type = MOMENT_OF_INERTIA;
+	AerodynamicComponent::type = AERODYNAMIC;
 
 	OpenGLEngine::addComponent(POSITION,     std::unique_ptr<PositionComponentArrayType>(new PositionComponentArrayType));
 	OpenGLEngine::addComponent(VELOCITY,     std::unique_ptr<VelocityComponentArrayType>(new VelocityComponentArrayType));
@@ -58,6 +62,7 @@ int main() {
 	OpenGLEngine::addComponent(ANGULAR_POSITION,  std::make_unique<AngularPositionComponentArrayType>());
 	OpenGLEngine::addComponent(ANGULAR_VELOCITY,  std::make_unique<AngularVelocityComponentArrayType>());
 	OpenGLEngine::addComponent(MOMENT_OF_INERTIA, std::make_unique<MomentofInertiaComponentArrayType>());
+	OpenGLEngine::addComponent(AERODYNAMIC,       std::make_unique<AerodynamicComponentArrayType>());
 
 	// Start the game
 	Entities::createPlayer();

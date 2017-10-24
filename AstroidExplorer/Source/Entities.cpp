@@ -1,5 +1,7 @@
 #include "Entities.h"
 
+#include "AerodynamicComponent.h"
+
 #include "Stock/GeneralDrawComponent.h"
 #include "Stock/CameraComponent.h"
 #include "Stock/RotationalComponents.h"
@@ -69,7 +71,7 @@ namespace Entities {
 		componentManager.addComponentToEntity(VELOCITY, UID);
 		{
 			VelocityComponent& v = getComponent<VelocityComponent>(UID);
-			v.velocity.z = -1.5f; // little forward vel
+			v.velocity.z = -5.0f; // little forward vel
 		}
 
 		componentManager.addComponentToEntity(MASS, UID);
@@ -97,6 +99,14 @@ namespace Entities {
 				0.0,  val, 0.0,
 				0.0,  0.0, val
 			);
+		}
+
+		componentManager.addComponentToEntity(AERODYNAMIC, UID);
+		{
+			AerodynamicComponent& aero = getComponent<AerodynamicComponent>(UID);
+			aero.CLalpha = 0.1f; // CL / deg alpha
+			aero.CLalphaOffset = 0.1f; // CL at zero alpha
+			aero.wingArea = 10.0f; // sqr m
 		}
 
 		componentManager.addComponentToEntity(GENERAL_DRAW, UID);

@@ -123,11 +123,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\AerodynamicComponent.cpp" />
     <ClCompile Include="Source\Entities.cpp" />
     <ClCompile Include="Source\main.cpp" />
     <ClCompile Include="Source\Systems.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Header\AerodynamicComponent.h" />
+    <ClInclude Include="Header\AerodynamicSystem.h" />
     <ClInclude Include="Header\Components.h" />
     <ClInclude Include="Header\Entities.h" />
     <ClInclude Include="Header\Systems.h" />
