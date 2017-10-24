@@ -9,6 +9,18 @@ struct AngularPositionComponent {
 	static ComponentEnum type;
 
 	glm::quat angularPosition;
+
+	glm::vec3 getRight() {
+		return angularPosition * glm::vec3(1.0f, 0.0f, 0.0f);
+	}
+
+	glm::vec3 getUp() {
+		return angularPosition * glm::vec3(0.0f, 1.0f, 0.0f);
+	}
+
+	glm::vec3 getForward() {
+		return angularPosition * glm::vec3(0.0f, 0.0f, -1.0f);
+	}
 };
 typedef GenericComponentArray<AngularPositionComponent> AngularPositionComponentArrayType;
 
